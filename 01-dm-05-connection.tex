@@ -1,0 +1,43 @@
+% Chapter:  Constructing the Gauss--Manin connection  %%%%%%%%%%%%%%%%%%%%%%%%%
+
+[[TODO:  Briefly recap the relative set-up.]]
+
+\section{Introduction}
+
+[[TODO:  Give a brief general introduction to Gauss--Manin connection, 
+providing references.  Quickly specialise to hypersurfaces in projective 
+space.]]
+
+[[TODO:  Fix some notation, including the choice of basis.]]
+
+\section{Computing in de~{R}ham cohomology}
+
+[[TODO:  Describe the fast reduction routine in algebraic 
+de~Rham cohomology.]]
+
+\section{Description of the algorithm}
+
+[[TODO:  Provide an algorithmic description of the overall routine 
+used to compute the Gauss--Manin connection.]]
+
+\section{Sparse matrix techniques}
+
+[[TODO:  Describe fast matrix routines used to accelerate the 
+computations.]]
+
+\section{Computational examples}
+
+[[TODO:  Include a few examples, compare with Alan's code and 
+Gerkmann's timings where possible.]]
+
+\section{Further remarks}
+
+[[TODO:  Point out that we restrict ourselves to families defined 
+over Fp at this point so that we can assume the lift is defined 
+over Z and hence the connection matrix is over Q(t).  We are lazy 
+and compute exactly over Q(t) as this is seemingly fast enough 
+already at this point.  Could do better still by clearing denominators 
+as a power of r(t) up front (note r(0) is a unit) and then working 
+over Zp[t] to some precision.  Also point out that in general this 
+means computing over a number field or Qq.]]
+
