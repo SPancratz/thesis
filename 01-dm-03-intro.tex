@@ -1,0 +1,139 @@
+% Chapter:  Introduction to the deformation method  %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Definitions and notation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Definitions and notation}
+
+In this section we present the problem that we are concerned 
+with in this part of the thesis and carefully set up the notation 
+that we are using throughout.  We begin by giving a brief overview.
+
+The aim of the deformation method as introduced by 
+Lauder~\citep{Lau04} following a paper by Dwork~\citep{Dwork62b} 
+is to compute the zeta function of a smooth 
+hypersurface, which in hindsight we call $X_{t_1}$, in projective 
+$n$-space over a finite field of characteristic~$p$.  This is 
+facilitated by computing 
+the action of the Frobenius morphism on the associated rigid cohomology 
+spaces $H_{rig}^{\bullet}(X_{t_1})$.  The main idea is to embed this 
+hypersurface in a family of smooth projective hypersurfaces~$X/S$ 
+defined over a finite field~$k$, where $S \subset A_k^1(t)$, containing 
+a fibre~$X_{t_0}$ for which it is easier to compute the Frobenius action. 
+Lifting the family~$X/S$ to a family $\mathfrak{X}/\mathfrak{S}$ in 
+characteristic zero, we can utilise a certain $p$-adic differential 
+equation involving the Frobenius matrix and the algebraic Gauss--Manin 
+connection.  Moreover, due to a comparison theorem of Baldassarri and 
+Chiarellotto~\citep{BalChi94}, in this 
+part of the algorithm we can work with the algebraic de~Rham cohomology 
+spaces~$H_{dR}^{\bullet}(\mathfrak{X}/\mathfrak{S})$, which are 
+computationally more accessible.  Solving this differential equation 
+and using the Frobenius action on~$\mathfrak{X}_{t_0}$ as the initial 
+condition, by an appropriate evaluation we can compute the Frobenius matrix 
+for~$X_{t_1}$ and hence recover its zeta function.
+
+For the remaining part of this thesis, we restrict ourselves to the 
+case where the family $\mathfrak{X}/\mathfrak{S}$ is defined over a 
+prime field, $t_0 = 0$, and the initial fibre $X_0$ is diagonal.  
+Specifically, we establish the following set-up.
+
+\begin{notation} \label{not:01-03-main}
+Let $p$ be a prime number, $q$ a power of $p$, and let $\mathbf{Q}_q$ 
+denote the unique unramified extension of $\mathbf{Q}_p$ with residue 
+field~$\mathbf{F}_q$ and $\mathbf{Z}_q$ its ring of integers.  
+We consider two smooth $\mathbf{Z}_q$-schemes $\mathfrak{X}$ and $\mathfrak{S}$ 
+together with a smooth projective morphism $\mathfrak{X} \to \mathfrak{S}$, 
+where $\mathfrak{X}$ is a family of hypersurfaces 
+and $\mathfrak{S} \subset \mathbf{A}_{\mathbf{Z}_q}^1(t)$ is an affine, open 
+subset containing the point~$0$ and the Teichm\"uller lift~$\hat{t}_1$ of 
+$t_1 \in \mathbf{F}_q$.  
+We assume that this family is defined by a homogenous polynomial 
+$P \in \mathbf{Z}[t][x_0,\dotsc,x_n]$ over the integers of degree~$d$.  
+Moreover, we require that at $t = 0$, the polynomial $P_0(x_0,\dotsc,x_n)$ 
+is diagonal.  
+We also define complements 
+$\mathfrak{U}$ and $U$ by $\mathbf{P}_{\mathbf{Z}_q}^n \times \mathfrak{S} - \mathfrak{X}$ 
+and $\mathbf{P}_{\mathbf{F}_p}^n \times S - X$, respectively, 
+where $S \subset \mathbf{A}_{\mathbf{F}_q}^1(t)$.  
+\end{notation}
+
+\begin{notation}
+Furthermore, as an artefact of our particular choice of basis for 
+$H_{dR}^n(\mathfrak{U}/\mathfrak{S})$ in Definition~\ref{defn:01-05-basis}, 
+we assume that $n \geq 2$ and that $d \geq 2$ whenever $n$ is odd and 
+$d \geq 3$ whenever $n$ is even.
+\end{notation}
+
+\begin{rem}
+It follows that all fibres $X_t$ are non-singular varieties, and by 
+considering the fibre~$X_0$ we see that our assumptions imply $p \nmid d$.
+\end{rem}
+
+% Outline of the algorithm %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Outline of the algorithm}
+
+The deformation algorithm is outlined in Figure~\ref{fig:01-03-deformation}, 
+which also includes all top-level notation.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[node distance = 24mm, auto]
+
+    % Define block styles
+    \tikzstyle{block} = [rectangle, draw, 
+        text centered, rounded corners, minimum height = 6mm]
+    \tikzstyle{empty} = [rectangle]
+    \tikzstyle{line} = [draw, -latex']
+
+    % Place nodes
+    \node [block, text width = 100mm] (input) 
+        {Polynomial $P \in \mathbf{Z}[t][x_0, \dotsc, x_n]$; 
+        point $t_1 \in \mathbf{F}_q$ with $q = p^a$};
+
+    \node [block, below left=14.6mm and -30mm of input, text width = 48mm] (diag) 
+        {Matrix $F_0$ over $\mathbf{Q}_p \bmod p^{N_3}$ for $p^{-1} F_p$ 
+        on $H_{dR}^n(\mathfrak{U}_0)$};
+
+    \node [block, below right=6mm and -50mm of input, text width = 58mm] (gm) 
+        {Connection matrix $M$ over $\mathbf{Q}(t)$ 
+        with denominator $r \in \mathbf{Z}[t]$};
+
+    \node [block, below=6mm of gm, text width = 82mm] (local) 
+        {Solution $C(t)$ in $\mathbf{Q}_p[[t]] \bmod {(p^{N_2}, t^{K})}$ of the 
+        differential equation \mbox{$\bigl(\tfrac{d}{dt} + M\bigr) C = 0$}, 
+        and $C(t^p)^{-1}$};
+
+    \node [block, below=42mm of input, text width = 126mm] (series)
+        {Matrix $F_t = C(t) F_0 C(t^p)^{-1}$ in 
+        $\mathbf{Q}_p[[t]] \bmod {(p^{N_1}, t^{K})}$ for $p^{-1} F_p$ 
+        on $H_{dR}^n(\mathfrak{U}_t)$};
+
+    \node [block, below=6mm of series, text width = 76mm] (poly) 
+        {Matrix $G = r^m F_t$ over $\mathbf{Q}_p[[t]] \bmod {(p^{N_1}, t^{K})}$};
+
+    \node [block, below=6mm of poly, text width = 114mm] (eval) 
+        {Matrix $F_1 = r(\hat{t}_1)^{-m} G(\hat{t}_1)$ over $\mathbf{Q}_q \bmod p^{N_1}$
+        for $p^{-1} F_p$ on $H_{dR}^n(\mathfrak{U}_1)$}; 
+
+    \node [block, below=6mm of eval, text width = 118mm] (qpower) 
+        {Matrix $F_{q,1} = F_1 F_1^{\sigma} \dotsm F_1^{\sigma^{a-1}}$ 
+        over $\mathbf{Q}_q \bmod {p^{N_1}}$ for $q^{-1} F_q$ on $H_{dR}^n(\mathfrak{U}_1)$};
+
+    \node [block, below=6mm of qpower, text width = 72mm] (zeta) 
+        {Polynomial $p(T) = \det(1 - T F_{q,1})$ over $\mathbf{Z}$}; 
+
+    % Draw edges
+    \path [line] (input) -- (diag);
+    \path [line] (input) -- (gm);
+    \path [line] (gm) -- (local);
+    \path [line] (diag) -- (series);
+    \path [line] (local) -- (series);
+    \path [line] (series) -- (poly);
+    \path [line] (poly) -- (eval);
+    \path [line] (eval) -- (qpower);
+    \path [line] (qpower) -- (zeta);
+
+\end{tikzpicture}
+\caption{Flowchart describing the deformation algorithm}
+\label{fig:01-03-deformation}
+\end{figure}

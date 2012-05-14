@@ -118,8 +118,8 @@ In this section we make the results from the previous sections concrete,
 specialising to the case of hypersurfaces in projective space.  In the 
 development of a computationally feasible description of the Gauss--Manin 
 connection in this situation, we follow Abbott, Kedlaya and 
-Roe~\citep[\S~3.2]{AbbottKedlayaRoe2006} when computing in 
-de~Rham cohomology and Kedlaya~\citep[\S~3.2]{Kedlaya2008} when 
+Roe~\citep[\S 3.2]{AbbottKedlayaRoe2006} when computing in 
+de~Rham cohomology and Kedlaya~\citep[\S 3.2]{Kedlaya2008} when 
 expressing the action of the Gauss--Manin connection.  We begin by recalling 
 the notation relevant in this chapter.
 
@@ -130,19 +130,18 @@ zero and $n \geq 2$, defined by a homogeneous polynomial
 $P \in K[t][x_0, \dotsc, x_n]$ of degree~$d$.  We let $\mathfrak{U}$ denote 
 the open complement $\mathbf{P}^n(K) \times \A^1(K) - \mathfrak{X}$.
 
-Moreover, we assume that we may also view this as two 
-smooth $K$-schemes $\mathfrak{X}$ and $\mathfrak{S}$ 
-together with a smooth proper $K$-morphism 
-$\pi \colon \mathfrak{X} \to \mathfrak{S}$, where we consider an 
-affine subspace $\mathfrak{S} = \Spec(A)$ of the $t$-line.  We 
-denote the fibre of $\mathfrak{X}$ above $t$ in $\mathfrak{S}$ 
+Moreover, we may also view this as two smooth $K$-schemes 
+$\mathfrak{X}$ and $\mathfrak{S}$ together with a smooth proper 
+$K$-morphism $\mathfrak{X} \to \mathfrak{S}$, where we consider 
+an affine subspace $\mathfrak{S} = \Spec(A)$ of the $t$-line.  
+We denote the fibre of $\mathfrak{X}$ above $t$ in $\mathfrak{S}$ 
 by $\mathfrak{X}_t$.
 \end{notation}
 
 Let us consider a smooth fibre~$\mathfrak{X}_t$.  The embedding 
 $\mathfrak{X}_t \into \mathbf{P}^n(K)$ induces maps 
 $H_{dR}^i(\mathbf{P}^n(K)/K) \to H_{dR}^i(\mathfrak{X}_t/K)$, which 
-by the Lefschetz hyperplane theorem~\citep[\S~1.2, p.\ 156]{GriffithsHarris1978} 
+by the Lefschetz hyperplane theorem~\citep[\S 1.2, p.\ 156]{GriffithsHarris1978} 
 are bijective for $0 \leq i \leq n-2$ and injective for $i = n-1$.  A direct 
 computation~\citep[Corollary~3.1.4]{AbbottKedlayaRoe2006} shows that 
 $H_{dR}^i(\mathbf{P}^n(K))$ has, as a $K$-vector space, dimension~$1$ if 
@@ -167,7 +166,7 @@ Now define the $n$-form
 \begin{equation}
 \Omega = \sum_{i=0}^n (-1)^i x_i d x_0 \wedge \dotsb \wedge \widehat{d x_i} \wedge \dotsb \wedge d x_n.
 \end{equation}
-A calculation as in~\citep[\S~4]{Griffiths1969} then shows that the 
+A calculation as in~\citep[\S 4]{Griffiths1969} then shows that the 
 above cohomology group $H_{dR}^n(\mathfrak{U}_t/K)$ is isomorphic as a 
 $K$-vector space to the quotient of the group of $n$-forms $Q \Omega / P^k$ 
 with $k \in \N$ and $Q \in K[x_0, x_1, \dotsc, x_n]$ homogeneous of degree 
@@ -181,7 +180,7 @@ denotes the partial derivative operator with respect to~$x_i$.
 Since the fibres of the relative de~Rham cohomology 
 $H_{dR}^i(\mathfrak{X}/\mathfrak{S})$ can be identified with the de~Rham 
 cohomology $H_{dR}^i(\mathfrak{X}_t/K)$ of the fibres, it 
-follows that we can calculate the action of the Gauss--Manin connection 
+follows that we can compute the action of the Gauss--Manin connection 
 $\nabla_{GM} \colon H_{dR}^{n-1}(\mathfrak{X}/\mathfrak{S}) \to 
 \Omega_{A/K}^1 \otimes_{A} H_{dR}^{n-1}(\mathfrak{X}/\mathfrak{S})$
 via the induced map 
@@ -241,7 +240,7 @@ the quotient of the space of all such polynomials by the Jacobian ideal
 $(\partial_0 P, \dotsc, \partial_n P)$.  This yields a generating set 
 $\bigcup_{k \in \N} \cB_k$ for $H_{dR}^n(\mathfrak{U}/\mathfrak{S})$ where 
 $\cB_k = \{Q \Omega / P^k : Q \in B_k\}$.  However, it follows from a 
-theorem of Macaulay~\citep[\S~4, (4.11)]{Griffiths1969} that in fact 
+theorem of Macaulay~\citep[\S 4, (4.11)]{Griffiths1969} that in fact 
 the set $\cB_1 \cup \dotsb \cup \cB_n$ already forms a generating set.  In 
 the next subsection, we shall exhibit an explicit basis of monomials in the 
 case where the family of projective hypersurfaces contains a diagonal fibre.
@@ -261,22 +260,28 @@ $Q_0, \dotsc, Q_n$ homogeneous polynomials in $L[x_0, \dotsc, x_n]$ and
 $\gamma_k$ in the $L$-span of $B_k$.  The reduction of poles procedure can 
 then be formalised as in Algorithm~\ref{alg:PoleReduction} below, which we 
 will refer to as {\sc Reduce}.  In this generality, the correctness of the 
-algorithm depends on a theorem of Macaulay~\citep[\S~4, (4.11)]{Griffiths1969}.
+algorithm depends on a theorem of Macaulay~\citep[\S 4, (4.11)]{Griffiths1969}.
 
 \begin{algorithm}
 \caption{Reduce $Q \Omega / P^k$ in $H_{dR}^n(\mathfrak{U}/\mathfrak{S})$}
 \label{alg:PoleReduction}
 \begin{algorithmic}
 \vspace{1mm}
-\Require \begin{compactitem}
-         \item $P$ is a homogeneous polynomial in $L[x_0, \dotsc, x_n]$ of 
-               degree $d$, defining a non-singular hypersurface, where $L$ is 
-               a field of characteristic zero.
-         \item For $1 \leq k \leq n$, $B_k$ is a basis for all homogeneous 
-               polynomials of degree $kd - (n+1)$ modulo the Jacobian ideal 
-               $(\partial_0 P, \dotsc, \partial_n P)$.
-         \item $Q$ is a homogeneous polynomial of degree $kd-(n+1)$.
-         \end{compactitem}
+%\Require \begin{compactitem}
+%         \item $P$ is a homogeneous polynomial in $L[x_0, \dotsc, x_n]$ of 
+%               degree $d$, defining a non-singular hypersurface, where $L$ is 
+%               a field of characteristic zero.
+%         \item For $1 \leq k \leq n$, $B_k$ is a basis for all homogeneous 
+%               polynomials of degree $kd - (n+1)$ modulo the Jacobian ideal 
+%               $(\partial_0 P, \dotsc, \partial_n P)$.
+%         \item $Q$ is a homogeneous polynomial of degree $kd-(n+1)$.
+%         \end{compactitem}
+\Require $P$ is a homogeneous polynomial in $L[x_0, \dotsc, x_n]$, 
+         $\ch(L) = 0$, of degree~$d$ defining a smooth hypersurface; 
+         $B_k$, for $1 \leq k \leq n$, is a basis for all homogeneous 
+         polynomials of degree $kd - (n+1)$ modulo 
+         $(\partial_0 P, \dotsc, \partial_n P)$;  $Q$ is homogeneous of 
+         degree $kd - (n+1)$.
 \Ensure  Polynomials $\gamma_i$ in the $L$-span of $B_i$, 
          for $1 \leq i \leq n$, with  
          $Q \Omega / P^k \equiv \gamma_{1} \Omega / P^{1} + \dotsb + \gamma_n \Omega / P^n$.
@@ -344,21 +349,17 @@ sets~$B_k$, for $k \in \N$, which as before induce a generating set
 $\cB_1 \cup \dotsb \cup \cB_n$ of $H_{dR}^n(\mathfrak{U}/\mathfrak{S})$ 
 as an $L$-vector space respecting the aforementioned filtration:
 
-\begin{notation}
-Given a multi-index $i = (i_0, \dotsc, i_n) \in \N_0^{n+1}$, we let $x^i$ 
-denote the monomial $x_0^{i_0} \dotsm x_n^{i_n}$ and set 
-$\abs{i} = i_0 + \dotsb + i_n$.
-\end{notation}
-
-\begin{defn} \label{defn:BasisSets}
+\begin{defn} \label{defn:01-05-basis}
 For $k \in \N$, we define the following sets of monomials, 
 \begin{align*}
-F_k & = \{ x^i : \abs{i} = k d - (n+1) \}, \\
-B_k & = \{ x^i : \abs{i} = k d - (n+1) \text{ and $i_j < d-1$ for $0 \leq j \leq n$}\}.
+F_k & = \{ x^i : i \in \mathbf{N}_{0}^{n+1}, \abs{i} = k d - (n+1) \}, \\
+B_k & = \{ x^i : i \in \mathbf{N}_{0}^{n+1}, \abs{i} = k d - (n+1) \text{ and $i_j < d-1$ for $0 \leq j \leq n$}\},
 \end{align*}
-Moreover, we let $\cF_k$ denote the $L$-vector space spanned by the $n$-forms 
-$x^i \Omega / P^k$ for $x^i \in F_k$ and $\cB_k$ denote the set of $n$-forms 
-$x^i \Omega / P^k$ with $x^i \in B_k$.
+where $x^i = x_0^{i_0} \dotsm x_n^{i_n}$ and 
+$\abs{i} = i_0 + \dotsb + i_n$.  Moreover, we let 
+$\cF_k$ denote the $L$-vector space spanned by the $n$-forms 
+$x^i \Omega / P^k$ for $x^i \in F_k$ and $\cB_k$ denote the 
+set of $n$-forms $x^i \Omega / P^k$ with $x^i \in B_k$.
 \end{defn}
 
 We shall defer the proof of the statement that the corresponding 
@@ -367,16 +368,16 @@ $H_{dR}^n(\mathfrak{U}/\mathfrak{S})$, at least in the case when
 the family of hypersurfaces given by~$P$ contains a diagonal fibre, 
 until the end of this section.
 
-\begin{assumption}
+\begin{rem}
 In order to ensure that our computations are not vacuous, we assume that 
-$H_{dR}^n(\mathfrak{U}/\mathfrak{S}) \neq 0$.  After setting 
+$H_{dR}^n(\mathfrak{U}/\mathfrak{S})$ is non-zero.  After setting 
 \begin{equation*}
 \ell = \ceil{\frac{n+1}{d}}, \quad u = \floor{\frac{(n+1)(d-1)}{d}} = n+1 - \ell,
 \end{equation*}
 we note that $B_k$ is non-empty if and only if $\ell \leq k \leq u$.  The 
 assumption is thus that $\ell \leq u$, which is equivalent to the statement 
 that $d \geq 2$ whenever $n$ is odd and $d \geq 3$ whenever $n$ is even.
-\end{assumption}
+\end{rem}
 
 When considering Problem~\ref{prob:Decomposition1}, it turns out that, 
 when the family of hypersurfaces given by~$P$ contains a diagonal fibre, 
@@ -405,8 +406,8 @@ degree $(k-1)d - n$, and then inductively, for $j = 1, \dotsc, n$, define
 $C_k^{(j)}$ to be the set of monomials in $C_k^{(j-1)}$ except for those 
 divisible by $x_{j-1}^{d-1}$.  Moreover, we define the multi-set $C_k$ as 
 the disjoint union of $C_k^{(0)}, \dotsc, C_k^{(n)}$.  We shall write an 
-element of this multi-set as $(j, g)$, referring to a monomial $g$ in 
-$C_k^{(j)}$.
+element of this multi-set as $(j, g)$, referring to a monomial~$g$ 
+in~$C_k^{(j)}$.
 \end{defn}
 
 With this set-up, the following theorem provides a solution to 
@@ -526,7 +527,7 @@ using the reduction of poles procedure.
 \begin{thm} \label{thm:Basis}
 Suppose that the family of projective hypersurfaces given by~$P$ contains 
 a diagonal fibre.  Then the set $\cB_1 \cup \dotsb \cup \cB_n$ as in 
-Definition~\ref{defn:BasisSets} is a basis for the $L$-vector space 
+Definition~\ref{defn:01-05-basis} is a basis for the $L$-vector space 
 $H_{dR}^n(\mathfrak{U}/\mathfrak{S})$.
 \end{thm}
 
@@ -682,7 +683,7 @@ We now describe the action of the Gauss--Manin connection~$\nabla_{GM}$ on
 basis elements of $H_{dR}^n(\mathfrak{U}/\mathfrak{S})$.  Suppose that we are 
 given a basis element $x^i \Omega / P^k \in \cB_k$, where for 
 $1 \leq k \leq n$ the set $\cB_k$ is defined as in 
-Definition~\ref{defn:BasisSets}.  Following the description in 
+Definition~\ref{defn:01-05-basis}.  Following the description in 
 Section~\ref{sec:01-05-hypersurfaces}, the action of the connection 
 is given by exterior differentiation, that is, differentiation with respect 
 to~$t$.  We first compute 
