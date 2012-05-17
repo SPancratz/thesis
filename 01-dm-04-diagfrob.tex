@@ -1,11 +1,11 @@
 % Chapter:  Frobenius on the diagonal fibre  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In this chapter we discuss the action of Frobenius on the diagonal fibre. 
-We first describe the general method based on an explicit formula by Dwork 
-following the expositions in the work of Lauder~\citep[Section~6]{Lau04} 
-and Gerkmann~\citep[Section~4.4]{Gerkmann2007}.  Then, we present a new 
-improvement in Theorem~\ref{thm:alpha}, showing that a certain 
-expression is defined already over $\mathbf{Q}_p$ instead of a ramified 
+We first describe the general method based on an explicit formula by 
+Dwork~\citep[\S 4]{Dwork64}, following the expositions in the work of 
+Lauder~\citep[\S 6]{Lau04} and Gerkmann~\citep[\S 4.4]{Gerkmann2007}.  Then, 
+we present a new improvement in Theorem~\ref{thm:alpha}, showing that a 
+certain expression is defined already over $\mathbf{Q}_p$ instead of a ramified
 extension as observed by Gerkmann.  Furthermore, Theorems~\ref{thm:alpha2} 
 and \ref{thm:alphap} state the expression lies in $\mathbf{Z}_p$ and 
 provide computationally suitable reformulations.  To conclude this chapter, 
@@ -18,35 +18,32 @@ computations.
 
 In order to simplify our notation, we temporarily suppress the earlier 
 setup of a family of hypersurfaces.
-Thus, we consider a smooth diagonal projective hypersurface~$X$ of degree~$d$ 
-in $P^n(\mathbf{F}_q)$ and letting $U = P^n(\mathbf{F}_q) - X$ be the affine 
-complement we aim to compute, to a prescribed precision~$N$, the matrix~$F$ 
-representing the action of $q^{-1} F_q$ on 
-$H_{rig}^n(U) \cong H_{dR}^n(\mathfrak{U})$ with respect to a specific 
-monomial basis.  We recall that $d \geq 2$ whenever $n$ is odd 
-and $d \geq 3$ whenever $n$ is even.
-
-A smooth projective diagonal hypersurface $X$ over $\mathbf{F}_q$ 
-is necessarily given by 
+Thus, we consider a smooth, projective, diagonal hypersurface~$\mathfrak{X}$ 
+over $\mathbf{Z}_p$ given by a polynomial $P \in \mathbf{Z}[x_0, \dotsc, x_n]$ 
+of homogeneous degree~$d$ and its reduction~$X$ over $\mathbf{F}_p$ given by 
 \begin{equation*}
-P(x_0, x_1, \dotsc, x_n) = a_0 x_0^d + a_1 x_1^d + \dotsb + a_n x_n^d = 0
+\tilde{P}(x_0, x_1, \dotsc, x_n) = 
+    a_0 x_0^d + a_1 x_1^d + \dotsb + a_n x_n^d = 0
 \end{equation*}
-where $a_0, a_1, \dotsc, a_n \in \mathbf{F}_q^{\times}$ and $p \nmid d$.
-
-We choose the basis $\mathcal{B}_1 \cup \dotsb \cup \mathcal{B}_n$ 
-for $H_{dR}^n(\mathfrak{U})$ where, for $k = 1, \dotsc, n$, 
+where $a_0, a_1, \dotsc, a_n \in \mathbf{F}_p^{\times}$ and $p \nmid d$.  
+We also define affine complements $\mathfrak{U}$ and $U$ of $\mathfrak{X}$ 
+and $X$, respectively, and choose the basis 
+$\mathcal{B}_1 \cup \dotsb \cup \mathcal{B}_n$ for $H_{dR}^n(\mathfrak{U})$ 
+where, for $k = 1, \dotsc, n$, 
 \begin{align*}
 B_k & = \{ x^i : \text{$\abs{i} = kd - (n+1)$ and $0 \leq i_j < d-1$, for all $j$} \}, \\
-\mathcal{B}_k & = \{x^i \Omega / P^k : x^i \in B_k \}.
+\mathcal{B}_k & = \{x^i \Omega / P^k : x^i \in B_k \}, 
 \end{align*}
+recalling the condition that $d \geq 2$ whenever $n$ is odd and $d \geq 3$ 
+whenever $n$ is even.  Our goal is to compute the matrix~$F$ representing 
+the action of $p^{-1} F_p$ on $H_{rig}^n(U) \cong H_{dR}^n(\mathfrak{U})$ 
+to $p$-adic precision~$N$.
 
-Let $F$ denote the matrix for $q^{-1} F_q$ on $H_{dR}^n(\mathfrak{U})$, 
-where $F_q$ is the $q$-power Frobenius.  There exists an explicit formula 
-for the $b = \dim H_{dR}^n(\mathfrak{U})$ non-zero coefficients of $F$ 
-due to Dwork, see e.g.\ Lauder~\citep[Section~6.1]{Lau04}.
-From here on, we restrict ourselves to the case $q = p$ and work over 
-the ramified extension $\mathbf{Q}_p(\pi)$ where $\pi^{p-1} = -p$, 
-where we normalise the valuation such that $\ord_p(\pi) = (p-1)^{-1}$.
+We now describe an explicit formula for the $b = \dim H_{dR}^n(\mathfrak{U})$ 
+non-zero coefficients of~$F$ due to Dwork~\citep{Dwork64}, see e.g.\ 
+Lauder~\citep[\S 6.1]{Lau04}.   We work over the ramified extension 
+$\mathbf{Q}_p(\pi)$ where $\pi^{p-1} = -p$, where we normalise the valuation 
+such that $\ord_p(\pi) = (p-1)^{-1}$.
 
 Let $u = (u_0, \dotsc, u_n)$ and $v = (v_0, \dotsc, v_n)$ be tuples such 
 that $x^u, x^v \in B_1 \cup \dotsb \cup B_n$,  and let $u'$ and $v'$ 
@@ -62,7 +59,7 @@ where $\hat{a}_i$ is the Teichm\"uller lift of $a_i \in \mathbf{F}_p$
 to $\mathbf{Q}_p$ and the summation indices $m, r \geq 0$ satisfy 
 $p u_i - v_i = d (m - pr)$.
 
-\begin{thm}
+\begin{thm} \label{thm:01-04-diagfrob}
 Continuing with the notation set out above, let $\omega_1$ and $\omega_2$ 
 denote the forms in $\mathcal{B}_1 \cup \dotsb \cup \mathcal{B}_n$ 
 corresponding to $u$ and $v$, respectively.  
@@ -76,8 +73,10 @@ where $u + 1 = (u_0 + 1, \dotsc, u_n + 1)$ and similarly for $v + 1$.
 \end{thm}
 
 \begin{proof}
-See Lauder~\citep[Section~6.1]{Lau04}, which also includes the more 
-general case when $q$ is a prime power greater than $p$.
+See Dwork~\citep[\S 4]{Dwork64} for Dwork's original work, or 
+Lauder~\citep[\S 6.1]{Lau04}.  Both references also treat the 
+more general case when $\mathfrak{X}$ is a smooth, projective, 
+diagonal hypersurface over $\mathbf{Z}_q$, for $q$ a prime power.
 \end{proof}
 
 % Improvements %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -105,28 +104,21 @@ division by $p-1$.
 \begin{proof}
 From
 \begin{equation*}
-\exp \pi (z - z^p) = \sum_{n=0}^{\infty} \frac{\pi^n}{n!} (z - z^p) 
+\exp \pi (z - z^p) = \sum_{n=0}^{\infty} \frac{\pi^n}{n!} (z - z^p) ^n
                    = \sum_{n=0}^{\infty} \frac{\pi^n}{n!} \sum_{k=0}^n \binom{n}{k} (-1)^k z^{n + k(p-1)}
 \end{equation*}
-we find 
+we find that 
 \begin{align*}
 \lambda_m & = \sum_{n = 0}^{\infty} \frac{\pi^n}{n!} \sum_{\substack{0 \leq k \leq n\\n + k(p-1) = m}} \binom{n}{k} (-1)^k \\
           & = \sum_{\substack{\ceil{m/p} \leq n \leq m\\ n \equiv m \pmod{p-1}}} \frac{\pi^n}{n!} \binom{n}{(m-n)/(p-1)} (-1)^{(m-n)/(p-1)} \\
-\intertext{To simplify this further, let $m = q(p-1) + r$ and $n = q'(p-1) + r'$, noting that $r = r'$,}
+\intertext{To simplify this further, let $m = q(p-1) + r$ and 
+$n = q'(p-1) + r'$, noting that $r = r'$ and also setting 
+$k = (m-n)/(p-1) = q - q'$, }
 \lambda_m & = \sum_{\substack{\ceil{m/p} \leq n \leq m\\ n \equiv m \pmod{p-1}}} \pi^r p^{q'} (-1)^{q' + k} \frac{1}{(n-k)! k!} \\
           & = (-1)^q \pi^r \sum_{k=0}^{\floor{m/p}} p^{q - k} \frac{1}{(m - pk)!k!}
 \end{align*}
 The expression for $\pi^{-(m \bmod{p-1})} \lambda_m$ now follows.
 \end{proof}
-
-\begin{cor} \label{cor:lambda2}
-Let $p = 2$, let $\pi^{p-1} = -p$ and, for $m \geq 0$, let $\lambda_m$ 
-be the coefficient of $z^m$ in the power series expansion of 
-$\exp \pi (z - z^p)$ in $\mathbf{Q}_p[[z]]$.  Then 
-\begin{equation*}
-\lambda_m = (-1)^m \sum_{k=0}^{\floor{m/p}} \frac{p^{m - k}}{(m - pk)! k!}.
-\end{equation*}
-\end{cor}
 
 \begin{thm} \label{thm:alpha}
 Continuing with the notation set up in this chapter, let 
@@ -223,10 +215,22 @@ as required.
 
 \subsection{The case $p = 2$}
 
+We first note that in the case when $p = 2$, the expression for 
+$\lambda_m$ in Lemma~\ref{lem:lambdam} can be simplified.
+
+\begin{cor} \label{cor:lambda2}
+Let $p = 2$, let $\pi^{p-1} = -p$ and, for $m \geq 0$, let $\lambda_m$ 
+be the coefficient of $z^m$ in the power series expansion of 
+$\exp \pi (z - z^p)$ in $\mathbf{Q}_p[[z]]$.  Then 
+\begin{equation*}
+\lambda_m = (-1)^m \sum_{k=0}^{\floor{m/p}} \frac{p^{m - k}}{(m - pk)! k!}.
+\end{equation*}
+\end{cor}
+
 \begin{lem} \label{lem:mu2}
 Let $p = 2$ and define a sequence $\bigl(\mu_m^{(2)}\bigr)$ by 
 \begin{equation*}
-\mu_m = 
+\mu_m^{(2)} = 
     \sum_{k=0}^{\floor{m/2}} \frac{2^{\floor{3m/4} - \nu_m - k}}{(m-2k)! k!}
 \end{equation*}
 where $\nu_m$ is equal to one whenever $m = 3, 7$ and zero otherwise. 
@@ -277,7 +281,7 @@ in each summand is non-negative.  From the proof of
 Proposition~\ref{prop:rfac} we obtain that 
 \begin{equation} \label{eq:alpha2.1}
 \ord_p \biggl( \Bigl(\frac{u_i+1}{d}\Bigr)_r 2^{- \floor{(m+1)/4} + \nu_m} \biggr)
-\geq \ord_p\Bigl(\floor{\frac{m}{2}}!\Bigr) - \floor{\frac{m+1}{4}} + \nu_m
+\geq \ord_p\Bigl(\floor{\frac{m}{2}}!\Bigr) - \floor{\frac{m+1}{4}} + \nu_m.
 \end{equation}
 Applying Proposition~\ref{prop:rfac}, we see that this is bounded 
 below by 
@@ -285,8 +289,8 @@ below by
 \floor{\frac{m}{2}} - \floor{\frac{m+1}{4}} - \floor{\log_2 m}
 \end{equation*}
 which is non-negative whenever $m \geq 12$.  In the remaining 
-cases $m = 0, \dotsc, 11$, the reader may verify explicitly 
-that the lower bound in~\eqref{eq:alpha2.1} is non-negative.
+cases $m = 0, \dotsc, 11$, we explicitly verify that the 
+lower bound in~\eqref{eq:alpha2.1} is non-negative.
 \end{proof}
 
 \begin{rem}
@@ -316,7 +320,8 @@ f_5 & = \begin{cases}
         \end{cases} \\
 f_r & = f_{r-2} \frac{(u + (r - 2)d)(u + (r - 1)d)}{2}
 \end{align*}
-for all remaining $r \geq 0$.  It is clear that this computation can be carried 
+for all remaining $r \geq 0$.  Since the product in the numerator is 
+an even integer, it is clear that this computation can be carried 
 out without precision loss despite reducing previous values of~$f_r$ 
 modulo~$p^{\tilde{N}}$.
 \end{rem}
@@ -329,7 +334,7 @@ modulo~$p^{\tilde{N}}$.
 Let $p \geq 3$ be an odd prime and define a sequence 
 $\bigl(\mu_m^{(p)}\bigr)$ by 
 \begin{equation*}
-\mu_m = \sum_{k=0}^{\floor{m/p}} \frac{p^{\floor{m/p} - k}}{(m-pk)! k!}, 
+\mu_m^{(p)} = \sum_{k=0}^{\floor{m/p}} \frac{p^{\floor{m/p} - k}}{(m-pk)! k!}, 
 \end{equation*}
 where we write $\mu_m = \mu_m^{(p)}$ when the prime can be identified 
 from the context.  Then $\mu_m \in \mathbf{Z}_p$ for all $m \geq 0$.
@@ -441,9 +446,9 @@ where $r = \ord_p((n-1)!)$ and $s = (n+1) \floor{\log_p(n-1)}$.
 \end{prop}
 
 \begin{proof}
-Recall from~\citep[Lemma~3.3]{Gerkmann2007} that the valuations 
+Recall from Gerkmann~\citep[Lemma~3.3]{Gerkmann2007} that the valuations 
 of the entries of the matrix~$F$ are bounded from below by $-(r+s)$. 
-Thus,
+Thus, by Theorem~\ref{thm:01-04-diagfrob}, 
 \begin{equation*}
 -(r+s) \leq \ord_p((v'-1)!) + n - \ord_p((u'-1)! \alpha_{u+1,v+1})
 \end{equation*}
