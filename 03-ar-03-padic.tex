@@ -1,0 +1,682 @@
+\documentclass[a4paper,11pt]{article}
+
+\author{Fredrik Johansson, Sebastian Pancratz}
+\title{The Arithmetic of Unramified $p$-adic Fields}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Other packages
+
+\usepackage{ifpdf}
+\usepackage{paralist}
+\usepackage{fancyhdr}
+\usepackage{sectsty}
+\usepackage{natbib}
+\usepackage{url}
+\usepackage[T1]{fontenc}
+\usepackage{ae,aecompl}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{verbatim}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% hyperref
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,    % false: boxed links; true: colored links
+    citecolor=green,    % color of links to bibliography
+    filecolor=magenta,  % color of file links
+    linkcolor=red,      % color of internal links
+    urlcolor=blue       % color of external links
+}
+
+\makeatletter
+\newcommand\org@hypertarget{}
+\let\org@hypertarget\hypertarget
+\renewcommand\hypertarget[2]{%
+    \Hy@raisedlink{\org@hypertarget{#1}{}}#2%
+} 
+\makeatother
+
+\ifpdf
+    \hypersetup{
+        pdftitle={The Arithmetic of Unramified p-adic Fields},
+        pdfauthor={Fredrik Johansson, Sebastian Pancratz},
+        pdfsubject={Computational Number Theory},
+        bookmarks=true,
+        bookmarksnumbered=true,
+        unicode=true,
+        pdfstartview={FitH},
+        pdfpagemode={UseOutlines}
+    }
+\fi
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% algorithmic
+
+\usepackage[section]{algorithm}
+\usepackage[noend]{algpseudocode}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% natbib
+
+\bibpunct{[}{]}{,}{n}{}{}
+%\bibpunct{[}{]}{;}{a}{,}{,}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% url
+
+\makeatletter
+\def\url@leostyle{%
+  \@ifundefined{selectfont}{\def\UrlFont{\sf}}{\def\UrlFont{\small\ttfamily}}}
+\makeatother
+\urlstyle{leostyle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Mathematical definitions
+
+\usepackage{amsmath,amsthm,amscd,amsfonts,amssymb}
+\usepackage{cases}
+\usepackage[all]{xy}
+
+\allowdisplaybreaks[4]
+
+\theoremstyle{definition}
+
+\newtheorem{thm}{Theorem}
+\newtheorem{rem}{Remark}
+\newtheorem{alg}{Algorithm}
+\newtheorem{sig}{Signature}
+\newtheorem{con}{Contract}
+\newtheorem{imp}{Improvements}
+
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\trace}{Tr}
+\DeclareMathOperator{\norm}{N}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\ord}{ord}
+\providecommand{\ceil}[1]{\left\lceil#1\right\rceil}%  Ceil
+\providecommand{\ceilts}[1]{\lceil#1\rceil}%  Ceil
+\providecommand{\ceilbig}[1]{\bigl\lceil#1\bigr\rceil}%  Ceil
+\providecommand{\floor}[1]{\left\lfloor#1\right\rfloor}%  Floor
+\providecommand{\floorts}[1]{\lfloor#1\rfloor}%  Floor
+
+% Dutch style of paragraph formatting, i.e. no indents.
+\setlength{\parskip}{1.3ex plus 0.2ex minus 0.2ex}
+\setlength{\parindent}{0pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Enumeration
+
+\setlength{\pltopsep}{0.24em}
+\setlength{\plpartopsep}{0em}
+\setlength{\plitemsep}{0.24em}
+
+% This should do what we want
+%   \setdefaultenum{(i)}{(a)}{1.}{A}
+% but it does not work for references, dropping the parentheses.  The following
+% hack does work.
+
+\renewcommand{\theenumi}{(\roman{enumi})}
+\renewcommand{\theenumii}{(\alph{enumii})}
+\renewcommand{\theenumiii}{\arabic{enumiii}.}
+\renewcommand{\theenumiv}{\Alph{enumiv}}
+
+\renewcommand{\labelenumi}{\theenumi}
+\renewcommand{\labelenumii}{\theenumii}
+\renewcommand{\labelenumiii}{\theenumiii}
+\renewcommand{\labelenumiv}{\theenumiv}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliography name
+
+\renewcommand{\bibname}{References}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DOCUMENT                                                                    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\abstract{%
+We present an overview of arithmetic operations in $\mathbf{Q}_p$ and 
+unramified extensions, including many well-known and tricks from actual 
+implementations.  We also present a novel approach to the $p$-adic 
+logarithm.  Much of this material has already been implemented in 
+the open source package FLINT.
+}
+
+\section{Data format}
+
+We represent a non-zero $p$-adic number $x \in \mathbf{Q}_p$ in the form 
+\begin{equation}
+x = p^v u
+\end{equation}
+where $u, v \in \mathbf{Z}$ and $u \nmid p$.  When working to precision~$N$, 
+it is sometimes useful to assume that $u \in [0,p^{N-v})$.
+
+When working in the unique unramified extension of $\mathbf{Q}_p$ of 
+degree~$d$, we which shall call $\mathbf{Q}_q$ with $q = p^d$, we choose 
+to represent this as 
+\begin{equation}
+\mathbf{Q}_q \cong \mathbf{Q}_p[X] / (f(X))
+\end{equation}
+where $f(x) \bmod p$ is an irreducible and separable polynomial.  We store 
+$f(X)$ as a sparse polynomial and assume that its coefficients are 
+reduce modulo~$p$.  The sparsity assumption allows for reduction of a 
+degree~$n$ polynomial modulo~$f(X)$ in time $\mathcal{O}(nd)$ operations 
+in $\mathbf{Q}_p \bmod p^N$.  Non-zero elements~$g$ in $\mathbf{Q}_q$ can 
+be represented as 
+\begin{equation}
+g(X) = p^v h(X)
+\end{equation}
+where $h(X) \in \mathbf{Z}[X]$ and $v \in \mathbf{Z}$ such that at least 
+one coefficient of $h(X)$ is a $p$-adic unit.  As before, it can be useful 
+to assume that all coefficients of $h(X)$ are reduced modulo $p^{N-v}$.
+
+We could aim for a genuine base~$p$ representation, explicitly showing 
+the $p$-adic digits in the form 
+\begin{equation}
+x = p^v (a_0 + a_1 p + \dotsb).
+\end{equation}
+This data format would be beneficial to many algorithms.  But in practice, 
+given the high quality of arithmetic routines base~$2$ on current hardware, 
+this seems to be very difficult.
+
+Eventually, the case $p = 2$ should be handled separated manner.
+
+\section{Hensel lifting}
+
+\begin{thm} \label{thm:Hensel1}
+Let $g \in \mathbf{Z}_q[X]$ be a polynomial whose leading coefficient 
+is a unit and suppose that $x_0 \in \mathbf{Z}_q$ is such that 
+\begin{equation*}
+\ord_p(g(x_0)) \geq m + n, \quad \ord_p(g'(x_0)) \leq m
+\end{equation*}
+for some $0 \leq m < n$.  Then there exists a unique $x \in \mathbf{Z}_q$ 
+such that $g(x) = 0$ and $x \equiv x_0 \pmod{p^n}$.
+\end{thm}
+
+\begin{proof}
+We construct a sequence $(x_k)$ such that 
+\begin{align*}
+\ord_p(g(x_k)) & \geq 2^k (n - m) + 2m, \\
+\ord_p(g'(x_k)) & \leq m, \\
+\ord_p(x_{k+1} - x_k) & \geq 2^k (n-m) + m, 
+\end{align*}
+where the choice of $x_{k+1}$ is unique given $x_k$, for $k \geq 0$.  
+As the sequence $(x_k)$ is Cauchy, the result then follows taking 
+$x = \lim_{k \to \infty} x_k$ and using the continuity of $g$ to 
+establish $g(x) = 0$.
+
+In order to satisfy the last condition, begin by writing 
+$x_{k+1} = x_k + p^{2^k(n-m) + m} T$ and expand $g(x_{k+1})$ 
+as a Taylor series about $x_k$, 
+\begin{align*}
+g(x_{k+1}) & = \sum_{j=0}^{\deg(g)} \frac{g^{(j)}(x_k)}{j!} p^{(2^k(n-m) + m) j} T^j \\
+           & \equiv g(x_k) + g'(x_k) p^{2^k(n-m) + m} T \pmod{p^{2^{k+1}(n-m)+2m}}
+\end{align*}
+where the last line follows upon observing that $g^{(j)}(x_k) / j!$ 
+is $p$-adically integral for all~$j$.  This forces the unique choice 
+$x_{k+1} = x_k - g(x_k) / g'(x_k)$ modulo~${p^{2^{k+1}(n-m) + m}}$.
+\end{proof}
+
+\begin{rem}
+In order to approximate the root of a polynomial to a desired 
+precision~$N$, it is preferable to choose the sequence of 
+precisions 
+\begin{equation*}
+e_{k} = N, e_{k-1} = \ceil{(e_k + m) / 2}, \dotsc, 
+e_0 = \ceil{(e_1 + m) / 2} \leq n
+\end{equation*}
+as this choice minimises the computational cost in the last 
+step of the iteration.
+\end{rem}
+
+\begin{thm}
+Let $g \in \mathbf{Z}_q[X]$ be a polynomial whose leading coefficient 
+is a unit and suppose that $x_0 \in \mathbf{Z}_q$ is such that 
+\begin{equation*}
+\ord_p(g(x_0)) \geq m + n, \quad \ord_p(g'(x_0)) \leq m
+\end{equation*}
+for some $0 \leq m < n$.  Moreover, let $x$ be the unique root of $g$ 
+lifting $x_0$ and define the sequences
+\begin{align*}
+y_0 & = \bigl( g'(x_0) \bigr)^{-1}, \\
+x_{k+1} & = x_k - g(x_k) y_k, \\
+y_{k+1} & = y_k \bigl( 2 - y_k g'(x_{k+1}) \bigr),
+\end{align*}
+where $x_k$, $y_k$ are computed to $p$-adic precision $2^k (n-m) + m$.
+Then $x_k$ agrees with $x$ modulo~$p^{2^k (n - m) + m}$.
+\end{thm}
+
+\begin{rem}
+The above theorem leads to an algorithm running two Hensel lifting 
+procedures in parallel, which is favourable to the approach suggested 
+by the expression $x_{k+1} = x_k - g(x_k) / g'(x_k)$ in 
+Theorem~\ref{thm:Hensel1} leading to a nested lifting routine to 
+compute the inverse of $g'(x_k)$ from scratch at each step.  Moreover, 
+in the case when $\ord_p(g'(x_0)) = m = 0$, this leads to a division-free 
+algorithm.
+\end{rem}
+
+\section{Complexity results}
+
+We let $\mathcal{O}(M(N))$ denote the complexity of multiplying two 
+$N$-bit integers.  For example, the Sch\"onhage--Strassen algorithm 
+allows us to take $\mathcal{O}(N \log N \log \log N)$.  The same 
+complexity can also be achieved for the division with remainder of 
+a $2N$-bit integer by an $N$-bit integer.
+
+As elements of $\mathbf{Z} / (p^N)$ are of bit size $N \log p$, 
+multiplication of two numbers in $[0, p^N)$, with or without a subsequent 
+reduction modulo $p^N$, has complexity $\mathcal{O}(M(N \log p))$ or 
+$\mathcal{O}_p(M(N))$.
+
+The multiplication of two elements of $\mathbf{Z}_q$ modulo $p^N$ 
+involves one multiplication of two degree $d-1$ polynomials in 
+$\mathbf{Z}/(p^N)$ and one reduction of a degree $2d - 2$ polynomial 
+in $\bigl( \mathbf{Z}/(p^N)[X] \bigr) / (f(X))$.   Using a Fast Fourier 
+Transform based multiplication routine, the polynomial product requires 
+$\mathcal{O}(d \log d)$ operations in $\mathbf{Z}/(p^N)$, hence has 
+complexity $\mathcal{O}(M(N \log p) d \log d)$.  The reduction modulo $f(X)$ 
+requires $\mathcal{O}(d)$ operations in $\mathbf{Z}/(p^N)$ when $f(X)$ is 
+sparse and has a bounded number of non-zero coefficients, and it requires 
+$\mathcal{O}(d \log d)$ operations in $\mathbf{Z}/(p^N)$ when $f(X)$ is 
+a dense polynomial.  In either case, the overall complexity of multiplication 
+in $\mathbf{Z}_q$ modulo $p^N$ is given by $\mathcal{O}(M(N \log p) d \log d)$.
+
+\section{Addition, subtraction, negation}
+
+To add $x_0, x_1 \in \mathbf{Q}_q$ to precision~$N$, we compute 
+\begin{equation}
+x_0 + x_1 = p^{v_0} (u_0 + p^{v_1 - v_0} u_1)
+\end{equation}
+where we assume $v_0 \leq v_1$.  In general, the second factor 
+will have to be reduced modulo $p^{N - v_0}$ using a division 
+routine.  We can improve on this if we add the assumption that 
+the input is reduced modulo $p^N$, in which case we observe that 
+there the reduction can be facilitated by subtracting at most 
+one multiple of~$p$.
+
+\section{Multiplication}
+
+To multiply $x_0, x_1 \in \mathbf{Q}_q$ to precision~$N$, we compute 
+\begin{equation}
+x_0 x_1 = p^{v_0 + v_1} u_0 u_1
+\end{equation}
+reducing the product of units $u_0 u_1$ modulo $p^{N - v_0 - v_1}$.
+
+\section{Inversion}
+
+To invert $a \in \mathbf{Z}_q$, Newton iteration on $x \gets x - x (x a - 1)$.
+
+This is done in time $\mathcal{O}_p(M(N))$ in $\mathbf{Q}_p$.
+
+Inverses modulo~$p$ can be computed by a version of Euclid's extended 
+algorithm updating only one cofactor.  Specifically, Euclid's extended 
+algorithm computes $d,s,t$ such that $d = \gcd(a,b) = sa + tb$, for 
+which one improvement is to only update $s$ during the procedure and 
+then recover $t = (d - sa)/b$ at the end.  Here, we can omit the last 
+step as we do not require the cofactor of $f(X)$.
+
+\section{Square root}
+
+Recall that $x \in mathbf{Q}_p$ has a square root if and only if $v$ is even 
+and $u$ has a square root modulo $8$ or $p$ when $p = 2$ or $p > 2$, respectively.
+
+[[Mod p.]]
+
+The relevant result is more complicated when considering $\mathbf{Q}_q$.  
+        In the case when $q \equiv 3 \pmod{4}$, if $u$ is a square 
+        it is easy to show that one of its square roots is equal to 
+        $u^{(q+1)/4}$.
+
+        To find out whether $u$ is a square in the first place, we 
+        would like to compute $u^{(q-1)/2}$ and check that it is 
+        equal to $1$.
+
+        To avoid unnecessary recomputation of powers of $u$, we 
+        compute $u^{(q-3)/4}$, multiply this by $u$ to obtain 
+        the potential square root $u^{(q+1)/4}$, and then combine 
+        these two powers to find $u^{(q-1)/2}$.
+
+Otherwise, use e.g.\ Tonelli--Shanks algorithm in $\mathbf{F}_q$.
+
+[[Lifting.]]
+
+Compute $u^{-1/2} \bmod p^N$ using Hensel lifting on $g(X) = u^2 X - 1$, 
+starting modulo $p$ and using the division-free update formula,
+\begin{equation}
+z \gets z - z (u z^2 - 1) / 2
+\end{equation}
+
+\begin{rem}
+First, note that this is indeed division-free when $p$ is odd.  Either, the numerator is 
+divisible by $2$ as an integer, or we can add an appropriate (odd) power 
+of $p$ to this, yielding an even integer representative of the same value.
+
+When $p = 2$, the result on Hensel lifting in Theorem~\ref{thm:Hensel1} 
+guarantees that the numerator is always divisible by~$2$ and the loss 
+of precision is accounted for.
+
+Secondly, we can improve this algorithm by only using the update formula 
+for all but the last step.  In the last step, we can instead use 
+\begin{align}
+t \gets u z, \\
+z \gets t + z (u - t^2)
+\end{align}
+\end{rem}
+
+\section{Teichm\"uller lift}
+
+Over $\mathbf{Z}_p$, start with $x \bmod p$.  Hensel lifting on $g(X) = X^p - X$.
+
+\begin{rem}
+\begin{itemize}
+\item Hensel lift without inverses, Theorem~\ref{thm:Hensel2}.
+\item In the first step, we want $x_0 = x \bmod p$ and 
+      $y_0 = ((p-1) x^{p-2})^{-1} \bmod p$, so set $y_0 = p - x_0$ 
+      without division.
+\end{itemize}
+\end{rem}
+
+Over $\mathbf{Q}_q$, Hensel lifting on $g(X) = X^q - X$ starting 
+from $x_0 = x \bmod p$.  Observe that $g'(x_i) = q x_i^{q-1} - 1$ 
+and $x_i^{q-1}$ is close to $1$, so $g'(x_i)$ is close to $q-1$. 
+Indeed, we in the update formula for the Hensel lift we only need 
+to compute an inverse of $q-1$, which is defined already over 
+$\mathbf{Q}_p$.
+
+\section{Frobenius}
+
+Let $\Sigma \in \Gal(\mathbf{Q}_q/\mathbf{Q}_p) \cong \Gal(\mathbf{F}_q/\mathbf{F}_p)$ 
+be the image of $\sigma \colon \mathbf{F}_q \mapsto \mathbf{Q}_q, x \mapsto x^p$. 
+We aim to compute $\Sigma^k x$.
+
+\begin{itemize}
+\item Suppose $x = \sum_{i=0}^{d-1} a_i X^i$ in $\mathbf{Q}_p[X]/(f(X))$. 
+\item Compute $\Sigma^k X$ using Hensel lifting on $f(X)$, starting from 
+$x_0 = X^{p^k}$ in $\mathbf{F}_p[X] / (f(X))$.
+\item Compute $\Sigma^k x = \sum_{i=0}^{d-1} a_i (\Sigma^k X)^i$, 
+      which is a polynomial composition modulo $f(X)$ and $p^N$.
+\end{itemize}
+
+\begin{rem}
+\begin{itemize}
+\item In a first approach, we might use Horner's method to carry out the 
+      composition, which requires about $d$ multiplications in $\mathbf{Q}_q$.
+\item Instead, use a rectangular splitting method, starting from the 
+      expression 
+      \begin{equation}
+       x = \sum_{j=0}^{\floor{d/B}-1} \Bigl( \sum_{i=0}^{B-1} a_{i+Bj} X^i  \Bigr) X^{Bj}
+      \end{equation}
+      where $B = \floor{\sqrt{d}}$, precomputing $\Sigma^k(X)^i$ for $i = 0, \dotsc, B$. 
+      This requires about $2 \sqrt{d}$ multiplications in $\mathbf{Q}_q$ and additional 
+      space for about $d^{3/2}$ elements of $\mathbf{Z}/(p^N)$.
+\end{itemize}
+\end{rem}
+
+\section{Trace}
+
+Compute $\trace_{\mathbf{Q}_q/\mathbf{Q}_p}(x) \colon \mathbf{Q}_q \to \mathbf{Q}_p$.
+
+Assume $x$ is a unit, write $x = \sum_{i=0}^{d-1} a_i X^i$ so that 
+$\trace(x) = \sum_{i=0}^{d-1} a_i \trace(X^i)$.
+
+\begin{itemize}
+\item We can either compute this from the definition of $\trace(-)$ by reducing 
+      $x X^i$ modulo $f(X)$ for $i = 0, \dotsc, d-1$ and taking the sum of these 
+      values.
+\item Or we can use Newton's formula,
+      \begin{equation}
+      \trace(X^i) + \sum_{j=1}^{i-1} \trace(X^{i-j}) a_{d-j} + i a_{d-i} = 0 \pmod{p^N}
+      \end{equation}
+\end{itemize}
+
+\section{Norm}
+
+Whenever $x in \mathbf{Z}_q$ satisfies $\ord_p(x-1) > (p-1)^{-1}$ we can 
+compute the norm via
+\begin{equation}
+\norm_{\mathbf{Q}_q / \mathbf{Q}_p} (x) 
+= \exp (\trace_{\mathbf{Q}_q / \mathbf{Q}_p} (\log (x)))
+\end{equation}
+
+In general, writing $x = \sum_{i=0}^{d-1} a_i X^i$ and defining 
+the polynomial $a(X) \in \mathbf{Z}_p[X]$ by the same formula, we have 
+\begin{align}
+\norm_{\mathbf{Q}_q/\mathbf{Q}_p} (x) & = \prod_{i=0}^{d-1} \Sigma^i (x) \\
+                                      & = \prod_{i=0}^{d-1} a(\Sigma^i(X)) \\
+                                      & = \Res(f(X), a(X))
+\end{align}
+
+\section{Exponential}
+
+\subsection{Definition}
+
+For $x \in \mathbf{Z}_q$ with $\ord_p(x) \geq 2$ or $\ord_p(x) \geq 1$ 
+as $p=2$ or $p > 2$, respectively, the $p$-adic exponential functions is 
+defined via 
+\begin{equation}
+\exp(x) = \sum_{i = 0}^{\infty} \frac{x^i}{i!}.
+\end{equation}
+In order to compute $\exp(x) \bmod{p^N}$, using that for positive 
+integers~$z$, we have
+\begin{equation}
+\ord_p(z!) = \frac{z - s_p(z)}{p - 1} \leq \frac{z}{p - 1}
+\end{equation}
+where $s_p(-)$ denote the sum of $p$-adic digits, we are led to compute 
+the truncated series 
+\begin{equation}
+\exp(x) = \sum_{i = 0}^{n-1} \frac{x^i}{i!}
+\end{equation}
+where $n = \ceilbig{\bigl( (p-1)N - 1 \bigr) / \bigl( (p-1)v - 1 \bigr)}$.
+
+For the sake of simplicity, we restrict our discussion to the case 
+$q = p$, but remark that the approach as well as the analysis carry 
+through to the case of unramified extensions.
+
+Note that we require $\mathcal{O}(N)$ terms of the sum, 
+and that when computing these iteratively for $i = 0, \dotsc, n-1$ 
+each update step of the summand amounts to multiplication by $x / i$, 
+which takes time $\mathcal{O}_p(M(N))$.  Thus, the entire computation 
+takes time $\mathcal{O}_p(N M(N))$.
+
+\subsection{Rectangular splitting}
+
+The rectangular splitting algorithm evaluates the truncated series 
+using the expression 
+\begin{align}
+\exp(x) & = \sum_{j=0}^{\ceil{n/B} - 1} 
+            \biggl( \sum_{i=0}^{B-1} \frac{x^i}{(Bj + i)!} \biggr) x^{Bj} \\
+        & = \sum_{j=0}^{\ceil{n/B} - 1} 
+            \frac{1}{(B (j+1) - 1)!} \biggl( \sum_{i=0}^{B-1} \frac{(B (j+1) - 1)!}{(Bj + i)!} x^i \biggr) x^{Bj}
+\end{align}
+where $B = \floorts{\sqrt{n}}$.
+
+This reduces the number of $p$-adic inversions as now the division in the 
+inner sum is an exact integer division, but it does not lead to an asymptotic 
+improvement.
+
+[[TODO:  Include algorithm]]
+
+\subsection{Binary splitting}
+
+In this section, we describe Brent's binary splitting, or bit-burst algorithm 
+for computing the exponential function, adapted to the $p$-adic case.
+
+\subsubsection{Exponential, exact rational}
+
+Algorithm~\ref{alg:exp-bsplit} computes the sum 
+\begin{equation}
+(a-1)! x^{1-a} \sum_{i=a}^{b-1} \frac{x^i}{i!}
+\end{equation}
+in the rational number $T/Q$.
+
+\begin{algorithm}
+\caption{Computing the exponential as an exact rational}
+\label{alg:exp-bsplit}
+\begin{algorithmic}
+\vspace{1mm}
+\Require Integer~$x$, integers $1 \leq a < b$.
+\Ensure  $P = x^{b-a}$, $Q = (b-1)! / (a-1)!$, $T = (b-1)! x^{1-a} \sum_{i=a}^{b-1} x^i / i!$.
+\Procedure{ExpBSplit}{$P, Q, T, x, a, b$}
+\If{$b - a = 1$}
+\State $(P, Q, T) \gets (x, a, x)$
+\ElsIf{$b - a = 2$}
+\State $(P, Q, T) \gets (x^2, a (a + 1), x (a + 1) + x^2)$
+\Else
+\State $m \gets \floor{(a + b) / 2}$
+\State \Call{ExpBSplit}{$P_0, Q_0, T_0, x, a, m$}
+\State \Call{ExpBSplit}{$P_1, Q_1, T_1, x, m, b$}
+\State $P \gets P_0 P_1$
+\State $Q \gets Q_0 Q_1$
+\State $T \gets T_0 Q_1 + P_0 T_1$
+\EndIf
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+BSPLIT(P, Q, T, x, a, b).  Call this with (P, Q, T, x, 1, n) to compute 
+$\sum_{i=0}^{n-1} x^i / i!$ as an exact rational.  For simplification, suppose 
+that $a = 1$ and $b = 2^k + 1$.  Analyse the sizes of the terms at each 
+step of the recursion at levels $0, 1, \dotsc, k$.  Let $s(-)$ denote 
+the size of its argument.  Initially, $P_0$, $T_0$ are of the same size 
+as $x$, and $Q_0$ is of size at most the size of $n$.  Throughout, 
+$P_i$ is equal to $x^{2^i}$ so $P_i$ is of size at most $2^i$ times the 
+size of $x$, and $Q_i$ is at most $2^i$ times the size of $n$.  From the 
+calculation of $T \gets T Q' + P T'$, we find that the size of $T_i$ 
+is at most $2^i \max\{s(n), s(x)\} + i$.
+
+Operation count.  At the recursion level $0$, we only set $P_0$, $T_0$, 
+and $Q_0$.  This is done $2^k$ times, but we ignore the cost of this. 
+At recursion levels $i = 1, \dotsc, k$, we have $2^{k-i}$ times the 
+following operations:  two products with factors of size 
+$2^{i-1} \max\{s(n), s(x)\} + (i-1)$, one product of size $2^{i-1} s(x)$ 
+and another product of size $2^{i-1} s(n)$, plus sums.  We can ignore 
+the sums.  To count the cost of the products, there are three cases, 
+depending on whether $\log s(x) \geq s(n)$, or $s(x) \geq s(n) \geq \log s(x)$ 
+or $s(n) \geq s(x)$.
+
+We use the estimate $\mathcal{O}(n \log n \log \log n)$ for an 
+$n$-by-$n$ product.
+
+In the first case, assume that $s(x) \geq s(n)$. Then the cost of the entire 
+routine is
+\begin{align*}
+        & \sum_{i=1}^k 2^{k-i} \bigl[ 2^{i-1} s(x) + (i - 1) \bigr] \log \bigl[ - \bigr] \log \log \bigl[ - \bigr] \\
+\approx & 2^k s(x) \sum_{i=1}^k \log \bigl[ 2^{i-1} s(x) + (i - 1) \bigr] + \log \log \bigl[ - \bigr] \\
+\approx & n s(x) \sum_{i=1}^k \log \bigl[ 2^{i-1} s(x) \bigr] \log \log \bigl[ 2^{i-1} s(x) \bigr] \\
+\approx & n s(x) \sum_{i=1}^k \bigl[ i + \log s(x) \bigr] \log \bigl[i + \log s(x) \bigr] \\
+\approx & n s(x) (\log n) (\log n + \log s(x)) \log (\log n + \log s(x)) \\
+\approx & n s(x) \log n \log s(x) \log \log s(x)
+\end{align*}
+If $s(x) \geq s(n) \geq \log s(x)$ we find
+\begin{equation*}
+n s(x) (\log n)^2 \log \log n
+\end{equation*}
+and if $s(n) \geq s(x)$ then 
+\begin{equation*}
+n s(n) \sum_{i=1}^k k \log k \approx n (\log n)^3 \log \log n.
+\end{equation*}
+
+\subsubsection{Main part}
+
+Now describe how to compute $\sum_{i=0}^{n-1} x^i / i! \bmod{p^N}$.  Write 
+\begin{equation}
+x = \sum_{i=1}^{\ceil{\log N}} x_i
+\end{equation}
+with $x_i < p^{2^i}$ and $\ord_p(x_i) \geq 2^{i-1}$.  Thus, 
+\begin{equation}
+\exp (x) = \prod_{i=1}^{\ceil{\log N}} \exp(x_i)
+\end{equation}
+and we observe that the computation of $\exp(x_i) \bmod p^N$ requires 
+us to evaluate a partial sum of 
+\begin{equation}
+n_i \leq \frac{(p-1) N - 1}{(p-1) 2^{i-1} - 1} \leq \frac{N}{2^i}
+\end{equation}
+terms.
+
+We first find an estimate for the combined calls to BSPLIT, ignoring for 
+the moment the cost of multiplying these results modulo $p^N$.  This 
+amounts to $\mathcal{O}_p(N (\log N)^3 \log \log N)$.  [[TODO:  Find 
+a nice way of how to see this.]]
+
+[[TODO:  Check]]
+
+Find that the total cost is $\mathcal{O}_p (M(N) (\log N)^2)$.
+
+\section{Logarithm}
+
+The material in this section is joint work 
+with Fredrik Johansson, RISC, Austria.
+
+The logarithm function is defined as 
+\begin{equation}
+\log(x) = - \sum_{i=1}^{\infty} \frac{(1-x)^i}{i}
+\end{equation}
+where $\ord_p(1 - x)$ is at least $2$ or $1$ whenever $p = 2$ or $p > 2$, 
+respectively, to ensure convergence.
+
+In order to compute $\log(x) \bmod p^N$, we need to consider all indices~$i$ 
+in the partial sum such that $i \ord_p(1-x) - \ord_p(i) < N$.  For example, 
+setting $n = \ceil{N/v}$, 
+\begin{equation*}
+\log(x) = - \sum_{i=1}^{n-1} \frac{(1-x)^i}{i} \pmod{p^N}
+\end{equation*}
+
+As before, since $n$ is of size $\mathcal{O}(N)$, this partial sum 
+can be evaluated in time $\mathcal{O}(M(N) N)$ using Horner's method.
+
+A significant constant factor improvement can be made using 
+rectangular splitting, rewriting the sum as follows, 
+\begin{align}
+\sum_{i=1}^{n-1} y^i / i
+& = \sum_{j=0}^{\ceil{(n-1)/B} - 1} \Bigl( \sum_{i=1}^B y^i / (Bj + i) \Bigr) y^{Bj} \\
+& = \sum_{j=0}^{\ceil{(n-1)/B} - 1} (Bj+1)_B^{-1} \Bigl( \sum_{i=1}^B \frac{(Bj+1)_B}{Bj + i} y^i \Bigr) x^{Bj}
+\end{align}
+where $B = \floor{\sqrt{n}}$.  
+
+Observe that the bit size of $(Bj + 1)_B$ is $\mathcal{O}(\sqrt{n} \log n)$.
+
+\subsection{Balanced approach}
+
+We can employ the same idea as in the case of the exponential 
+function in order to balance the number of $p$-adic digits of $1 - x$ 
+and the rate of convergence, relying on the expression 
+\begin{equation}
+\log(1 + x + x') = \log(1 + x) + \log \Bigl(1 + \frac{x'}{1+x}\Bigr).
+\end{equation}
+
+\begin{algorithm}
+\caption{Computing the  logarithm as an exact rational}
+\label{alg:log-bsplit}
+\begin{algorithmic}
+\vspace{1mm}
+\Require Integer~$x$, integers $1 \leq a < b$.
+\Procedure{LogBSplit}{$P, Q, T, x, a, b$}
+\If{$b - a = 1$}
+\State $(P, Q, T) \gets (x, a, x)$
+\ElsIf{$b - a = 2$}
+\State $(P, Q, T) \gets (x^2, a (a + 1), x (a + 1) + x^2 a)$
+\Else
+\State $m \gets \floor{(a + b) / 2}$
+\State \Call{LogBSplit}{$P_0, Q_0, T_0, x, a, m$}
+\State \Call{LogBSplit}{$P_1, Q_1, T_1, x, m, b$}
+\State $P \gets P_0 P_1$
+\State $Q \gets Q_0 Q_1$
+\State $T \gets T_0 Q_1 + T_1 P_0 Q_0$
+\EndIf
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+Call this with $(y, 1, n)$ to compute $\sum_{i=1}^{n-1} y^i / i$ 
+as the rational $(T, Q)$.
+
+\end{document}
+
