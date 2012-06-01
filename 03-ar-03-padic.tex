@@ -1,10 +1,14 @@
 We present an overview of arithmetic operations in~$\mathbf{Q}_p$ 
 and unramified extensions.  Much of the material is well-known in 
-either the context of $p$-adic arithmetic, see e.g.\ 
-Vercauteren~\citep[\S 12]{HEHCC2005}
-or integer arithmetic, see e.g.\ the survey by Bernstein~\citep{Bernstein2008}. 
-This work is accompanied by an implementation in the open-source 
-computational software {\sc FLINT}~\citep{FLINT}.
+either the context of $p$-adic arithmetic itself, see e.g.\ 
+Vercauteren~\citep[\S 12]{HEHCC2005} or integer arithmetic, 
+see e.g.\ the survey by Bernstein~\citep{Bernstein2008}. 
+The original contribution consist of the adaptation of an algorithm 
+for computing the exponential function by Brent~\citep{Brent1976} 
+to the case of $p$-adic arithmetic, and the derivation of a related 
+algorithm for computing the logarithm function.  Moreover, this 
+work is accompanied by an implementation in the open-source computational 
+software {\sc FLINT}~\citep{FLINT}.
 
 The sections on the $p$-adic exponential and logarithm functions 
 are joint work with Fredrik Johansson, RISC, Austria.
@@ -19,23 +23,24 @@ where $u, v \in \mathbf{Z}$ and $u \nmid p$.  When working to precision~$N$,
 it is sometimes useful to assume that $u \in [0,p^{N-v})$.
 
 When working in the unique unramified extension of $\mathbf{Q}_p$ of 
-degree~$d$, we which shall refer to as $\mathbf{Q}_q$ with $q = p^d$, 
-we choose to represent this as 
+degree~$d$, we which shall refer to as~$\mathbf{Q}_q$ where $q = p^d$ 
+with ring of integers~$\mathbf{Z}_q$, we choose to represent this as 
 \begin{equation}
 \mathbf{Q}_q \cong \mathbf{Q}_p[X] / (f(X))
 \end{equation}
 where $f(x) \bmod p$ is an irreducible and separable polynomial.  We store 
 $f(X)$ as a sparse polynomial and assume that its coefficients are 
 reduce modulo~$p$.  The sparsity assumption allows for reduction of a 
-degree~$n$ polynomial modulo~$f(X)$ in time $\mathcal{O}(nd)$ multiplications 
-and additions in $\mathbf{Q}_p \bmod p^N$.  Non-zero elements~$g$ in 
-$\mathbf{Q}_q$ can be represented as 
+degree~$n$ polynomial modulo~$f(X)$ in $\mathcal{O}(nd)$ multiplications 
+and additions in $\mathbf{Q}_p$.  Thus, non-zero elements~$g$ 
+in~$\mathbf{Q}_q$ can be represented as 
 \begin{equation}
 g(X) = p^v h(X)
 \end{equation}
 where $v \in \mathbf{Z}$ and $h(X) \in \mathbf{Z}[X]$ is such that at least 
-one coefficient of $h(X)$ is a $p$-adic unit.  As before, it can be useful 
-to assume that all coefficients of $h(X)$ are reduced modulo $p^{N-v}$.
+one coefficient of $h(X)$ is a $p$-adic unit and $\deg(h) < d$.  As before, 
+it can be useful to assume that all coefficients of $h(X)$ are reduced 
+modulo~$p^{N-v}$.
 
 \begin{rem}
 We could aim for a genuine base~$p$ representation, explicitly showing 
@@ -56,8 +61,34 @@ not seem favourable.
 \end{rem}
 
 \begin{rem}
-Eventually, the case $p = 2$ shold be handled separated manner.
+Eventually, the case $p = 2$ should be handled in a separate manner.
 \end{rem}
+
+\section{Review of complexity results}
+
+We let $\mathcal{O}(M(N))$ denote the complexity of multiplying two 
+$N$-bit integers.  For example, the Sch\"onhage--Strassen algorithm 
+allows us to take $M(N) = N \log N \log \log N$.  The same 
+complexity can also be achieved for the division with remainder of 
+a $2N$-bit integer by an $N$-bit integer.
+
+As elements of $\mathbf{Z} / (p^N)$ are of bit size $N \log p$, 
+multiplication of two numbers in $[0, p^N)$, with or without a subsequent 
+reduction modulo $p^N$, has complexity $\mathcal{O}(M(N \log p))$ or 
+$\mathcal{O}_p(M(N))$.
+
+The multiplication of two elements of $\mathbf{Z}_q$ modulo $p^N$ 
+involves one multiplication of two degree $d-1$ polynomials in 
+$\mathbf{Z}/(p^N)$ and one reduction of a degree $2d - 2$ polynomial 
+in $\bigl( \mathbf{Z}/(p^N)[X] \bigr) / (f(X))$.   Using a Fast Fourier 
+Transform based multiplication routine, the polynomial product requires 
+$\mathcal{O}(d \log d)$ operations in $\mathbf{Z}/(p^N)$, hence has 
+complexity $\mathcal{O}(M(N \log p) d \log d)$.  The reduction modulo $f(X)$ 
+requires $\mathcal{O}(d)$ operations in $\mathbf{Z}/(p^N)$ when $f(X)$ is 
+sparse and has a bounded number of non-zero coefficients, and it requires 
+$\mathcal{O}(d \log d)$ operations in $\mathbf{Z}/(p^N)$ when $f(X)$ is 
+a dense polynomial.  In either case, the overall complexity of multiplication 
+in $\mathbf{Z}_q$ modulo $p^N$ is given by $\mathcal{O}(M(N \log p) d \log d)$.
 
 \section{Hensel lifting}
 
@@ -132,64 +163,56 @@ Theorem~\ref{thm:Hensel1}, which leads to a nested lifting routine to
 compute the inverse of $g'(x_k)$ from scratch at each step.
 \end{rem}
 
-\section{Review of complexity results}
-
-We let $\mathcal{O}(M(N))$ denote the complexity of multiplying two 
-$N$-bit integers.  For example, the Sch\"onhage--Strassen algorithm 
-allows us to take $M(N) = N \log N \log \log N$.  The same 
-complexity can also be achieved for the division with remainder of 
-a $2N$-bit integer by an $N$-bit integer.
-
-As elements of $\mathbf{Z} / (p^N)$ are of bit size $N \log p$, 
-multiplication of two numbers in $[0, p^N)$, with or without a subsequent 
-reduction modulo $p^N$, has complexity $\mathcal{O}(M(N \log p))$ or 
-$\mathcal{O}_p(M(N))$.
-
-The multiplication of two elements of $\mathbf{Z}_q$ modulo $p^N$ 
-involves one multiplication of two degree $d-1$ polynomials in 
-$\mathbf{Z}/(p^N)$ and one reduction of a degree $2d - 2$ polynomial 
-in $\bigl( \mathbf{Z}/(p^N)[X] \bigr) / (f(X))$.   Using a Fast Fourier 
-Transform based multiplication routine, the polynomial product requires 
-$\mathcal{O}(d \log d)$ operations in $\mathbf{Z}/(p^N)$, hence has 
-complexity $\mathcal{O}(M(N \log p) d \log d)$.  The reduction modulo $f(X)$ 
-requires $\mathcal{O}(d)$ operations in $\mathbf{Z}/(p^N)$ when $f(X)$ is 
-sparse and has a bounded number of non-zero coefficients, and it requires 
-$\mathcal{O}(d \log d)$ operations in $\mathbf{Z}/(p^N)$ when $f(X)$ is 
-a dense polynomial.  In either case, the overall complexity of multiplication 
-in $\mathbf{Z}_q$ modulo $p^N$ is given by $\mathcal{O}(M(N \log p) d \log d)$.
-
 \section{Addition, subtraction, negation}
 
 To add $x_0, x_1 \in \mathbf{Q}_q$ to precision~$N$, we compute 
 \begin{equation}
 x_0 + x_1 = p^{v_0} (u_0 + p^{v_1 - v_0} u_1)
 \end{equation}
-where we assume $v_0 \leq v_1$.  In general, the second factor 
+where we assume $v_0 \leq v_1$.  Note that the second factor may 
+only be divisible by~$p$ if $v_0 = v_1$.  Moreover, the second factor 
 will have to be reduced modulo $p^{N - v_0}$ using a division 
 routine.  We can improve on this if we add the assumption that 
 the input is reduced modulo $p^N$, in which case we observe that 
 there the reduction can be facilitated by subtracting at most 
-one multiple of~$p$.
+one multiple of~$p^{N-v_0}$.
 
 \section{Multiplication}
 
-To multiply $x_0, x_1 \in \mathbf{Q}_q$ to precision~$N$, we compute 
+Given $x_0, x_1 \in \mathbf{Q}_q$, we can compute their product 
+to precision~$N$ via 
 \begin{equation}
-x_0 x_1 = p^{v_0 + v_1} u_0 u_1
+x_0 x_1 = p^{v_0 + v_1} u_0 u_1,
 \end{equation}
 reducing the product of units $u_0 u_1$ modulo $p^{N - v_0 - v_1}$.
 
 \section{Inversion}
 
-In order to compute the inverse of $x \in \mathbf{Z}_q^{\times}$, we 
-apply Hensel lifting on the polynomial $g(X) = 1 - x X$, leading to 
+Suppose that we want to compute the inverse of $x = p^v u \in \mathbf{Q}_q$ 
+to precision~$N$.  Note that the inverse has valuation $-v$ and hence 
+whenever $-v \geq N$ we return zero.  Otherwise, our aim is to compute 
+the inverse of $u \in \mathbf{Z}_q^{\times}$ to precision~$N+v$.
+
+In order to compute the inverse of $u \in \mathbf{Z}_q^{\times}$, we 
+apply Hensel lifting on the polynomial $g(X) = 1 - u X$, leading to 
 the iteration
-\begin{equation}
-x_{k + 1} = x_k - x_k (x_k x - 1),
+\begin{equation} \label{eq:padic-inverse}
+\begin{split}
+x_{k + 1} & = x_k - x_k (x_k u - 1), \\
+          & = x_k (2 - x_k u), \\
+          & = 2 x_k - u x_k^2
+\end{split}
 \end{equation}
 starting from an approximation modulo~$p$.
 
-Inverses modulo over finite fields can be computed efficiently by 
+Note that we provide various expressions for $x_{k+1}$ in 
+Equation~\eqref{eq:padic-inverse}.  Roughly speaking, the 
+second expression consists of one $2^k$-by-$2^{k+1}$ bit 
+product and one $2^k$-by-$(3 \times 2^k)$ bit product whereas 
+the third expression consists of one $2^k$-by-$2^k$ bit product 
+and one $2^{k+1}$-by-$2^{k+1}$ bit product.
+
+Inverses over finite fields can be computed efficiently by 
 extended greatest common divisor algorithms, for example, using 
 Euclid's algorithm or the asymptotically fast Half-GCD 
 algorithm~\citep{ThullYap1990} depending on the problem size.  
@@ -204,24 +227,23 @@ The method of computing $p$-adic inverse square roots turns out
 to be interesting because it will be used as a precursor in computing 
 $p$-adic square roots.
 
-Given a non-zero $x = p^v u \in \mathbf{Q}_q$ where $v = \ord_p(x)$ 
-$u \in \mathbf{Z}_q^{\times}$, the task is to compute its inverse 
-square roots $x^{-1/2} = p^{-v/2} u^{-1/2}$.  Necessarily, we require 
-that $v$ is even and $u$ a square in $\mathbf{Z}_q^{\times}$.
+Given a non-zero $x = p^v u \in \mathbf{Q}_q$, the task is to compute 
+one of its inverse square roots $x^{-1/2} = p^{-v/2} u^{-1/2}$.  Necessarily, 
+we require that $v$ is even and $u$ a square in~$\mathbf{Z}_q^{\times}$.
 
 The computation then reduces to computing $p$-adic inverse square 
-roots of $x \in \mathbf{Z}_q^{\times}$, which can be carried out 
-using a Hensel lifting approach on $g(X) = 1 - x X^2$.  This leads 
+roots of $u \in \mathbf{Z}_q^{\times}$, which can be carried out 
+using a Hensel lifting approach on $g(X) = 1 - u X^2$.  This leads 
 to the almost division-free iteration
 \begin{equation}
 \begin{split}
-x_{k+1} & = x + (1 - x x_k^2) / (2 x x_k) \\
-        & = x + x_k (1 - x x_k^2) / 2
+x_{k+1} & = x_k + (1 - u x_k^2) / (2 u x_k) \\
+        & = x_k + x_k (1 - u x_k^2) / 2
 \end{split}
 \end{equation}
 In the notation of Theorem~\ref{thm:Hensel1}, this means that when 
-$p = 2$ we can take $m = 1$, $n = 2$, and when $p > 2$ is an odd prime, 
-we have $m = 0$, $n = 1$.
+$p > 2$ is an odd prime we can take $m = 0$, $n = 1$, but when $p = 2$ 
+we are forced to account for the precision loss, taking $m = 1$, $n = 2$.
 
 We observe that this iteration does indeed not require computationally 
 intensive $p$-adic inversions.  When $p$ is odd, either the numerator 
@@ -233,62 +255,61 @@ the numerator is always divisible by~$2$ and the loss of precision is
 accounted for in the sequence of precisions.
 
 When $p = 2$, we can obtain an initial approximation as follows. 
-Let $s = (x \bmod 2)^{-1/2} \pmod{2}$.  If there exists a solution~$t$ 
-to $t^2 + s t \equiv (1/x - s^2) / 4 \pmod{2}$ then $x_0 = s + 2 t$ 
-is an approximate inverse square root of $x$ to precision~$2$, 
-otherwise $x$ is not a square modulo~$8$ and hence not 
+Let $s = (u \bmod 2)^{-1/2} \pmod{2}$.  If there exists a solution~$t$ 
+to $t^2 + s t \equiv (1/u - s^2) / 4 \pmod{2}$ then $x_0 = s + 2 t$ 
+is an approximate inverse square root of $u$ to precision~$2$, 
+otherwise $u$ is not a square modulo~$8$ and hence not a square 
 in~$\mathbf{Z}_q^{\times}$.  When $p > 2$ is an odd prime, we can 
 take the inverse square root modulo~$p$ as our initial approximation.
 
 The topic of computing square roots in finite fields is outside 
 the scope of this discussion.  We refer the reader to standard 
-results in finite field arithmetic, as presented e.g.\ in 
+results in finite field arithmetic, e.g.\ as presented in 
 Bach--Shallit~\citep{Bac96}.
 
 \section{Square root}
 
-We observe that $x = p^v u \in \mathbf{Q}_q^{\times}$ has a square 
+We observe that a non-zero $x = p^v u \in \mathbf{Q}_q$ has a square 
 root if and only if $v$ is even and $u \in \mathbf{Z}_q^{\times}$ is 
 a square.  Thus, for the remaining part of the discussion we may 
-assume that $x \in \mathbf{Z}_q^{\times}$ is a square.
+assume that $u \in \mathbf{Z}_q^{\times}$ is a square.
 
-In order to compute $\sqrt{x} \bmod p^N$, we can use the previous method 
+In order to compute $\sqrt{u}$ modulo~$p^N$, we can use the previous method 
 for computing the inverse square root to precision~$N$ and then multiply 
-the result by~$x$.
-
+the result by~$u$.
 As noted by Karp and Markstein~\citep{KarpMarkstein1997}, this algorithm 
 can be improved by replacing the final iteration in the Hensel lifting 
 procedure for the inverse square root by 
 \begin{equation}
-x_{k+1} = x_k (2 x - x_k^2) \pmod{p^N}
+x_{k+1} = x_k (2 u - x_k^2) \pmod{p^N}
 \end{equation}
-and omitting the subsequent multiplication by~$x$ mentioned above.
+and omitting the subsequent multiplication by~$u$ mentioned above.
 
 \section{Teichm\"uller lift}
 
-Recall that $\mathbf{Q}_q$ contains exactly $q$~elements that are 
-$(q-1)$th roots of unity, above each element of the residue field 
-$\mathbf{F}_q$.  The Teichm\"uller lift of an element $x \in \mathbf{F}_q$ 
+Recall that $\mathbf{Q}_q$ contains exactly $(q-1)$~elements that are 
+$(q-1)$th roots of unity, one above each non-zero element of the residue field 
+$\mathbf{F}_q$.  The Teichm\"uller lift of an element $u \in \mathbf{F}_q$ 
 is defined to be the unique lift to a $(q-1)$th root of unity 
 in~$\mathbf{Q}_q$.
 
-Over $\mathbf{Z}_p$, we apply Hensel lifting on $g(X) = X^p - X$, 
-starting with $x_0 = x \bmod p$ and noting that $\ord_p(g'(x)) = 0$. 
+In order to compute the Teichm\"uller lift of $u \in \mathbf{F}_q^{\times}$, 
+we apply Hensel lifting on $g(X) = X^q - X$, starting with $x_0 = u$ and 
+noting that $\ord_p(g'(x_0)) = 0$. 
 
 \begin{rem}
-The first improvement to the generic Hensel lifting routine 
-is to utilise Theorem~\ref{thm:Hensel2} to compute the inverse 
-of $g'(x_{\bullet})$ in parallel.
-
+In the case of $\mathbf{Q}_p$, the first improvement to the generic 
+Hensel lifting routine is to utilise Theorem~\ref{thm:Hensel2} to 
+compute the inverse of $g'(x_k)$ in parallel.
 Secondly, we observe that in the first step we want to set 
-$x_0 = x$, $y_0 = \bigl((p-1) x^{p-2}\bigr)^{-1}$ modulo~$p$ 
+$x_0 = u$, $y_0 = \bigl((p-1) u^{p-2}\bigr)^{-1}$ modulo~$p$ 
 so we can set $y_0 = p - x_0$ without an inversion.
-\end{rem}
 
-Over $\mathbf{Q}_q$, we similarly apply the Hensel lifting routine 
-on $g(X) = X^q - X$, starting from $x_0 = x \bmod p$.  We observe 
-that the occurring denominators $g'(x_i) = q x_i^{q-1} - 1$ are 
-approximations of $q - 1$, which is defined already over $\mathbf{Q}_p$.
+
+In the case of $\mathbf{Q}_q$, we observe that the occurring denominators 
+$g'(x_k) = q x_k^{q-1} - 1$ are approximations of $q - 1$, which is defined 
+already over $\mathbf{Q}_p$.
+\end{rem}
 
 \section{Frobenius}
 
@@ -297,17 +318,22 @@ be the lift of $\sigma \colon \mathbf{F}_q \mapsto \mathbf{F}_q, x \mapsto x^p$.
 For any $x \in \mathbf{Q}_q$ and $k \in \mathbf{Z}$, we aim to compute $\Sigma^k x$ 
 modulo $p^N$, noting that $\Sigma$ has order~$d$.  As such, we may assume that~$d$ 
 is reduced modulo~$d$, and in fact that $0 < k < d$ as $\Sigma^0$ is the identity map.
-
-Let $x = \sum_{i=0}^{d-1} a_i X^i$ in $\mathbf{Q}_p[X]/(f(X))$.  
-As $\Sigma$ is a $\mathbf{Q}_p$-linear map, we may assume that 
-$x \in \mathbf{Z}_q^{\times}$.
+Moreover, as $\Sigma$ is a $\mathbf{Q}_p$-linear map, we may assume that 
+$x = \sum_{i=0}^{d-1} a_i X^i$ is a unit in $\mathbf{Z}_p[X]/(f(X))$.  
 
 First, we can compute $\Sigma^k X$ using Hensel lifting on $f(X)$, 
-starting from $x_0 = X^{p^k}$ in $\mathbf{F}_p[X] / (f(X))$ and 
-being careful to take the $p$-adic valuation of $f'(x_0)$ into 
-account in the Hensel lifting routine.
+starting from $x_0 = X^{p^k}$ in $\mathbf{F}_p[X] / (f(X))$.  We note 
+that there is no precision loss during the Hensel lifting procedure;  
+in the notation of Theorem~\ref{thm:Hensel1}, we can take $m = 0$, $n = 1$. 
+This is because $f \bmod p$ is separable and hence $f'(x_0) \bmod p$ is 
+non-zero.
 
-Then, we compute $\Sigma^k x = \sum_{i=0}^{d-1} a_i (\Sigma^k X)^i$, 
+Then, we compute 
+\begin{equation}
+\Sigma^k x = 
+    \Sigma^k \bigl( \sum_{i=0}^{d-1} a_i X^i \bigr) = 
+    \sum_{i=0}^{d-1} a_i (\Sigma^k X)^i, 
+\end{equation}
 which entails a polynomial composition modulo~$f(X)$ and~$p^N$.
 
 \begin{rem}
@@ -326,7 +352,7 @@ but additional space for about $d^{3/2}$ elements of $\mathbf{Z}/(p^N)$.
 \section{Trace}
 
 The image of $x \in \mathbf{Q}_q$ under the trace function 
-$\Trace_{\mathbf{Q}_q/\mathbf{Q}_p}(x) \colon \mathbf{Q}_q \to \mathbf{Q}_p$ 
+$\Trace_{\mathbf{Q}_q/\mathbf{Q}_p} \colon \mathbf{Q}_q \to \mathbf{Q}_p$ 
 is defined as the sum of the Galois conjugates of~$x$.  Equivalently, 
 it is defined as the trace of the $\mathbf{Q}_p$-linear map on 
 $\mathbf{Q}_q$ given by multiplication by~$x$.  As the trace map 
@@ -335,9 +361,9 @@ $x \in \mathbf{Z}_q^{\times}$.
 
 There are two efficient ways to compute this:
 
-We can compute this from the definition of $\Trace(-)$ by reducing 
-$x X^i$ modulo $f(X)$ and forming the sum of the $X^i$-coordinates, 
-for $i = 0, \dotsc, d - 1$.
+First, we can compute this from the definition of $\Trace(x)$ as the trace 
+of the multiplication-by-$x$ map by reducing $x X^i$ modulo $f(X)$ and forming 
+the sum of the $X^i$-coordinates, for $i = 0, \dotsc, d - 1$.
 
 Recalling that the reduction of a degree~$2d-2$ polynomial modulo 
 $f(X)$ requires $\mathcal{O}(d \log d)$ operations in $\mathbf{Z}/(p^N)$ 
@@ -346,8 +372,8 @@ When we assume that $f(X)$ is sparse, this decreases to
 $\mathcal{O}_p(M(N) d^2)$.
 
 Alternatively, we can observe that on writing $x = \sum_{i=0}^{d-1} a_i X^i$ 
-we have $\Trace(x) = \sum_{i=0}^{d-1} a_i \Trace(X^i)$ and then use 
-Newton's formula,
+we have $\Trace(x) = \sum_{i=0}^{d-1} a_i \Trace(X^i)$ and then use the 
+Newton--Girard formulae,
 \begin{equation} \label{eq:03-03-trace}
 \Trace(X^i) + \sum_{j=1}^{i-1} \Trace(X^{i-j}) f_{d-j} + i f_{d-i} = 0 \pmod{p^N}, 
 \end{equation}
@@ -368,19 +394,41 @@ $x \in \mathbf{Z}_q^{\times}$.  Since
 $\Gal(\mathbf{Q}_q/\mathbf{Q}_p) = \langle \Sigma \rangle$ is cyclic 
 of order~$d$, we find that, letting $a(X) \in \mathbf{Z}_p[X]$ denote 
 the same polynomial as $x = \sum_{i=0}^{d-1} a_i X^i$, 
-\begin{align}
+\begin{equation}
+\begin{split}
 \Norm_{\mathbf{Q}_q/\mathbf{Q}_p} (x) & = \prod_{i=0}^{d-1} \Sigma^i (x) \\
                                       & = \prod_{i=0}^{d-1} a(\Sigma^i(X)) \\
                                       & = \ell(f)^{- \deg(a)} \Res(f(X), a(X)).
-\end{align}
+\end{split}
+\end{equation}
 where $\ell(f)$ denotes the leading coefficient of $f(X)$.  
 
+The resultant of $f(X)$ and $a(X)$ can be defined as the 
+determinant of the Sylvester matrix, which is a square matrix 
+over~$\mathbf{Z} / (p^N)$ with $\deg(f) + \deg(a) \leq 2d - 1$ columns. 
+In order to avoid precision loss, this can be computed with the division-free 
+determinant algorithm of Kalthofen~\citep{Kalthofen1992}, which requires 
+$\mathcal{O}(d^{\omega/2 + 2} \log d \log \log d)$ ring operations 
+in~$\mathbf{Z} / (p^N)$ where $\omega$ is the exponent for matrix multiplication.
+Thus, the bit complexity of this computation can be given by 
+$\mathcal{O}_p(M(N) d^{\omega/2 + 2} \log d \log \log d)$.
+
+We note, however, that we have only implemented the simpler division-free 
+determinant algorithm of Seifullin~\citep[Algorithm~4.2]{Seifullin2002}, 
+which requires $\mathcal{O}(n^4)$ ring operations to compute the 
+determinant of an $n \times n$~matrix.  This leads to a bit complexity 
+estimate for the norm computation of $\mathcal{O}_p(M(N) d^4)$.
+
 Whenever $x \in \mathbf{Z}_q^{\times}$ satisfies $\ord_p(x-1) > (p-1)^{-1}$ 
-we can improve on this significantly, computing the norm via
+we can typically improve on this significantly, computing the norm via
 \begin{equation}
 \Norm_{\mathbf{Q}_q / \mathbf{Q}_p} (x) 
 = \exp \bigl(\Trace_{\mathbf{Q}_q / \mathbf{Q}_p} (\log (x))\bigr).
 \end{equation}
+Using results from the next two sections on the exponential and logarithm 
+functions, this approach leads to a bit complexity of 
+$\mathcal{O}_p \bigl(M(N) (d^2 + d \log d \log(N)^2)\bigr)$ in general and 
+$\mathcal{O}_p(M(N) \bigl(d \log d \log(N)^2)\bigr)$ when $f(X)$ is sparse.
 
 \section{Exponential}
 
