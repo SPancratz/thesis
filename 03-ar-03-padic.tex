@@ -3,7 +3,7 @@ and unramified extensions.  Much of the material is well-known in
 either the context of $p$-adic arithmetic itself, see e.g.\ 
 Vercauteren~\citep[\S 12]{HEHCC2005} or integer arithmetic, 
 see e.g.\ the survey by Bernstein~\citep{Bernstein2008}. 
-The original contribution consist of the adaptation of an algorithm 
+The original contribution consists of the adaptation of an algorithm 
 for computing the exponential function by Brent~\citep{Brent1976} 
 to the case of $p$-adic arithmetic, and the derivation of a related 
 algorithm for computing the logarithm function.  Moreover, this 
@@ -83,12 +83,13 @@ $\mathbf{Z}/(p^N)$ and one reduction of a degree $2d - 2$ polynomial
 in $\bigl( \mathbf{Z}/(p^N)[X] \bigr) / (f(X))$.   Using a Fast Fourier 
 Transform based multiplication routine, the polynomial product requires 
 $\mathcal{O}(d \log d)$ operations in $\mathbf{Z}/(p^N)$, hence has 
-complexity $\mathcal{O}(M(N \log p) d \log d)$.  The reduction modulo $f(X)$ 
-requires $\mathcal{O}(d)$ operations in $\mathbf{Z}/(p^N)$ when $f(X)$ is 
-sparse and has a bounded number of non-zero coefficients, and it requires 
-$\mathcal{O}(d \log d)$ operations in $\mathbf{Z}/(p^N)$ when $f(X)$ is 
-a dense polynomial.  In either case, the overall complexity of multiplication 
-in $\mathbf{Z}_q$ modulo $p^N$ is given by $\mathcal{O}(M(N \log p) d \log d)$.
+complexity $\mathcal{O}\bigl((d \log d) M(N \log p)\bigr)$.  The reduction 
+modulo~$f(X)$ requires $\mathcal{O}(d)$ operations in $\mathbf{Z}/(p^N)$ 
+when $f(X)$ is sparse and has a bounded number of non-zero coefficients, 
+and it requires $\mathcal{O}(d \log d)$ operations in $\mathbf{Z}/(p^N)$ when 
+$f(X)$ is a dense polynomial.  In either case, the overall complexity of 
+multiplication in $\mathbf{Z}_q$ modulo $p^N$ is given by 
+$\mathcal{O}\bigl((d \log d) M(N \log p) \bigr)$.
 
 \section{Hensel lifting}
 
@@ -165,7 +166,8 @@ compute the inverse of $g'(x_k)$ from scratch at each step.
 
 \section{Addition, subtraction, negation}
 
-To add $x_0, x_1 \in \mathbf{Q}_q$ to precision~$N$, we compute 
+In order to add $x_0, x_1 \in \mathbf{Q}_q$ to precision~$N$, 
+we compute 
 \begin{equation}
 x_0 + x_1 = p^{v_0} (u_0 + p^{v_1 - v_0} u_1)
 \end{equation}
@@ -228,7 +230,7 @@ to be interesting because it will be used as a precursor in computing
 $p$-adic square roots.
 
 Given a non-zero $x = p^v u \in \mathbf{Q}_q$, the task is to compute 
-one of its inverse square roots $x^{-1/2} = p^{-v/2} u^{-1/2}$.  Necessarily, 
+one of its inverse square roots $p^{-v/2} u^{-1/2}$.  Necessarily, 
 we require that $v$ is even and $u$ a square in~$\mathbf{Z}_q^{\times}$.
 
 The computation then reduces to computing $p$-adic inverse square 
@@ -407,7 +409,7 @@ The resultant of $f(X)$ and $a(X)$ can be defined as the
 determinant of the Sylvester matrix, which is a square matrix 
 over~$\mathbf{Z} / (p^N)$ with $\deg(f) + \deg(a) \leq 2d - 1$ columns. 
 In order to avoid precision loss, this can be computed with the division-free 
-determinant algorithm of Kalthofen~\citep{Kalthofen1992}, which requires 
+determinant algorithm of Kaltofen~\citep{Kaltofen1992}, which requires 
 $\mathcal{O}(d^{\omega/2 + 2} \log d \log \log d)$ ring operations 
 in~$\mathbf{Z} / (p^N)$ where $\omega$ is the exponent for matrix multiplication.
 Thus, the bit complexity of this computation can be given by 
@@ -464,21 +466,65 @@ takes time $\mathcal{O}_p(N M(N))$.
 
 \subsection{Rectangular splitting}
 
-The rectangular splitting algorithm evaluates the truncated series 
+The rectangular splitting algorithm due to Patterson and 
+Stockmeyer~\citep{PatersonStockmeyer1973} applied to the case 
+of the $p$-adic exponential evaluates the truncated series 
 using the expression 
 \begin{align}
 \exp(x) & = \sum_{j=0}^{\ceil{n/B} - 1} 
             \biggl( \sum_{i=0}^{B-1} \frac{x^i}{(Bj + i)!} \biggr) x^{Bj} \\
         & = \sum_{j=0}^{\ceil{n/B} - 1} 
-            \frac{1}{(B (j+1) - 1)!} \biggl( \sum_{i=0}^{B-1} \frac{(B (j+1) - 1)!}{(Bj + i)!} x^i \biggr) x^{Bj}
+            \frac{1}{(B (j+1) - 1)!} \biggl( \sum_{i=0}^{B-1} \frac{(B (j+1) - 1)!}{(Bj + i)!} x^i \biggr) x^{Bj} \\
+        & = \frac{1}{(n-1)!} \sum_{j=0}^{\ceil{n/B} - 1} 
+            \frac{(n-1)!}{(B (j+1) - 1)!} \biggl( \sum_{i=0}^{B-1} \frac{(B (j+1) - 1)!}{(Bj + i)!} x^i \biggr) x^{Bj}
 \end{align}
 where $B = \floorts{\sqrt{n}}$.
 
-This reduces the number of $p$-adic inversions as now the division in the 
-inner sum is an exact integer division, but it does not lead to an asymptotic 
-improvement.
+There are two noticeable advantages to this approach.  Firstly, it 
+reduces the number of $p$-adic inversions as now the division in the 
+inner sum is an exact integer division.  Secondly, the scalar factors 
+in the inner sum $(B j + i + 1) \dotsm (B j + B - 1)$ are only of size 
+$\mathcal{O}(\sqrt{n} \log n)$.  However, this does not lead to an 
+asymptotic improvement.  We present the details in 
+Algorithm~\ref{alg:exp-rectangular}.
 
-[[TODO:  Include algorithm]]
+\begin{algorithm}
+\caption{Computing the exponential via rectangular splitting}
+\label{alg:exp-rectangular}
+\begin{algorithmic}
+\vspace{1mm}
+\Require Integer $x \in [1,p^N)$ with $v = \ord_p(x) > (p-1)^{-1}$,
+\Ensure  $\exp(x) \bmod{p^N}$.
+\Procedure{ExpRectangular}{$x, p, N$}
+\State $n \gets \ceil{((p-1)N - 1) / ((p-1)v - 1)}$
+\If{$n \leq 3$}
+\Return $\sum_{i=0}^{n-1} x^i / i! \bmod{p^N}$
+\Else
+\State $k \gets \floor{(n-2)/(p-1)}$
+\State $B \gets \floor{\sqrt{n}}$
+\For{$i = 0 \text{\bf{ to }} B$}
+\State $x^{(i)} \gets x^i \bmod {p^{N + k}}$
+\EndFor
+\State $S \gets 0$
+\State $f \gets 1$
+\For{$i = \ceil{n/B} - 1 \text{\bf{ to }} 0 \text{\bf{ by }} -1$}
+\State $\ell \gets i B$
+\State $s \gets 0$
+\State $c \gets 1$
+\For{$h = \min\{n-1, \ell + B - 1\} \text{\bf{ to }} \ell \text{\bf{ by }} -1$}
+\State $s \gets s + c x^{(h-\ell)}$
+\If {$h \neq 0$}
+\State $c \gets h c$
+\EndIf
+\EndFor
+\State $S \gets s f + S x^{B} \bmod{p^{N + k}}$
+\State $f \gets c f$
+\EndFor
+\Return $f^{-1} S \bmod {p^N}$
+\EndIf
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
 
 \subsection{Binary splitting}
 
@@ -582,7 +628,41 @@ we let $z_B = \prod_{j=0}^{B-1} (z + j)$.  As the inner
 sum now features an exact integer division, this approach 
 reduces the number of $p$-adic inversions to about $\sqrt{n}$.
 
-[[TODO:  Algorithm]]
+We include a more precise version of this as 
+Algorithm~\ref{alg:log-rectangular}.
+
+\begin{algorithm}
+\caption{Computing the logarithm via rectangular splitting}
+\label{alg:log-rectangular}
+\begin{algorithmic}
+\vspace{1mm}
+\Require Integer $y \in [1,p^N)$, 
+\Ensure  $\sum_{i=1}^n y^i / i \bmod{p^N}$.
+\Procedure{LogRectangular}{$y, n, p, N$}
+\If{$n \leq 3$}
+\Return $\sum_{i=1}^{n} y^i / i \bmod{p^N}$
+\Else
+\State $k \gets \floor{\log_p n}$
+\State $B \gets \floor{\sqrt{n}}$
+\For{$i = 0 \text{\bf{ to }} B$}
+\State $y^{(i)} \gets y^i \bmod {p^{N + k}}$
+\EndFor
+\State $z \gets 0$
+\For {$i = \ceil{n/B} - 1 \text{\bf{ to }} 0 \text{\bf{ by }} -1$}
+\State $h \gets \min\{ B, n - iB \}$
+\State $f \gets \prod_{j=1}^{h} (iB + j)$
+\State $c \gets 0$
+\For {$j = 1 \text{\bf{ to }} h$}
+\State $c \gets c + \bigl(f / (iB + j)\bigr) y^{(i)}$
+\EndFor
+\State $c \gets p^k \bigl(f^{-1} \bmod {p^N}\bigr) c$
+\State $z \gets c + z y^{(B)} \bmod{p^{N+k}}$
+\EndFor
+\Return $p^{-k} z$
+\EndIf
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
 
 \subsection{Binary splitting}
 
