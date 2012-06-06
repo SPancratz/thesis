@@ -204,20 +204,25 @@ x_{k + 1} & = x_k - x_k (x_k u - 1), \\
 starting from an approximation modulo~$p$.
 
 Note that we provide various expressions for $x_{k+1}$ in 
-Equation~\eqref{eq:padic-inverse}.  Roughly speaking, the 
-second expression consists of one $2^k$-by-$2^{k+1}$ bit 
-product and one $2^k$-by-$(3 \times 2^k)$ bit product whereas 
-the third expression consists of one $2^k$-by-$2^k$ bit product 
-and one $2^{k+1}$-by-$2^{k+1}$ bit product.
+Equation~\eqref{eq:padic-inverse}.  Roughly speaking, and ignoring 
+the logarithmic dependence on~$p$, the second expression consists of 
+one $2^k$-by-$2^{k+1}$ bit product and one $2^k$-by-$(3 \times 2^k)$ bit 
+product whereas the third expression consists of one $2^k$-by-$2^k$ bit 
+product and one $2^{k+1}$-by-$2^{k+1}$ bit product.
 
 Inverses over finite fields can be computed efficiently by 
 extended greatest common divisor algorithms, for example, using 
 Euclid's algorithm or the asymptotically fast Half-GCD 
-algorithm~\citep{ThullYap1990} depending on the problem size.  
-In either case, an improvement to the general method can be made 
-computing only one cofactor, that 
-is, when computing $s, t$ such that $1 = \gcd(a,b) = sa + tb$ 
+algorithm~\citep{ThullYap1990}, which requires 
+$\mathcal{O}\bigl(n (\log n)^2\bigr)$ operations in $\mathbf{F}_p$ 
+for two input polynomials in $\mathbf{F}_p[X]$ of degree~$\mathcal{O}(n)$.  
+An improvement to the general method can be made by computing only one 
+cofactor, that is, when computing $s, t$ such that $1 = \gcd(a,b) = sa + tb$ 
 we in fact only require one of the two cofactors $s, t$.
+
+Following this procedure, the complexity of inverting an element of 
+$\mathbf{Z}_q^{\times}$ to precision~$N$ is given by 
+$\mathcal{O}\bigl( d (\log d)^2 M(\log p) + \mu \bigr)$.
 
 \section{Inverse square root}
 
@@ -263,7 +268,24 @@ take the inverse square root modulo~$p$ as our initial approximation.
 The topic of computing square roots in finite fields is outside 
 the scope of this discussion.  We refer the reader to standard 
 results in finite field arithmetic, e.g.\ as presented in 
-Bach--Shallit~\citep{Bac96}.
+Bach--Shallit~\citep[\S 7]{Bac96}.
+
+We now discuss the complexity of this operation.  The initial step 
+modulo~$p$ consists of an inversion and a square root in $\mathbf{F}_q$. 
+The first of these can be achieved using the Half-GCD algorithm 
+in $\mathcal{O}\bigl(d (\log d)^2\bigr)$ operations in $\mathbf{F}_p$.  
+The second problem is easy in practice but much harder in theory.  According 
+to Bach--Shallit~\citep[\S 7, Exercise~34]{Bac96}, 
+it can be solved in $\mathcal{O}\bigl((d + \log p) (\log p)^2\bigr)$ 
+bit operations using a probabilistic algorithm.  The theoretically 
+difficult part is the determination of a non-square element 
+in~$\mathbf{F}_q^{\times}$ when $q$ is odd, but the algorithm can be 
+made deterministic assuming the Extended Riemann Hypothesis.  In terms 
+of the dependency on~$N$, the main contribution comes from the 
+deterministic Hensel lifting procedure, which as in the case of 
+inversion has complexity~$\mathcal{O}(\mu)$.  The overall complexity 
+is given by the sum of the above three estimates since none dominates 
+another as the parameters $p$, $d$, and $N$ vary independently.
 
 \section{Square root}
 
@@ -274,7 +296,9 @@ assume that $u \in \mathbf{Z}_q^{\times}$ is a square.
 
 In order to compute $\sqrt{u}$ modulo~$p^N$, we can use the previous method 
 for computing the inverse square root to precision~$N$ and then multiply 
-the result by~$u$.
+the result by~$u$.  This approach is favourable in pracice as the Hensel 
+lifting iteration is more efficient for inverse square roots than for 
+square roots.
 As noted by Karp and Markstein~\citep{KarpMarkstein1997}, this algorithm 
 can be improved by replacing the final iteration in the Hensel lifting 
 procedure for the inverse square root by 
@@ -282,6 +306,9 @@ procedure for the inverse square root by
 x_{k+1} = x_k (2 u - x_k^2) \pmod{p^N}
 \end{equation}
 and omitting the subsequent multiplication by~$u$ mentioned above.
+
+The approach described above clearly has the same complexity as the 
+algorithm for the inverse square root problem. 
 
 \section{Teichm\"uller lift}
 
