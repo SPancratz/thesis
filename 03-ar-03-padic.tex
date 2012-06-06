@@ -302,10 +302,12 @@ square roots.
 As noted by Karp and Markstein~\citep{KarpMarkstein1997}, this algorithm 
 can be improved by replacing the final iteration in the Hensel lifting 
 procedure for the inverse square root by 
-\begin{equation}
-x_{k+1} = x_k (2 u - x_k^2) \pmod{p^N}
-\end{equation}
-and omitting the subsequent multiplication by~$u$ mentioned above.
+\begin{align}
+t       & = u x_k \pmod{p^{N'}} \\
+x_{k+1} & = t + x_k (u - t^2) / 2 \pmod{p^N}
+\end{align}
+where $N'$ is the precision in the penultimate step, and omitting the 
+subsequent multiplication by~$u$ mentioned above.
 
 The approach described above clearly has the same complexity as the 
 algorithm for the inverse square root problem. 
