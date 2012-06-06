@@ -74,8 +74,7 @@ a $2N$-bit integer by an $N$-bit integer.
 
 As elements of $\mathbf{Z} / (p^N)$ are of bit size $N \log p$, 
 multiplication of two numbers in $[0, p^N)$, with or without a subsequent 
-reduction modulo $p^N$, has complexity $\mathcal{O}(M(N \log p))$ or 
-$\mathcal{O}_p(M(N))$.
+reduction modulo $p^N$, has complexity $\mathcal{O}(M(N \log p))$.
 
 The multiplication of two elements of $\mathbf{Z}_q$ modulo $p^N$ 
 involves one multiplication of two degree $d-1$ polynomials in 
@@ -87,9 +86,10 @@ complexity $\mathcal{O}\bigl((d \log d) M(N \log p)\bigr)$.  The reduction
 modulo~$f(X)$ requires $\mathcal{O}(d)$ operations in $\mathbf{Z}/(p^N)$ 
 when $f(X)$ is sparse and has a bounded number of non-zero coefficients, 
 and it requires $\mathcal{O}(d \log d)$ operations in $\mathbf{Z}/(p^N)$ when 
-$f(X)$ is a dense polynomial.  In either case, the overall complexity of 
+$f(X)$ is a dense polynomial.  In either case, for later reference we set 
+$\mu = \mu(p,d,N) = (d \log d) M(N \log p)$ and the overall complexity of 
 multiplication in $\mathbf{Z}_q$ modulo $p^N$ is given by 
-$\mathcal{O}\bigl((d \log d) M(N \log p) \bigr)$.
+$\mathcal{O}(\mu)$.
 
 \section{Hensel lifting}
 
@@ -299,6 +299,13 @@ In order to compute the Teichm\"uller lift of $u \in \mathbf{F}_q^{\times}$,
 we apply Hensel lifting on $g(X) = X^q - X$, starting with $x_0 = u$ and 
 noting that $\ord_p(g'(x_0)) = 0$. 
 
+The complexity of this approach is dominated by the evaluations 
+of $g(x_k) = x_k^q - x_k$ to the precisions $2, \dotsc, \ceil{N/2}, N$ 
+during the Hensel lifting procedure.  Using binary exponentiation, 
+computing the power $x_k^q$ requires $\mathcal{O}(\log q)$ operations 
+in $\mathbf{Z}_q$ to the appropriate $p$-adic precision at each step. 
+Thus, the complexity is given by $\mathcal{O}\bigl((\log q) \mu\bigr)$.
+
 \begin{rem}
 In the case of $\mathbf{Q}_p$, the first improvement to the generic 
 Hensel lifting routine is to utilise Theorem~\ref{thm:Hensel2} to 
@@ -306,7 +313,6 @@ compute the inverse of $g'(x_k)$ in parallel.
 Secondly, we observe that in the first step we want to set 
 $x_0 = u$, $y_0 = \bigl((p-1) u^{p-2}\bigr)^{-1}$ modulo~$p$ 
 so we can set $y_0 = p - x_0$ without an inversion.
-
 
 In the case of $\mathbf{Q}_q$, we observe that the occurring denominators 
 $g'(x_k) = q x_k^{q-1} - 1$ are approximations of $q - 1$, which is defined 
@@ -338,18 +344,38 @@ Then, we compute
 \end{equation}
 which entails a polynomial composition modulo~$f(X)$ and~$p^N$.
 
-\begin{rem}
 In a first approach, we might use Horner's method to carry out the 
 composition, which requires about $d$ multiplications in $\mathbf{Q}_q$.
-However, we can use a rectangular splitting approach instead, starting 
-from the expression 
+However, we can use a rectangular splitting approach due to 
+Paterson--Stockmeyer~\citep{PatersonStockmeyer1973} instead, based 
+on the expression 
 \begin{equation}
-x = \sum_{j=0}^{\floor{d/B}-1} \Bigl( \sum_{i=0}^{B-1} a_{i+Bj} X^i  \Bigr) X^{Bj}
+\Sigma^k x = \sum_{j=0}^{\floor{d/B}-1} \Bigl( \sum_{i=0}^{B-1} a_{i+Bj} (\Sigma^k X)^i  \Bigr) X^{Bj},
 \end{equation}
 where $B = \floor{\sqrt{d}}$, precomputing $\Sigma^k(X)^i$ for $i = 0, \dotsc, B$. 
-This only requires about $2 \sqrt{d}$ multiplications in $\mathbf{Q}_q$ 
-but additional space for about $d^{3/2}$ elements of $\mathbf{Z}/(p^N)$.
-\end{rem}
+This only requires about $2 \sqrt{d}$ multiplications in $\mathbf{Z}_q$ 
+but additional space for about $d^{3/2}$ elements of $\mathbf{Z}/(p^N)$.  
+As there are another $d$ scalar multiplications of elements of~$\mathbf{Z}_q$ 
+by elements of $\mathbf{Z}_p$, the complexity of this polynomial composition 
+is given by $\mathcal{O}\bigl(\sqrt{d} \mu + d^2 M(N \log p)\bigr)$, which 
+is $\mathcal{O}\bigl(d^2 M(N \log p)\bigr)$.  We note that the asymptotic 
+improvement in~$d$ when compared to Horner's method only consist of removed 
+logarithmic factors, however, in practive the lower number of 
+$\mathbf{Z}_q$-multiplications is important.
+
+We now discuss the overall complexity of the computation of $\Sigma^k x$.
+Using a method for binary exponentiation, computing \mbox{$x_0 = X^{p^k}$} 
+requires about $k \log p$~products in~$\mathbf{F}_p[X] / (f(X))$ and hence 
+has complexity $\mathcal{O}\bigl((d \log p) \mu(p,d,1)\bigr)$.  The Hensel 
+lifting routine is dominated by its last step, which involve evaluating 
+$f(x_k)$ and $f'(x_k)$ in $\mathbf{Z}_q$ to precision~$N$.  This in turn 
+consists of two polynomial compositions.  In general, this contributes 
+$\mathcal{O}\bigl(d^2 M(N \log p)\bigr)$, but when $f(X)$ is sparse 
+the naive approach consists of a bounded number of powers in $\mathbf{Z}_q$, 
+scalar multiplications and additions, achieving $\mathcal{O}((\log d) \mu)$.  
+As described above, the final step has complexity 
+$\mathcal{O}\bigl(d^2 M(N \log p)\bigr)$.  Thus, the overall complexity 
+is given by $\mathcal{O}\bigl( (d \log p) \mu(p,d,1) + d^2 M(N \log p) \bigr)$.
 
 \section{Trace}
 
@@ -368,10 +394,10 @@ of the multiplication-by-$x$ map by reducing $x X^i$ modulo $f(X)$ and forming
 the sum of the $X^i$-coordinates, for $i = 0, \dotsc, d - 1$.
 
 Recalling that the reduction of a degree~$2d-2$ polynomial modulo 
-$f(X)$ requires $\mathcal{O}(d \log d)$ operations in $\mathbf{Z}/(p^N)$ 
-it is clear that this approach takes time $\mathcal{O}_p(M(N) d^2 \log d)$. 
+$f(X)$ in $\mathbf{Z}/(p^N)$ requires time~$\mathcal{O}(\mu)$, 
+it is clear that this approach takes time~$\mathcal{O}(d \mu)$. 
 When we assume that $f(X)$ is sparse, this decreases to 
-$\mathcal{O}_p(M(N) d^2)$.
+$\mathcal{O}\bigl(d^2 M(N \log p)\bigr)$.
 
 Alternatively, we can observe that on writing $x = \sum_{i=0}^{d-1} a_i X^i$ 
 we have $\Trace(x) = \sum_{i=0}^{d-1} a_i \Trace(X^i)$ and then use the 
@@ -381,9 +407,9 @@ Newton--Girard formulae,
 \end{equation}
 for $i = 1, \dotsc, d-1$, where $f(X) = \sum_{i=0}^{d-1} f_i X^i$.  
 We also note that $\Trace(X^0) = \Trace(I) = d$.  This approach visibly 
-requires time $\mathcal{O}_p(M(N) d^2)$ in general.  When $f(X)$ is 
-sparse, this further decreases to $\mathcal{O}_p(M(N) d)$ as the 
-sum in Equation~\eqref{eq:03-03-trace} has a bounded number of 
+requires time $\mathcal{O}\bigl(d^2 M(N \log p)\bigr)$ in general.  When 
+$f(X)$ is sparse, this further decreases to $\mathcal{O}(d M(N \log p))$ as 
+the sum in Equation~\eqref{eq:03-03-trace} has a bounded number of 
 non-zero terms.
 
 \section{Norm}
@@ -406,20 +432,20 @@ the same polynomial as $x = \sum_{i=0}^{d-1} a_i X^i$,
 where $\ell(f)$ denotes the leading coefficient of $f(X)$.  
 
 The resultant of $f(X)$ and $a(X)$ can be defined as the 
-determinant of the Sylvester matrix, which is a square matrix 
-over~$\mathbf{Z} / (p^N)$ with $\deg(f) + \deg(a) \leq 2d - 1$ columns. 
-In order to avoid precision loss, this can be computed with the division-free 
-determinant algorithm of Kaltofen~\citep{Kaltofen1992}, which requires 
-$\mathcal{O}(d^{\omega/2 + 2} \log d \log \log d)$ ring operations 
+determinant of the Sylvester matrix~\citep[Lemma~3.3.4]{Coh93}, which is a 
+square matrix over~$\mathbf{Z} / (p^N)$ with $\deg(f) + \deg(a) \leq 2d - 1$ 
+columns. In order to avoid precision loss, this can be computed with the 
+division-free determinant algorithm of Kaltofen~\citep{Kaltofen1992}, which 
+requires $\mathcal{O}(d^{\omega/2 + 2} \log d \log \log d)$ ring operations 
 in~$\mathbf{Z} / (p^N)$ where $\omega$ is the exponent for matrix multiplication.
 Thus, the bit complexity of this computation can be given by 
-$\mathcal{O}_p(M(N) d^{\omega/2 + 2} \log d \log \log d)$.
+$\mathcal{O}\bigl((d^{\omega/2 + 2} \log d \log \log d) M(N \log p)\bigr)$.
 
 We note, however, that we have only implemented the simpler division-free 
 determinant algorithm of Seifullin~\citep[Algorithm~4.2]{Seifullin2002}, 
 which requires $\mathcal{O}(n^4)$ ring operations to compute the 
 determinant of an $n \times n$~matrix.  This leads to a bit complexity 
-estimate for the norm computation of $\mathcal{O}_p(M(N) d^4)$.
+estimate for the norm computation of $\mathcal{O}\bigl(d^4 M(N \log p)\bigr)$.
 
 Whenever $x \in \mathbf{Z}_q^{\times}$ satisfies $\ord_p(x-1) > (p-1)^{-1}$ 
 we can typically improve on this significantly, computing the norm via
@@ -427,10 +453,9 @@ we can typically improve on this significantly, computing the norm via
 \Norm_{\mathbf{Q}_q / \mathbf{Q}_p} (x) 
 = \exp \bigl(\Trace_{\mathbf{Q}_q / \mathbf{Q}_p} (\log (x))\bigr).
 \end{equation}
-Using results from the next two sections on the exponential and logarithm 
-functions, this approach leads to a bit complexity of 
-$\mathcal{O}_p \bigl(M(N) (d^2 + d \log d \log(N)^2)\bigr)$ in general and 
-$\mathcal{O}_p(M(N) \bigl(d \log d \log(N)^2)\bigr)$ when $f(X)$ is sparse.
+We omit a detailed analysis of the complexity of this approach, but note 
+that together with the asymptotically fast algorithm for the logarithm 
+function it behaves quasi-linearly in $d$ and $N$ when $f(X)$ is sparse.
 
 \section{Exponential}
 
@@ -449,27 +474,25 @@ integers~$z$, we have
 \end{equation}
 where $s_p(-)$ denote the sum of $p$-adic digits, we are led to compute 
 the truncated series 
-\begin{equation}
+\begin{equation} \label{eq:exp-trunc}
 \exp(x) = \sum_{i = 0}^{n-1} \frac{x^i}{i!}
 \end{equation}
 where $n = \ceilbig{\bigl( (p-1)N - 1 \bigr) / \bigl( (p-1)v - 1 \bigr)}$.
 
-For the sake of simplicity, we restrict our discussion to the case 
-$q = p$, but remark that the approach as well as the analysis carry 
-through to the case of unramified extensions.
-
 Note that we require $\mathcal{O}(N)$ terms of the sum, 
 and that when computing these iteratively for $i = 0, \dotsc, n-1$ 
 each update step of the summand amounts to multiplication by $x / i$, 
-which takes time $\mathcal{O}_p(M(N))$.  Thus, the entire computation 
-takes time $\mathcal{O}_p(N M(N))$.
+which consists of an inversion in $\mathbf{Z}_p$, a scalar multiplication 
+in $\mathbf{Z}_q$, and a product in $\mathbf{Z}_q$.  Altogether, this 
+yields the complexity estimate $\mathcal{O}(N \mu)$, which is quadratic 
+in~$N$.
 
 \subsection{Rectangular splitting}
 
 The rectangular splitting algorithm due to Patterson and 
-Stockmeyer~\citep{PatersonStockmeyer1973} applied to the case 
-of the $p$-adic exponential evaluates the truncated series 
-using the expression 
+Stockmeyer~\citep{PatersonStockmeyer1973} applied to the 
+case of the $p$-adic exponential evaluates the truncated 
+series~\eqref{eq:exp-trunc} using the expression 
 \begin{align}
 \exp(x) & = \sum_{j=0}^{\ceil{n/B} - 1} 
             \biggl( \sum_{i=0}^{B-1} \frac{x^i}{(Bj + i)!} \biggr) x^{Bj} \\
@@ -478,15 +501,24 @@ using the expression
         & = \frac{1}{(n-1)!} \sum_{j=0}^{\ceil{n/B} - 1} 
             \frac{(n-1)!}{(B (j+1) - 1)!} \biggl( \sum_{i=0}^{B-1} \frac{(B (j+1) - 1)!}{(Bj + i)!} x^i \biggr) x^{Bj}
 \end{align}
-where $B = \floorts{\sqrt{n}}$.
+where $B = \floorts{\sqrt{n}}$ and we omit the detail that 
+in the last iteration in inner sum generally has fewer than 
+$B$~terms.
 
-There are two noticeable advantages to this approach.  Firstly, it 
+There are three noticeable advantages to this approach.  Firstly, it 
 reduces the number of $p$-adic inversions as now the division in the 
 inner sum is an exact integer division.  Secondly, the scalar factors 
 in the inner sum $(B j + i + 1) \dotsm (B j + B - 1)$ are only of size 
-$\mathcal{O}(\sqrt{n} \log n)$.  However, this does not lead to an 
-asymptotic improvement.  We present the details in 
-Algorithm~\ref{alg:exp-rectangular}.
+$\mathcal{O}(\sqrt{n} \log n)$.  Thirdly, in the case when $q > p$, 
+this approach reduces the number of multiplication in~$\mathbf{Q}_q$.
+
+We present the details in Algorithm~\ref{alg:exp-rectangular}.  In order 
+to conclude that this approach does not lead to an asymptotic improvement 
+in~$N$, we observe that the inner loop contains a scalar product where the 
+scalar has bit size $\mathcal{O}(\sqrt{N} \log N)$ and the 
+vector has $d$~coefficients each of bit size $\mathcal{O}(N \log p)$.  
+As this statement is executed about~$N$ times, the time complexity is still 
+quadratic in~$N$.
 
 \begin{algorithm}
 \caption{Computing the exponential via rectangular splitting}
@@ -517,7 +549,7 @@ Algorithm~\ref{alg:exp-rectangular}.
 \State $c \gets h c$
 \EndIf
 \EndFor
-\State $S \gets s f + S x^{B} \bmod{p^{N + k}}$
+\State $S \gets s f + S x^{(B)} \bmod{p^{N + k}}$
 \State $f \gets c f$
 \EndFor
 \Return $f^{-1} S \bmod {p^N}$
@@ -530,7 +562,10 @@ Algorithm~\ref{alg:exp-rectangular}.
 
 In this section, we describe Brent's binary splitting, or bit-burst 
 algorithm~\citep{Brent1976} for computing the exponential function, 
-adapted to the $p$-adic case.
+adapted to the $p$-adic case.  In order to simplify the exposition, 
+we restrict ourselves to the case of $\mathbf{Q}_p$ but note that 
+it is possible to obtain the same asymptotic results in terms of 
+their dependency on~$N$.
 
 \subsubsection{Exponential, exact rational}
 
@@ -568,7 +603,7 @@ We can invoke this routine with $a = 1$, $b = n$ in order to compute
 $\sum_{i=1}^{n-1} x^i / i!$ as an exact rational.  Counting the 
 number of multiplications and considering the sizes of the factors 
 at the various levels of the recursion, we find that the complexity 
-is given by $\mathcal{O}\bigl((M(n \log n) + M(n \log x) )\log n\bigr)$.
+is given by $\mathcal{O}\bigl(\bigl(M(n \log n) + M(n \log x) \bigr)\log n\bigr)$.
 
 \subsubsection{Main part}
 
@@ -590,7 +625,9 @@ n_i \leq \frac{(p-1) N - 1}{(p-1) 2^{i-1} - 1} \leq \frac{N}{2^i}
 terms.
 
 It follows that the overall complexity of this algorithm is 
-$\mathcal{O}_p\bigl(M(N) (\log N)^2\bigr)$.
+$\mathcal{O}_p\bigl(M(N) (\log N)^2\bigr)$, which is quasi-linear 
+in~$N$.  We have used the $\mathcal{O}_p(-)$ notation to suppress 
+the dependency on $p$, which is logarithmic.
 
 \section{Logarithm}
 
