@@ -31,8 +31,8 @@ with ring of integers~$\mathbf{Z}_q$, we choose to represent this as
 where $f(x) \bmod p$ is an irreducible and separable polynomial.  We store 
 $f(X)$ as a sparse polynomial and assume that its coefficients are 
 reduce modulo~$p$.  The sparsity assumption allows for reduction of a 
-degree~$n$ polynomial modulo~$f(X)$ in $\mathcal{O}(nd)$ multiplications 
-and additions in $\mathbf{Q}_p$.  Thus, non-zero elements~$g$ 
+degree~$n$ polynomial modulo~$f(X)$ in $\mathcal{O}(nd)$ additions and 
+multiplications in $\mathbf{Q}_p$.  With this set-up, a non-zero element~$g$ 
 in~$\mathbf{Q}_q$ can be represented as 
 \begin{equation}
 g(X) = p^v h(X)
@@ -58,10 +58,6 @@ This data format would be beneficial to many algorithms.  But in practice,
 given the high quality and architecture specific details of implementations 
 for arbitrary precision integer arithmetic in base~$2$, this approach does 
 not seem favourable.
-\end{rem}
-
-\begin{rem}
-Eventually, the case $p = 2$ should be handled in a separate manner.
 \end{rem}
 
 \section{Review of complexity results}
