@@ -324,25 +324,22 @@ In order to compute the Teichm\"uller lift of $u \in \mathbf{F}_q^{\times}$,
 we apply Hensel lifting on $g(X) = X^q - X$, starting with $x_0 = u$ and 
 noting that $\ord_p(g'(x_0)) = 0$. 
 
+As a noticeable practical improvement, we observe that the denominators 
+$g'(x_k) = q x_k^{q-1} - 1$ are approximations of $q - 1$, which are 
+defined over $\mathbf{Z}_p$ already.  Thus, we can replace the Hensel lifting 
+iteration by 
+\begin{equation}
+x_{k+1} = x_k - (q-1)^{-1} (x_k^q - x_k), 
+\end{equation}
+also noting that $(q-1)^{-1}$ only has to be computed to the precision 
+of the previous step.
+
 The complexity of this approach is dominated by the evaluations 
 of $g(x_k) = x_k^q - x_k$ to the precisions $2, \dotsc, \ceil{N/2}, N$ 
 during the Hensel lifting procedure.  Using binary exponentiation, 
 computing the power $x_k^q$ requires $\mathcal{O}(\log q)$ operations 
 in $\mathbf{Z}_q$ to the appropriate $p$-adic precision at each step. 
 Thus, the complexity is given by $\mathcal{O}\bigl((\log q) \mu\bigr)$.
-
-\begin{rem}
-In the case of $\mathbf{Q}_p$, the first improvement to the generic 
-Hensel lifting routine is to utilise Theorem~\ref{thm:Hensel2} to 
-compute the inverse of $g'(x_k)$ in parallel.
-Secondly, we observe that in the first step we want to set 
-$x_0 = u$, $y_0 = \bigl((p-1) u^{p-2}\bigr)^{-1}$ modulo~$p$ 
-so we can set $y_0 = p - x_0$ without an inversion.
-
-In the case of $\mathbf{Q}_q$, we observe that the occurring denominators 
-$g'(x_k) = q x_k^{q-1} - 1$ are approximations of $q - 1$, which is defined 
-already over $\mathbf{Q}_p$.
-\end{rem}
 
 \section{Frobenius}
 
