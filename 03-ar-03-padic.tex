@@ -346,7 +346,7 @@ Thus, the complexity is given by $\mathcal{O}\bigl((\log q) \mu\bigr)$.
 Let $\Sigma \in \Gal(\mathbf{Q}_q/\mathbf{Q}_p) \cong \Gal(\mathbf{F}_q/\mathbf{F}_p)$ 
 be the lift of $\sigma \colon \mathbf{F}_q \mapsto \mathbf{F}_q, x \mapsto x^p$. 
 For any $x \in \mathbf{Q}_q$ and $k \in \mathbf{Z}$, we aim to compute $\Sigma^k x$ 
-modulo $p^N$, noting that $\Sigma$ has order~$d$.  As such, we may assume that~$d$ 
+modulo $p^N$, noting that $\Sigma$ has order~$d$.  As such, we may assume that~$k$ 
 is reduced modulo~$d$, and in fact that $0 < k < d$ as $\Sigma^0$ is the identity map.
 Moreover, as $\Sigma$ is a $\mathbf{Q}_p$-linear map, we may assume that 
 $x = \sum_{i=0}^{d-1} a_i X^i$ is a unit in $\mathbf{Z}_p[X]/(f(X))$.  
@@ -367,12 +367,12 @@ Then, we compute
 which entails a polynomial composition modulo~$f(X)$ and~$p^N$.
 
 In a first approach, we might use Horner's method to carry out the 
-composition, which requires about $d$ multiplications in $\mathbf{Q}_q$.
+composition, which requires about $d$ multiplications in $\mathbf{Z}_q$.
 However, we can use a rectangular splitting approach due to 
 Paterson--Stockmeyer~\citep{PatersonStockmeyer1973} instead, based 
 on the expression 
 \begin{equation}
-\Sigma^k x = \sum_{j=0}^{\floor{d/B}-1} \Bigl( \sum_{i=0}^{B-1} a_{i+Bj} (\Sigma^k X)^i  \Bigr) X^{Bj},
+\Sigma^k x = \sum_{i=0}^{\floor{d/B}-1} \Bigl( \sum_{j=0}^{B-1} a_{Bi + j} (\Sigma^k X)^j  \Bigr) X^{Bi},
 \end{equation}
 where $B = \floor{\sqrt{d}}$, precomputing $\Sigma^k(X)^i$ for $i = 0, \dotsc, B$. 
 This only requires about $2 \sqrt{d}$ multiplications in $\mathbf{Z}_q$ 
@@ -389,7 +389,7 @@ We now discuss the overall complexity of the computation of $\Sigma^k x$.
 Using a method for binary exponentiation, computing \mbox{$x_0 = X^{p^k}$} 
 requires about $k \log p$~products in~$\mathbf{F}_p[X] / (f(X))$ and hence 
 has complexity $\mathcal{O}\bigl((d \log p) \mu(p,d,1)\bigr)$.  The Hensel 
-lifting routine is dominated by its last step, which involve evaluating 
+lifting routine is dominated by its last step, which involves evaluating 
 $f(x_k)$ and $f'(x_k)$ in $\mathbf{Z}_q$ to precision~$N$.  This in turn 
 consists of two polynomial compositions.  In general, this contributes 
 $\mathcal{O}\bigl(d^2 M(N \log p)\bigr)$, but when $f(X)$ is sparse 
@@ -438,8 +438,9 @@ non-zero terms.
 
 The image of $x \in \mathbf{Q}_q$ under the norm function 
 $\Norm_{\mathbf{Q}_q/\mathbf{Q}_p} \colon \mathbf{Q}_q \to \mathbf{Q}_p$ 
-is defined as the product of the Galois conjugates of~$x$.  As this 
-is a $\mathbf{Q}_p$-linear map, we may assume that 
+is defined as the product of the Galois conjugates of~$x$.  Thus, for 
+$x \in \mathbf{Q}_q$ and $\lambda \in \mathbf{Q}_p$, we have that 
+$\Norm(\lambda x) = \lambda^d \Norm(x)$ and we may hence assume that 
 $x \in \mathbf{Z}_q^{\times}$.  Since 
 $\Gal(\mathbf{Q}_q/\mathbf{Q}_p) = \langle \Sigma \rangle$ is cyclic 
 of order~$d$, we find that, letting $a(X) \in \mathbf{Z}_p[X]$ denote 
@@ -712,7 +713,7 @@ Algorithm~\ref{alg:log-rectangular}.
 \State $f \gets \prod_{j=1}^{h} (iB + j)$
 \State $c \gets 0$
 \For {$j = 1 \text{\bf{ to }} h$}
-\State $c \gets c + \bigl(f / (iB + j)\bigr) y^{(i)}$
+\State $c \gets c + \bigl(f / (iB + j)\bigr) y^{(j)}$
 \EndFor
 \State $c \gets p^k \bigl(f^{-1} \bmod {p^N}\bigr) c$
 \State $z \gets c + z y^{(B)} \bmod{p^{N+k}}$
