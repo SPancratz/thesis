@@ -19,7 +19,7 @@ We represent a non-zero $p$-adic number $x \in \mathbf{Q}_p$ in the form
 \begin{equation}
 x = p^v u
 \end{equation}
-where $u, v \in \mathbf{Z}$ and $u \nmid p$.  When working to precision~$N$, 
+where $u, v \in \mathbf{Z}$ and $p \nmid u$.  When working to precision~$N$, 
 it is sometimes useful to assume that $u \in [0,p^{N-v})$.
 
 When working in the unique unramified extension of $\mathbf{Q}_p$ of 
@@ -30,10 +30,11 @@ with ring of integers~$\mathbf{Z}_q$, we choose to represent this as
 \end{equation}
 where $f(x) \bmod p$ is an irreducible and separable polynomial.  We store 
 $f(X)$ as a sparse polynomial and assume that its coefficients are 
-reduce modulo~$p$.  The sparsity assumption allows for reduction of a 
-degree~$n$ polynomial modulo~$f(X)$ in $\mathcal{O}(nd)$ additions and 
-multiplications in $\mathbf{Q}_p$.  With this set-up, a non-zero element~$g$ 
-in~$\mathbf{Q}_q$ can be represented as 
+reduced modulo~$p$.  If $f(X)$ has at most a constant number of non-zero 
+terms, the reduction of a degree~$n$ polynomial modulo~$f(X)$ can be carried 
+out in $\mathcal{O}(nd)$ additions and multiplications in $\mathbf{Q}_p$.  
+With this set-up, a non-zero element~$g$ in~$\mathbf{Q}_q$ can be represented 
+as 
 \begin{equation}
 g(X) = p^v h(X)
 \end{equation}
@@ -60,10 +61,11 @@ for arbitrary precision integer arithmetic in base~$2$, this approach does
 not seem favourable.
 \end{rem}
 
-\section{Review of complexity results}
+\section{Review of complexity results and related definitions}
 
 We let $\mathcal{O}(M(N))$ denote the complexity of multiplying two 
-$N$-bit integers.  For example, the Sch\"onhage--Strassen algorithm 
+$N$-bit integers.  For example, the algorithm of 
+Sch\"onhage--Strassen~\citep{SchoenhageStrassen1971}
 allows us to take $M(N) = N \log N \log \log N$.  The same 
 complexity can also be achieved for the division with remainder of 
 a $2N$-bit integer by an $N$-bit integer.
@@ -72,20 +74,40 @@ As elements of $\mathbf{Z} / (p^N)$ are of bit size $N \log p$,
 multiplication of two numbers in $[0, p^N)$, with or without a subsequent 
 reduction modulo $p^N$, has complexity $\mathcal{O}(M(N \log p))$.
 
-The multiplication of two elements of $\mathbf{Z}_q$ modulo $p^N$ 
+Moreover, we let $\mathcal{O}(\mu(p,d,N))$ denote the 
+complexity of multiplication in $\mathbf{Z}_q / (p^N)$.  This operation 
 involves one multiplication of two degree $d-1$ polynomials in 
 $\mathbf{Z}/(p^N)$ and one reduction of a degree $2d - 2$ polynomial 
-in $\bigl( \mathbf{Z}/(p^N)[X] \bigr) / (f(X))$.   Using a Fast Fourier 
+in $\bigl( \mathbf{Z}/(p^N)[X] \bigr) / (f(X))$.  Using a Fast Fourier 
 Transform based multiplication routine, the polynomial product requires 
 $\mathcal{O}(d \log d)$ operations in $\mathbf{Z}/(p^N)$, hence has 
 complexity $\mathcal{O}\bigl((d \log d) M(N \log p)\bigr)$.  The reduction 
-modulo~$f(X)$ requires $\mathcal{O}(d)$ operations in $\mathbf{Z}/(p^N)$ 
-when $f(X)$ is sparse and has a bounded number of non-zero coefficients, 
-and it requires $\mathcal{O}(d \log d)$ operations in $\mathbf{Z}/(p^N)$ when 
-$f(X)$ is a dense polynomial.  In either case, for later reference we set 
-$\mu = \mu(p,d,N) = (d \log d) M(N \log p)$ and the overall complexity of 
-multiplication in $\mathbf{Z}_q$ modulo $p^N$ is given by 
-$\mathcal{O}(\mu)$.
+modulo $f(X)$ also requires $\mathcal{O}(d \log d)$ ring operations 
+in $\mathbf{Z}_p / (p^N)$ in general but only $\mathcal{O}(d)$ when 
+$f(X)$ is \emph{sparse}, by which we mean that the number of non-zero 
+coefficients of $f(X)$ is bounded independently of the parameters 
+$p$, $d$, and $N$.  In either case, for later reference we can set 
+$\mu = \mu(p,d,N) = (d \log d) M(N \log p)$.
+
+In the remaining part of this chapter we make the assumption that 
+the complexity of multiplying two $N$-bit integers satisfies 
+$2 M(N) \leq M(2 N)$.  In particular, this allows us to show that 
+for $k + 1$ multiplications of bit sizes $1, 2, \dotsc, 2^k$, 
+\begin{equation}
+M(1) + M(2) + \dotsb + M(2^k) \leq \bigl( 2^{-k} + 2^{-k+1} + \dotsb + 1 \bigr) M(2^k) \leq 2 M(2^k).
+\end{equation}
+This calculation shows that the complexity of Hensel lifting routines 
+that we consider in the following sections is dominated by their last 
+step at the greatest $p$-adic precision.
+
+We also define $\omega$ to be the exponent of matrix multiplication, 
+that is, such that the multiplication of two $n \times n$ matrices 
+over a ring requires $\mathcal{O}(n^{\omega})$ ring operations.  The 
+classical approach realises $\omega = 3$, the practical algorithm 
+of Strassen~\citep{Strassen1969} achieves $\omega < 2.81$, and 
+the still essentially best theoretical result by 
+Coppersmith--Winograd~\citep{CoppersmithWinograd1990} shows 
+that $\omega < 2.38$.
 
 \section{Hensel lifting}
 
@@ -131,8 +153,8 @@ precisions
 e_{k} = N, e_{k-1} = \ceil{(e_k + m) / 2}, \dotsc, 
 e_0 = \ceil{(e_1 + m) / 2} \leq n
 \end{equation*}
-as this choice minimises the computational cost in the last 
-step of the iteration.
+as this choice minimises the computational cost in every step 
+and in the dominating last step, in particular.
 \end{rem}
 
 \begin{thm} \label{thm:Hensel2}
@@ -246,7 +268,20 @@ x_{k+1} & = x_k + (1 - u x_k^2) / (2 u x_k) \\
 \end{equation}
 In the notation of Theorem~\ref{thm:Hensel1}, this means that when 
 $p > 2$ is an odd prime we can take $m = 0$, $n = 1$, but when $p = 2$ 
-we are forced to account for the precision loss, taking $m = 1$, $n = 2$.
+the division by~$2$ in the above formula forces us to account for 
+the precision loss, taking $m = 1$, $n = 2$.
+
+When $p = 2$, we can obtain an initial approximation as follows. 
+Let $s = (u \bmod 2)^{-1/2} \pmod{2}$.  If there exists a solution~$t$ 
+to $t^2 + s t \equiv (1/u - s^2) / 4 \pmod{2}$ then $x_0 = s + 2 t$ 
+is an approximate inverse square root of $u$ to precision~$2$, 
+otherwise $u$ is not a square modulo~$8$ and hence not a square 
+in~$\mathbf{Z}_q^{\times}$.  When $p > 2$ is an odd prime, we can 
+take the inverse square root modulo~$p$ as our initial approximation.
+However, the topic of computing square roots in finite fields is outside 
+the scope of this discussion.  We refer the reader to standard 
+results in finite field arithmetic, e.g.\ as presented in 
+Bach--Shallit~\mbox{\citep[\S 7]{Bac96}}.
 
 We observe that this iteration does indeed not require computationally 
 intensive $p$-adic inversions.  When $p$ is odd, either the numerator 
@@ -256,19 +291,6 @@ same value.  The division by~$2$ is then simply a bitshift.  When $p = 2$,
 the result on Hensel lifting in Theorem~\ref{thm:Hensel1} guarantees that 
 the numerator is always divisible by~$2$ and the loss of precision is 
 accounted for in the sequence of precisions.
-
-When $p = 2$, we can obtain an initial approximation as follows. 
-Let $s = (u \bmod 2)^{-1/2} \pmod{2}$.  If there exists a solution~$t$ 
-to $t^2 + s t \equiv (1/u - s^2) / 4 \pmod{2}$ then $x_0 = s + 2 t$ 
-is an approximate inverse square root of $u$ to precision~$2$, 
-otherwise $u$ is not a square modulo~$8$ and hence not a square 
-in~$\mathbf{Z}_q^{\times}$.  When $p > 2$ is an odd prime, we can 
-take the inverse square root modulo~$p$ as our initial approximation.
-
-The topic of computing square roots in finite fields is outside 
-the scope of this discussion.  We refer the reader to standard 
-results in finite field arithmetic, e.g.\ as presented in 
-Bach--Shallit~\citep[\S 7]{Bac96}.
 
 We now discuss the complexity of this operation.  The initial step 
 modulo~$p$ consists of an inversion and a square root in $\mathbf{F}_q$. 
@@ -315,9 +337,10 @@ algorithm for the inverse square root problem.
 \section{Teichm\"uller lift}
 
 Recall that $\mathbf{Q}_q$ contains exactly $(q-1)$~elements that are 
-$(q-1)$th roots of unity, one above each non-zero element of the residue field 
-$\mathbf{F}_q$.  The Teichm\"uller lift of an element $u \in \mathbf{F}_q$ 
-is defined to be the unique lift to a $(q-1)$th root of unity 
+$(q-1)$th roots of unity, one above each non-zero element of the residue 
+field $\mathbf{F}_q$.  The Teichm\"uller lift of an element 
+$u \in \mathbf{F}_q^{\times}$ is defined to be the unique lift to a 
+$(q-1)$th root of unity 
 in~$\mathbf{Q}_q$.
 
 In order to compute the Teichm\"uller lift of $u \in \mathbf{F}_q^{\times}$, 
@@ -325,9 +348,9 @@ we apply Hensel lifting on $g(X) = X^q - X$, starting with $x_0 = u$ and
 noting that $\ord_p(g'(x_0)) = 0$. 
 
 As a noticeable practical improvement, we observe that the denominators 
-$g'(x_k) = q x_k^{q-1} - 1$ are approximations of $q - 1$, which are 
-defined over $\mathbf{Z}_p$ already.  Thus, we can replace the Hensel lifting 
-iteration by 
+$g'(x_k) = q x_k^{q-1} - 1$ converge to $q-1$, which is defined over 
+$\mathbf{Z}_p$ already, in a way such that $\ord_p\bigl(g'(x_k) - (q-1)\bigr)$ 
+is non-decreasing.  Thus, we can replace the Hensel lifting iteration by 
 \begin{equation}
 x_{k+1} = x_k - (q-1)^{-1} (x_k^q - x_k), 
 \end{equation}
@@ -349,16 +372,20 @@ For any $x \in \mathbf{Q}_q$ and $k \in \mathbf{Z}$, we aim to compute $\Sigma^k
 modulo $p^N$, noting that $\Sigma$ has order~$d$.  As such, we may assume that~$k$ 
 is reduced modulo~$d$, and in fact that $0 < k < d$ as $\Sigma^0$ is the identity map.
 Moreover, as $\Sigma$ is a $\mathbf{Q}_p$-linear map, we may assume that 
-$x = \sum_{i=0}^{d-1} a_i X^i$ is a unit in $\mathbf{Z}_p[X]/(f(X))$.  
+$x = \sum_{i=0}^{d-1} a_i X^i$ is a unit in $\mathbf{Z}_q$.  
 
 First, we can compute $\Sigma^k X$ using Hensel lifting on $f(X)$, 
 starting from $x_0 = X^{p^k}$ in $\mathbf{F}_p[X] / (f(X))$.  We note 
 that there is no precision loss during the Hensel lifting procedure;  
 in the notation of Theorem~\ref{thm:Hensel1}, we can take $m = 0$, $n = 1$. 
 This is because $f \bmod p$ is separable and hence $f'(x_0) \bmod p$ is 
-non-zero.
+non-zero.  At each step, the Hensel lifting routine involves the computations 
+of $f(x_k)$ and $f'(x_k)$, which are polynomial compositions modulo~$f(X)$ 
+and a power of~$p$.  We discuss the general case of modular compositions 
+further below, but note here that when $f(X)$ is sparse the naive approach 
+to composition requires only $\mathcal{O}\bigl((\log d) \mu\bigr)$.
 
-Then, we compute 
+Finally, we can compute $\Sigma^k x$ via 
 \begin{equation}
 \Sigma^k x = 
     \Sigma^k \bigl( \sum_{i=0}^{d-1} a_i X^i \bigr) = 
@@ -367,23 +394,37 @@ Then, we compute
 which entails a polynomial composition modulo~$f(X)$ and~$p^N$.
 
 In a first approach, we might use Horner's method to carry out the 
-composition, which requires about $d$ multiplications in $\mathbf{Z}_q$.
-However, we can use a rectangular splitting approach due to 
+composition, which requires about $d$~multiplications in $\mathbf{Z}_q$, 
+yielding a complexity of $\mathcal{O}(d \mu)$.  
+
+However, we can use the rectangular splitting approach due to 
 Paterson--Stockmeyer~\citep{PatersonStockmeyer1973} instead, based 
 on the expression 
 \begin{equation}
-\Sigma^k x = \sum_{i=0}^{\floor{d/B}-1} \Bigl( \sum_{j=0}^{B-1} a_{Bi + j} (\Sigma^k X)^j  \Bigr) X^{Bi},
+\Sigma^k x = \sum_{i=0}^{\floor{d/B}-1} \Bigl( \sum_{j=0}^{B-1} a_{Bi + j} (\Sigma^k X)^j  \Bigr) (\Sigma ^k X)^{Bi},
 \end{equation}
-where $B = \floor{\sqrt{d}}$, precomputing $\Sigma^k(X)^i$ for $i = 0, \dotsc, B$. 
-This only requires about $2 \sqrt{d}$ multiplications in $\mathbf{Z}_q$ 
-but additional space for about $d^{3/2}$ elements of $\mathbf{Z}/(p^N)$.  
-As there are another $d$ scalar multiplications of elements of~$\mathbf{Z}_q$ 
-by elements of $\mathbf{Z}_p$, the complexity of this polynomial composition 
+where $B = \floor{\sqrt{d}}$ and we define $a_{Bi + j} = 0$ whenever 
+$Bi + j \geq d$, note that in the last iteration the inner sum generally 
+has fewer than $B$ terms.  From an algorithmic point of view, it is 
+important that this allows us to precompute $\Sigma^k(X)^i$ for 
+$i = 0, \dotsc, B$.  Thus, this approach only requires about 
+\mbox{$2 \sqrt{d}$}~multiplications in $\mathbf{Z}_q$ but additional space 
+for about $d^{3/2}$~elements of $\mathbf{Z}/(p^N)$.  As there are another 
+$d$~scalar multiplications of elements of~$\mathbf{Z}_q$ by elements of 
+$\mathbf{Z}_p$, the complexity of this polynomial composition 
 is given by $\mathcal{O}\bigl(\sqrt{d} \mu + d^2 M(N \log p)\bigr)$, which 
-is $\mathcal{O}\bigl(d^2 M(N \log p)\bigr)$.  We note that the asymptotic 
-improvement in~$d$ when compared to Horner's method only consist of removed 
-logarithmic factors, however, in practive the lower number of 
-$\mathbf{Z}_q$-multiplications is important.
+is $\mathcal{O}\bigl(d^2 M(N \log p)\bigr)$.  Thus, the asymptotic 
+improvement in~$d$ when compared to Horner's method 
+only consist of removed logarithmic factors, however, in practive the smaller 
+number of $\mathbf{Z}_q$-multiplications is important.
+
+This can be improved asymptotically by employing the modular composition 
+algorithm of Brent--Kung~\citep{BrentKung1978}, which requires only 
+$\mathcal{O}(n^{(\omega+1)/2})$ ring operations when all three input 
+polynomials have degrees $\mathcal{O}(n)$, where $\omega$ is the exponent 
+of matrix multiplication.  Here, the ring in question in $\mathbf{Z}/(p^N)$ 
+and the polynomials have degree at most~$d$, hence we obtain the bit 
+complexity estimate $\mathcal{O}(d^{(\omega + 1)/2} M(N \log p)\bigr)$.
 
 We now discuss the overall complexity of the computation of $\Sigma^k x$.
 Using a method for binary exponentiation, computing \mbox{$x_0 = X^{p^k}$} 
@@ -391,13 +432,10 @@ requires about $k \log p$~products in~$\mathbf{F}_p[X] / (f(X))$ and hence
 has complexity $\mathcal{O}\bigl((d \log p) \mu(p,d,1)\bigr)$.  The Hensel 
 lifting routine is dominated by its last step, which involves evaluating 
 $f(x_k)$ and $f'(x_k)$ in $\mathbf{Z}_q$ to precision~$N$.  This in turn 
-consists of two polynomial compositions.  In general, this contributes 
-$\mathcal{O}\bigl(d^2 M(N \log p)\bigr)$, but when $f(X)$ is sparse 
-the naive approach consists of a bounded number of powers in $\mathbf{Z}_q$, 
-scalar multiplications and additions, achieving $\mathcal{O}((\log d) \mu)$.  
-As described above, the final step has complexity 
-$\mathcal{O}\bigl(d^2 M(N \log p)\bigr)$.  Thus, the overall complexity 
-is given by $\mathcal{O}\bigl( (d \log p) \mu(p,d,1) + d^2 M(N \log p) \bigr)$.
+consists of two modular compositions.  As described above, the final step 
+is another modular composition.  Thus, the overall complexity is given by 
+$\mathcal{O}\bigl( (d \log p) \mu(p,d,1) 
++ d^{(\omega + 1)/2} M(N \log p) \bigr)$.
 
 \section{Trace}
 
@@ -490,7 +528,7 @@ defined via
 \begin{equation}
 \exp(x) = \sum_{i = 0}^{\infty} \frac{x^i}{i!}.
 \end{equation}
-In order to compute $\exp(x) \bmod{p^N}$, using that for positive 
+In order to compute $\exp(x)$ modulo $p^N$, using that for positive 
 integers~$z$, we have
 \begin{equation}
 \ord_p(z!) = \frac{z - s_p(z)}{p - 1} \leq \frac{z}{p - 1}
@@ -500,14 +538,15 @@ the truncated series
 \begin{equation} \label{eq:exp-trunc}
 \exp(x) = \sum_{i = 0}^{n-1} \frac{x^i}{i!}
 \end{equation}
-where $n = \ceilbig{\bigl( (p-1)N - 1 \bigr) / \bigl( (p-1)v - 1 \bigr)}$.
+where $n = \ceilbig{\bigl( (p-1)N - 1 \bigr) / \bigl( (p-1)v - 1 \bigr)}$ 
+with $v = \ord_p(x)$.
 
 Note that we require $\mathcal{O}(N)$ terms of the sum, 
 and that when computing these iteratively for $i = 0, \dotsc, n-1$ 
 each update step of the summand amounts to multiplication by $x / i$, 
 which consists of an inversion in $\mathbf{Z}_p$, a scalar multiplication 
 in $\mathbf{Z}_q$, and a product in $\mathbf{Z}_q$.  Altogether, this 
-yields the complexity estimate $\mathcal{O}(N \mu)$, which is quadratic 
+yields the complexity estimate $\mathcal{O}(N \mu)$, which is quasi-quadratic 
 in~$N$.
 
 \subsection{Rectangular splitting}
@@ -541,7 +580,7 @@ in~$N$, we observe that the inner loop contains a scalar product where the
 scalar has bit size $\mathcal{O}(\sqrt{N} \log N)$ and the 
 vector has $d$~coefficients each of bit size $\mathcal{O}(N \log p)$.  
 As this statement is executed about~$N$ times, the time complexity is still 
-quadratic in~$N$.
+quasi-quadratic in~$N$.
 
 \begin{algorithm}
 \caption{Computing the exponential via rectangular splitting}
@@ -771,4 +810,60 @@ function, relying on the expression
 \begin{equation}
 \log(1 + x + x') = \log(1 + x) + \log \Bigl(1 + \frac{x'}{1+x}\Bigr).
 \end{equation}
+
+\section{Benchmarks}
+
+In this section, we compare the practical performance of our implementation 
+of various $p$-adic routines in {\sc FLINT}~\citep{FLINT} to those available 
+in {\sc Magma}~\citep{Magma}.  Specifically, we build {\sc FLINT} with 
+{\sc MPIR}~2.4.0 and use {\sc Magma}~2.18-6.  We use the machine 
+{\tt wolverine.maths.ox.ac.uk}, a multi-core $64$-bit machine featuring 
+$24$~Intel Xeon X5670 CPUs at $2.93$~GHz, although we only use a single 
+core for each computation.
+
+For our computations over the base field $\mathbf{Q}_p$, we choose the prime 
+$p = 17$ and the precisions $N = 2^i$ for $i = 0, \dotsc, 19$.  In order to 
+avoid problems associated with different random number sequences on the test 
+systems, we consider the explicit elements $3^{3 N}$, $3^{6 N}$, 
+$17 \times 3^{3 N}$, and $1 + 17 \times 3^{3 N}$ reduced modulo $17^N$ 
+as input to the various arithmetic functions.  The timings are collected 
+in Figure~\ref{fig:timings-qp}.
+
+{%
+\addtolength{\abovecaptionskip}{-2mm}
+\addtolength{\belowcaptionskip}{4mm}
+\begin{figure}[ht]
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[width=0.9\textwidth]{bin/qp-inv.eps}
+\end{minipage}
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[width=0.9\textwidth]{bin/qp-sqrt.eps}
+\end{minipage}\\
+
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[width=0.9\textwidth]{bin/qp-teichmuller.eps}
+\end{minipage}
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[width=0.9\textwidth]{bin/qp-exp.eps}
+\end{minipage}\\
+
+\begin{minipage}[b]{0.5\linewidth}
+\centering
+\includegraphics[width=0.9\textwidth]{bin/qp-log.eps}
+\end{minipage}
+\begin{minipage}[b]{0.5\linewidth}
+%
+\end{minipage}
+\caption{From left to right, top to bottom, we compute 
+$\bigl(3^{3N}\bigr)^{-1}$, $\sqrt{3^{6 N}}$, the Teichm\"uller 
+lift of~$3$, $\exp\bigl(17 \times 3^{3N}\bigr)$, and 
+$\log\bigl(1 + 17 \times 3^{3N}\bigr)$ modulo $17^N$.  The solid 
+lines represent the routines in {\sc Magma}, the dashed and dotted 
+lines the routines in {\sc FLINT}.}
+\label{fig:timings-qp}
+\end{figure}}
 
