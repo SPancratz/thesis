@@ -627,7 +627,7 @@ algorithm~\citep{Brent1976} for computing the exponential function,
 adapted to the $p$-adic case.  In order to simplify the exposition, 
 we restrict ourselves to the case of $\mathbf{Q}_p$ but note that 
 it is possible to obtain the same asymptotic results in terms of 
-their dependency on~$N$.
+their dependency on~$N$ in the case of $\mathbf{Q}_q$.
 
 \subsubsection{Exponential, exact rational}
 
@@ -635,7 +635,10 @@ Algorithm~\ref{alg:exp-bsplit} computes the sum
 \begin{equation}
 (a-1)! x^{1-a} \sum_{i=a}^{b-1} \frac{x^i}{i!}
 \end{equation}
-as the rational number $T/Q$.
+as an exact rational number.  This expression is chosen in such a way 
+as to allow for a recursive computation of the exponential series. 
+Visibly, we can invoke this routine with $a = 1$, $b = n$ in order 
+to compute $\sum_{i=1}^{n-1} x^i / i!$.
 
 \begin{algorithm}
 \caption{Computing the exponential as an exact rational}
@@ -661,17 +664,42 @@ as the rational number $T/Q$.
 \end{algorithmic}
 \end{algorithm}
 
-We can invoke this routine with $a = 1$, $b = n$ in order to compute 
-$\sum_{i=1}^{n-1} x^i / i!$ as an exact rational.  Counting the 
-number of multiplications and considering the sizes of the factors 
-at the various levels of the recursion, we find that the complexity 
-is given by $\mathcal{O}\bigl(\bigl(M(n \log n) + M(n \log x) \bigr)\log n\bigr)$.
+We now provide a sketch of the complexity analysis, assuming for 
+simplicity that $a = 1$ and $b = n = 2^k + 1$.  Let us label the various 
+levels in the recursive procedure $0, 1, \dotsc, k$ with $0$ and $k$ 
+denoting the base cases and the top level, respectively.  We begin 
+by estimating the size of the return values $P, Q, T$ at each level~$i$. 
+Initially, when $i = 0$, $P$, and $T$ are of the same size as $x$ 
+and $Q$ is at most $n$.  At level~$i$, $P$ is equal to $x^{2^i}$ 
+and hence of size $2^i \log x$ bits.  $Q$ is the product of 
+$2^i$ numbers at most $n$ and hence of size at most $2^i \log n$. 
+Finally, from the expression $T \gets T_0 Q_1 + P_0 T_1$, we see 
+that at level~$i$ the size of $T$ is at most 
+$2^i \max \{\log n, \log x\} + i$. 
+We now count the number of operations at each level.  At level~$0$ 
+we only set $P$, $Q$, and $T$, and this is carried out $2^k$ times. 
+At levels $i = 1, \dotsc, k$, we carry out the following operations 
+$2^{k-i}$ times:  two products with factors of size at most 
+$2^{i-1} \max\{ \log n, \log x \} + (i-1)$ bits, one product with 
+factors of size $2^{i-1} \log x$, and one product with factors of 
+size at most $2^{i-1} \log n$ bits.  Here, we ignore the computation 
+$m \gets \floor{(a+b)/2}$ and the sum in $T \gets T_0 Q_1 + P_0 T_1$. 
+Thus, we can form the estimate,
+\begin{align*}
+\sum_{i=1}^k 2^{k-i} M \bigl( 2^{i-1} \max\{ \log n, \log x \} 
+                             + (i - 1)\bigr) 
+& \leq \sum_{i=1}^k 2^{k-i} M \bigl( 2^{i} \max\{ \log n, \log x \} \bigr) \\
+& \leq \sum_{i=1}^k 2^{k-i} 2^{-k+i} M \bigl( 2^{k} \max\{ \log n, \log x \} \bigr) \\
+& \leq (\log n) M \bigl( n \max\{ \log n, \log x \} \bigr)
+\end{align*}
+and conclude that the complexity is given by 
+$\mathcal{O}\bigl((\log n) M(n \max\{ \log n, \log x\})\bigr)$.
 
 \subsubsection{Main part}
 
 We now describe how to evaluate the truncated series 
 $\sum_{i=0}^{n-1} x^i / i! \bmod{p^N}$ where we may assume 
-that $0 \leq x < p^N$.  First, write 
+that $0 < x < p^N$.  First, write 
 \begin{equation}
 x = \sum_{i=1}^{\ceil{\log_p N}} x_i
 \end{equation}
@@ -682,14 +710,37 @@ with $0 \leq x_i < p^{2^i}$ and $\ord_p(x_i) \geq 2^{i-1}$.  Thus,
 and we observe that the computation of $\exp(x_i) \bmod p^N$ requires 
 us to evaluate a sum of 
 \begin{equation}
-n_i \leq \frac{(p-1) N - 1}{(p-1) 2^{i-1} - 1} \leq \frac{N}{2^i}
+n_i \leq \frac{(p-1) N - 1}{(p-1) 2^{i-1} - 1} \leq \frac{N}{2^{i-2}}
 \end{equation}
-terms.
+terms.  We carry out this computation using the routine from the 
+previous section.
 
-It follows that the overall complexity of this algorithm is 
-$\mathcal{O}_p\bigl(M(N) (\log N)^2\bigr)$, which is quasi-linear 
-in~$N$.  We have used the $\mathcal{O}_p(-)$ notation to suppress 
-the dependency on $p$, which is logarithmic.
+When using the complexity result from the previous section, we 
+have to consider two cases because of the $\max\{-,-\}$ function 
+present in the expression.  In order to obtain an overall estimate 
+for the $\ceil{\log_p N}$ computations of smaller exponentials 
+we consider the two cases of the $\max\{-,-\}$ function separately.  
+Firstly, we have that 
+\begin{align*}
+\sum_{i=1}^{\ceil{\log_p N}} \bigl( \log (2^{-i+2} N) \bigr) M \bigl( 2^{-i+2} N \log (2^{-i+2} N) \bigr) 
+& \leq \sum_{i=1}^{\ceil{\log_p N}} (\log N) M\bigl(2^{-i+2} N \log N\bigr) \\
+& \leq \sum_{i=1}^{\ceil{\log_p N}} (\log N) 2^{-i} M(4 N \log N) \\
+& \leq (\log N) M(4 N \log N).
+\end{align*}
+Secondly, 
+\begin{align*}
+\sum_{i=1}^{\ceil{\log_p N}} \bigl( \log (2^{-i+2} N) \bigr) M \bigl( 2^{-i+2} N \log p^{2^i} \bigr) 
+& \leq \sum_{i=1}^{\ceil{\log_p N}} (\log N) M(4 N \log p).
+\end{align*}
+We also note that we can ignore the cost of forming the final product 
+of the $\ceil{\log_p N}$ factors to precision~$N$, which is 
+$\mathcal{O}((\log_p N) M(N \log p)$.  Therefore, we find that the 
+complexity of the computation of $\exp(x)$ modulo $p^N$ using the 
+binary splitting routine is 
+\begin{equation}
+\mathcal{O}\bigl( (\log N) M(N \log N) 
+    + (\log N) (\log_p N) M(N \log p) \bigr).
+\end{equation}
 
 \section{Logarithm}
 
@@ -703,15 +754,16 @@ function is defined as
 \end{equation}
 
 In order to compute $\log(x) \bmod p^N$, we need to consider all 
-indices~$i$ such that $i \ord_p(1-x) - \ord_p(i) < N$.  For example, 
-setting $n = \ceil{N/\ord_p(x)}$, 
+indices~$i$ such that $i v - \ord_p(i) < N$ where $v = \ord_p(1-x)$.  
+With $c = N - \floor{\log_p v}$ and setting $n = c + \ceil{\log_p c} + 1$, 
+we have that $i v - \ord_p(i) \geq N$ for all $i \geq n$.  Thus, 
 \begin{equation*}
-\log(x) = - \sum_{i=1}^{n-1} \frac{(1-x)^i}{i} \pmod{p^N}
+\log(x) = - \sum_{i=1}^{n-1} \frac{(1-x)^i}{i} \pmod{p^N}.
 \end{equation*}
 
 As in the case of the exponential, since the number of terms 
 is $\mathcal{O}(N)$, this truncated series can be evaluated 
-in time $\mathcal{O}_p(M(N) N)$ using Horner's method.
+in time $\mathcal{O}(N \mu)$ using Horner's method.
 
 \subsection{Rectangular splitting}
 
@@ -727,7 +779,7 @@ we let $z_B = \prod_{j=0}^{B-1} (z + j)$.  As the inner
 sum now features an exact integer division, this approach 
 reduces the number of $p$-adic inversions to about $\sqrt{n}$.
 
-We include a more precise version of this as 
+We include a detailed version of this as 
 Algorithm~\ref{alg:log-rectangular}.
 
 \begin{algorithm}
@@ -771,7 +823,13 @@ Algorithm~\ref{alg:log-bsplit} computes the sum
 \begin{equation}
 (a-1)! y^{1-a} \sum_{i=a}^{b-1} \frac{y^i}{i}
 \end{equation}
-as the rational number $T/Q$.
+as the rational number, which allows us to recursively compute the 
+logarithm series when invoking this routine with $a = 1$, $b = n$.  
+We provide a precise algorithmic formulation of this idea in 
+Algorithm~\ref{alg:log-bsplit} and observe that ananalysis analogous 
+to the case of the $p$-adic exponential shows that the complexity 
+of this routine is 
+$\mathcal{O}\bigl( (\log n) M(n\max\{\log n, \log y\}) \bigr)$.
 
 \begin{algorithm}
 \caption{Computing the  logarithm as an exact rational}
@@ -797,19 +855,25 @@ as the rational number $T/Q$.
 \end{algorithmic}
 \end{algorithm}
 
-We can invoke this routine with $a = 1$, $b = n$ in order to compute 
-$\sum_{i=0}^{n-1} y^i / i$ as an exact rational.  Counting the 
-number of multiplications and considering the sizes of the factors 
-at the various levels of the recursion, we find that the complexity 
-is given by $\mathcal{O}\bigl((M(n \log n) + M(n \log y) )\log n\bigr)$.
-
 \subsubsection{Main part}
 
 We can employ the same idea as in the case of the exponential 
 function, relying on the expression 
 \begin{equation}
-\log(1 + x + x') = \log(1 + x) + \log \Bigl(1 + \frac{x'}{1+x}\Bigr).
+\log(1 + x + y) = \log(1 + x) + \log \Bigl(1 + \frac{y}{1+x}\Bigr).
 \end{equation}
+More precisely, let us define the sequences $(r_i)_{i \geq 1}$ and 
+$(t_i)_{i \geq 0}$ by $t_0 = x$ and 
+\begin{align}
+r_i & = t_{i-1} \bmod{p^{2^i}}, \\
+t_i & = \frac{t_{i-1} - r_i}{1 + r_i} \bmod{p^N}.
+\end{align}
+Then 
+\begin{equation}
+\log(1 + x) = \sum_{i=1}^{\ceil{\log_p N}} \log(1 + r_i) \pmod{p^N}.
+\end{equation}
+The complexity analysis for this approach is analogous to that for 
+the binary splitting approach for the exponential.
 
 \section{Benchmarks}
 
@@ -831,7 +895,7 @@ in Figure~\ref{fig:timings-qp}.
 
 {%
 \addtolength{\abovecaptionskip}{-2mm}
-\addtolength{\belowcaptionskip}{4mm}
+\addtolength{\belowcaptionskip}{0mm}
 \begin{figure}[ht]
 \begin{minipage}[t]{0.5\linewidth}
 \centering
