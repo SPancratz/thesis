@@ -886,48 +886,139 @@ $24$~Intel Xeon X5670 CPUs at $2.93$~GHz, although we only use a single
 core for each computation.
 
 For our computations over the base field $\mathbf{Q}_p$, we choose the prime 
-$p = 17$ and the precisions $N = 2^i$ for $i = 0, \dotsc, 19$.  In order to 
-avoid problems associated with different random number sequences on the test 
-systems, we consider the explicit elements $3^{3 N}$, $3^{6 N}$, 
-$17 \times 3^{3 N}$, and $1 + 17 \times 3^{3 N}$ reduced modulo $17^N$ 
-as input to the various arithmetic functions.  The timings are collected 
-in Figure~\ref{fig:timings-qp}.
+$p = 17$ and the precisions \mbox{$N = 2^i$} for $i = 0, \dotsc, 19$.  
+In order to avoid problems associated with different random number sequences 
+on the test systems, we choose explicit elements in $\mathbf{Z} / (p^N)$ as 
+input to the various arithmetic functions.
 
-{%
-\addtolength{\abovecaptionskip}{-2mm}
-\addtolength{\belowcaptionskip}{0mm}
+In the case of $\mathbf{Q}_q$, we consider the same prime and range of 
+precisions where possible, although some data points are missing because 
+of excessive time or memory requirements.  We focus on the dependency 
+on the precision~$N$, fixing the extension degree~$97$.  The only exception 
+is the computation of the norm, which we present for both $d = 5$ and $d = 97$ 
+in order to highlight the usefulness of our two separate algorithms.
+
+The timings are collected in Figures~\ref{fig:timings-qp}, 
+\ref{fig:timings-qq1} and \ref{fig:timings-qq2}.
+To summarise the results, it appears that our routines are competitive with 
+{\sc Magma}, and often they are a constant factor faster.  In the case of 
+$\mathbf{Q}_p$, the two noticeable exceptions are the exponential and 
+logarithm functions, where we can observe that the binary splitting versions 
+are asymptotically faster.  In the case of $\mathbf{Q}_q$, our routines 
+are competitive again.  Considering the square root function, the graph 
+shows that for values of $N$ up to about $10^3$, the runtime is completely 
+dominated by the initial square root computation over $\mathbf{F}_q$.  
+The norm computation for $d=5$ shows that the resultant approach matches 
+the {\sc Magma} routine, both being a factor of about ten faster than the 
+analytic approach.  However, when $d=97$ the contribution of $d^4$ to the 
+complexity of the resultant approach is apparent.  We observe that our 
+implementation of the analytic approach is fastest, and that both of our 
+routines display a quasi-linear dependence on~$N$ while the {\sc Magma} 
+routine appears to be quasi-quadratic.  Regarding the exponential function, 
+while our implementation of the binary splitting algorithm is a constant 
+factor faster than the {\sc Magma} routine, both display a quasi-linear 
+dependence on~$N$.  Finally, our binary splitting implementation for the 
+logarithm function displays a quasi-linear dependence on~$N$ while both 
+the rectangular splitting version and the {\sc Magma} routine show a worse 
+asymptotic runtime.
+
 \begin{figure}[ht]
 \begin{minipage}[t]{0.5\linewidth}
 \centering
-\includegraphics[width=0.9\textwidth]{bin/qp-inv.eps}
+\includegraphics[width=0.84\textwidth]{bin/qp-mul.eps}
 \end{minipage}
 \begin{minipage}[t]{0.5\linewidth}
 \centering
-\includegraphics[width=0.9\textwidth]{bin/qp-sqrt.eps}
+\includegraphics[width=0.84\textwidth]{bin/qp-inv.eps}
 \end{minipage}\\
 
 \begin{minipage}[t]{0.5\linewidth}
 \centering
-\includegraphics[width=0.9\textwidth]{bin/qp-teichmuller.eps}
+\includegraphics[width=0.84\textwidth]{bin/qp-sqrt.eps}
 \end{minipage}
 \begin{minipage}[t]{0.5\linewidth}
 \centering
-\includegraphics[width=0.9\textwidth]{bin/qp-exp.eps}
+\includegraphics[width=0.84\textwidth]{bin/qp-teichmuller.eps}
 \end{minipage}\\
 
 \begin{minipage}[b]{0.5\linewidth}
 \centering
-\includegraphics[width=0.9\textwidth]{bin/qp-log.eps}
+\includegraphics[width=0.84\textwidth]{bin/qp-exp.eps}
 \end{minipage}
 \begin{minipage}[b]{0.5\linewidth}
-%
+\centering
+\includegraphics[width=0.84\textwidth]{bin/qp-log.eps}
 \end{minipage}
 \caption{From left to right, top to bottom, we compute 
-$\bigl(3^{3N}\bigr)^{-1}$, $\sqrt{3^{6 N}}$, the Teichm\"uller 
-lift of~$3$, $\exp\bigl(17 \times 3^{3N}\bigr)$, and 
+$3^{3N} \times 5^{3N}$, $\bigl(3^{3N}\bigr)^{-1}$, $\sqrt{3^{6 N}}$, 
+the Teichm\"uller lift of~$3$, $\exp\bigl(17 \times 3^{3N}\bigr)$, and 
 $\log\bigl(1 + 17 \times 3^{3N}\bigr)$ modulo $17^N$.  The solid 
 lines represent the routines in {\sc Magma}, the dashed and dotted 
 lines the routines in {\sc FLINT}.}
 \label{fig:timings-qp}
-\end{figure}}
+\end{figure}
+
+\begin{figure}[ht]
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[width=0.84\textwidth]{bin/qq-mul.eps}
+\end{minipage}
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[width=0.84\textwidth]{bin/qq-inv.eps}
+\end{minipage}\\
+
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[width=0.84\textwidth]{bin/qq-sqrt.eps}
+\end{minipage}
+\begin{minipage}[t]{0.5\linewidth}
+\centering
+\includegraphics[width=0.84\textwidth]{bin/qq-teichmuller.eps}
+\end{minipage}\\
+
+\begin{minipage}[b]{0.5\linewidth}
+\centering
+\includegraphics[width=0.84\textwidth]{bin/qq-frobenius.eps}
+\end{minipage}
+\begin{minipage}[b]{0.5\linewidth}
+\centering
+\includegraphics[width=0.84\textwidth]{bin/qq-trace.eps}
+\end{minipage}
+\caption{From left to right, top to bottom, we compute 
+$a \times b$, $a^{-1}$ $\sqrt(a^2)$, the Teichm\"uller lift $c$, 
+the Frobenius image of $a$, and the trace of $a$ in $\Z_{17^{97}}$ 
+modulo $17^N$, where $a = \sum (3+i)^{3N} X^i$, $b = \sum (5+2i)^{3N} X^i$, 
+and $c = \sum (3+i) X^i \bmod p$.
+The solid lines represent the routines in {\sc Magma}, the dashed 
+and dotted lines the routines in {\sc FLINT}.}
+\label{fig:timings-qq1}
+\end{figure}
+
+\begin{figure}[ht]
+\begin{minipage}[b]{0.5\linewidth}
+\centering
+\includegraphics[width=0.84\textwidth]{bin/qq-norm_d5.eps}
+\end{minipage}
+\begin{minipage}[b]{0.5\linewidth}
+\centering
+\includegraphics[width=0.84\textwidth]{bin/qq-norm_d97.eps}
+\end{minipage}\\
+
+\begin{minipage}[b]{0.5\linewidth}
+\centering
+\includegraphics[width=0.84\textwidth]{bin/qq-exp.eps}
+\end{minipage}
+\begin{minipage}[b]{0.5\linewidth}
+\centering
+\includegraphics[width=0.84\textwidth]{bin/qq-log.eps}
+\end{minipage}
+\caption{From left to right, top to bottom, we compute the norm 
+of $a$ in $\mathbf{Q}_{17^{5}}$ and $\mathbf{Q}_{17^{97}}$, and 
+the exponential of $17 a$ and the logarithm of $1 + 17a$ in 
+$\mathbf{Q}_{17^{97}}$, where $a = \sum (3+i)^{3N} X^i$.
+The solid lines represent the routines in {\sc Magma}, the dashed 
+and dotted lines the routines in {\sc FLINT}.}
+\label{fig:timings-qq2}
+\end{figure}
 
