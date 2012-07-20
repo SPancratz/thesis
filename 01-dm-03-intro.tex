@@ -91,7 +91,7 @@ The deformation algorithm is outlined in Figure~\ref{fig:01-03-deformation}.
         point $t_1 \in \mathbf{F}_q$ with $q = p^a$};
 
     \node [block, below left=14.6mm and -30mm of input, text width = 48mm] (diag) 
-        {Matrix $F_0$ over $\mathbf{Q}_p \bmod p^{N_3}$ for $p^{-1} F_p$ 
+        {Matrix $F_0$ over $\mathbf{Q}_p \bmod p^{N_4}$ for $p^{-1} F_p$ 
         on $H_{dR}^n(\mathfrak{U}_0)$};
 
     \node [block, below right=6mm and -50mm of input, text width = 58mm] (gm) 
@@ -99,20 +99,20 @@ The deformation algorithm is outlined in Figure~\ref{fig:01-03-deformation}.
         with denominator $r \in \mathbf{Z}[t]$};
 
     \node [block, below=6mm of gm, text width = 82mm] (local) 
-        {Solution $C(t)$ in $\mathbf{Q}_p[[t]] \bmod {(p^{N_2}, t^{K})}$ of the 
+        {Solution $C(t)$ in $\mathbf{Q}_p[[t]] \bmod {(p^{N_3}, t^{K})}$ of the 
         differential equation \mbox{$\bigl(\tfrac{d}{dt} + M\bigr) C = 0$}, 
         and $C(t^p)^{-1}$};
 
     \node [block, below=42mm of input, text width = 126mm] (series)
         {Matrix $F_t = C(t) F_0 C(t^p)^{-1}$ in 
-        $\mathbf{Q}_p[[t]] \bmod {(p^{N_1}, t^{K})}$ for $p^{-1} F_p$ 
+        $\mathbf{Q}_p[[t]] \bmod {(p^{N_2}, t^{K})}$ for $p^{-1} F_p$ 
         on $H_{dR}^n(\mathfrak{U}_t)$};
 
     \node [block, below=6mm of series, text width = 76mm] (poly) 
-        {Matrix $G = r^m F_t$ over $\mathbf{Q}_p[t] \bmod {(p^{N_1})}$};
+        {Matrix $G = r^m F_t$ over $\mathbf{Q}_p[t] \bmod {(p^{N_2})}$};
 
     \node [block, below=6mm of poly, text width = 114mm] (eval) 
-        {Matrix $F_1 = r(\hat{t}_1)^{-m} G(\hat{t}_1)$ over $\mathbf{Q}_q \bmod p^{N_1}$
+        {Matrix $F_1 = r(\hat{t}_1)^{-m} G(\hat{t}_1)$ over $\mathbf{Q}_q \bmod p^{N_2}$
         for $p^{-1} F_p$ on $H_{dR}^n(\mathfrak{U}_1)$}; 
 
     \node [block, below=6mm of eval, text width = 118mm] (qpower) 

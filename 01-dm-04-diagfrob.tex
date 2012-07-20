@@ -253,6 +253,18 @@ Dwork~\citep[Pages~55--57]{Dwork62}, we obtain the lower bound
 \end{equation*}
 \end{proof}
 
+\begin{rem}
+The expression $\mu_m$, $m \neq 3, 7$, can be computed efficiently 
+modulo~$p^{\tilde{N}}$ via
+\begin{equation*}
+\mu_m = \frac{2^{\floor{3m/4}}}{m!} 
+    \sum_{k=0}^{\floor{m/2}} \frac{m!}{2^k (m-2k)! k!}
+\end{equation*}
+using only $p$-adic inversion.  We observe that the summands are 
+integers of size $\mathcal{O}(m \log m)$ bits, which allows us to 
+avoid performing intermediate reductions modulo $p^{\tilde{N}}$.
+\end{rem}
+
 \begin{thm} \label{thm:alpha2}
 Let $p = 2$. 
 Continuing with the notation set up in this chapter, let 
@@ -367,6 +379,18 @@ p^2 - 3p + 1 > 0
 \end{equation*}
 which holds true provided that $p \geq 3$.
 \end{proof}
+
+\begin{rem}
+The expression $\mu_m$ can be computed efficiently 
+modulo~$p^{\tilde{N}}$ via
+\begin{equation*}
+\mu_m = \frac{p^{\floor{m/p}}}{m!} 
+    \sum_{k=0}^{\floor{m/p}} \frac{m!}{p^k (m-pk)! k!}
+\end{equation*}
+using only $p$-adic inversion.  We observe that the summands are 
+integers of size $\mathcal{O}(m \log m)$ bits, which allows us to 
+avoid performing intermediate reductions modulo $p^{\tilde{N}}$.
+\end{rem}
 
 \begin{thm} \label{thm:alphap}
 Let $p \geq 3$.  Continuing with the notation set up in this chapter, 
