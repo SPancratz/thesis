@@ -40,7 +40,7 @@ Specifically, we establish the following set-up.
 Let $p$ be a prime number, $q$ a power of $p$, and let $\mathbf{Q}_q$ 
 denote the unique unramified extension of $\mathbf{Q}_p$ with residue 
 field~$\mathbf{F}_q$ and $\mathbf{Z}_q$ its ring of integers.  
-We consider two smooth $\mathbf{Z}_q$-schemes $\mathfrak{X}$ and $\mathfrak{S}$ 
+We consider two smooth $\mathbf{Z}_q$-schemes~$\mathfrak{X}$ and $\mathfrak{S}$ 
 together with a smooth projective morphism $\mathfrak{X} \to \mathfrak{S}$, 
 where $\mathfrak{X}$ is a family of hypersurfaces 
 and $\mathfrak{S} \subset \mathbf{A}_{\mathbf{Z}_q}^1(t)$ is an affine, open 
@@ -50,10 +50,10 @@ We assume that this family is defined by a homogenous polynomial
 $P \in \mathbf{Z}[t][x_0,\dotsc,x_n]$ over the integers of degree~$d$, 
 where $n \geq 1$ and $d \geq 1$.  
 Moreover, we require that at $t = 0$, the polynomial $P_0(x_0,\dotsc,x_n)$ 
-is diagonal.  
-We also define complements $\mathfrak{U}$ and $U$ by 
-$\mathbf{P}_{\mathbf{Z}_q}^n \times \mathfrak{S} - \mathfrak{X}$ 
-and $\mathbf{P}_{\mathbf{F}_p}^n \times S - X$, respectively, 
+is diagonal.  Finally, we let $X$ denote the projection of~$\mathfrak{X}$ 
+to characteristic~$p$ and also define complements~$\mathfrak{U}$ and~$U$ 
+by $\mathbf{P}_{\mathbf{Z}_q}^n \times \mathfrak{S} - \mathfrak{X}$ 
+and $\mathbf{P}_{\mathbf{F}_q}^n \times S - X$, respectively, 
 where $S \subset \mathbf{A}_{\mathbf{F}_q}^1(t)$.  
 \end{notation}
 
@@ -65,8 +65,9 @@ is even.
 \end{notation}
 
 \begin{rem}
-It follows that all fibres $X_t$ are non-singular varieties, and by 
-considering the fibre~$X_0$ we see that our assumptions imply $p \nmid d$.
+It follows that all fibres $X_t$ are non-singular varieties, 
+and by considering the diagonal fibre~$X_0$ we see that our 
+assumptions imply $p \nmid d$.
 \end{rem}
 
 % Outline of the algorithm %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -91,7 +92,7 @@ The deformation algorithm is outlined in Figure~\ref{fig:01-03-deformation}.
         point $t_1 \in \mathbf{F}_q$ with $q = p^a$};
 
     \node [block, below left=14.6mm and -30mm of input, text width = 48mm] (diag) 
-        {Matrix $F_0$ over $\mathbf{Q}_p \bmod p^{N_4}$ for $p^{-1} F_p$ 
+        {Matrix $\Phi_0$ over $\mathbf{Q}_p \bmod p^{N_4}$ for $p^{-1} F_p$ 
         on $H_{dR}^n(\mathfrak{U}_0)$};
 
     \node [block, below right=6mm and -50mm of input, text width = 58mm] (gm) 
@@ -99,28 +100,29 @@ The deformation algorithm is outlined in Figure~\ref{fig:01-03-deformation}.
         with denominator $r \in \mathbf{Z}[t]$};
 
     \node [block, below=6mm of gm, text width = 82mm] (local) 
-        {Solution $C(t)$ in $\mathbf{Q}_p[[t]] \bmod {(p^{N_3}, t^{K})}$ of the 
+        {Solution $C(t)$ in $\mathbf{Q}_p[[t]] \bmod {\bigl(p^{N_3}, t^{K}\bigr)}$ of the 
         differential equation \mbox{$\bigl(\tfrac{d}{dt} + M\bigr) C = 0$}, 
         and $C(t^p)^{-1}$};
 
-    \node [block, below=42mm of input, text width = 126mm] (series)
-        {Matrix $F_t = C(t) F_0 C(t^p)^{-1}$ in 
-        $\mathbf{Q}_p[[t]] \bmod {(p^{N_2}, t^{K})}$ for $p^{-1} F_p$ 
+    \node [block, below=42mm of input, text width = 130mm] (series)
+        {Matrix $\Phi(t) = C(t) \Phi_0 C(t^p)^{-1}$ in 
+        $\mathbf{Q}_p[[t]] \bmod {\bigl(p^{N_2}, t^{K}\bigr)}$ for $p^{-1} F_p$ 
         on $H_{dR}^n(\mathfrak{U}_t)$};
 
-    \node [block, below=6mm of series, text width = 76mm] (poly) 
-        {Matrix $G = r^m F_t$ over $\mathbf{Q}_p[t] \bmod {(p^{N_2})}$};
+    \node [block, below=6mm of series, text width = 78mm] (poly) 
+        {Matrix $\Psi(t) = r(t)^m \Phi(t)$ over $\mathbf{Q}_p[t] \bmod {p^{N_2}}$};
 
     \node [block, below=6mm of poly, text width = 114mm] (eval) 
-        {Matrix $F_1 = r(\hat{t}_1)^{-m} G(\hat{t}_1)$ over $\mathbf{Q}_q \bmod p^{N_2}$
-        for $p^{-1} F_p$ on $H_{dR}^n(\mathfrak{U}_1)$}; 
+        {Matrix $\Phi_1 = r(\hat{t}_1)^{-m} \Psi(\hat{t}_1)$ over 
+        $\mathbf{Q}_q \bmod p^{N_2}$ for $p^{-1} F_p$ on 
+        $H_{dR}^n(\mathfrak{U}_{t_1})$}; 
 
-    \node [block, below=6mm of eval, text width = 118mm] (qpower) 
-        {Matrix $F_{q,1} = F_1 F_1^{\sigma} \dotsm F_1^{\sigma^{a-1}}$ 
-        over $\mathbf{Q}_q \bmod {p^{N_1}}$ for $q^{-1} F_q$ on $H_{dR}^n(\mathfrak{U}_1)$};
+    \node [block, below=6mm of eval, text width = 120mm] (qpower) 
+        {Matrix $\Phi_{q,1} = \Phi_1 \Phi_1^{\sigma} \dotsm \Phi_1^{\sigma^{a-1}}$ 
+        over $\mathbf{Q}_q \bmod {p^{N_1}}$ for $q^{-1} F_q$ on $H_{dR}^n(\mathfrak{U}_{t_1})$};
 
-    \node [block, below=6mm of qpower, text width = 72mm] (zeta) 
-        {Polynomial $p(T) = \det(1 - T F_{q,1})$ over $\mathbf{Z}$}; 
+    \node [block, below=6mm of qpower, text width = 92mm] (zeta) 
+        {Polynomial $p(T) = \det\bigl(1 - T q^{-1} F_q | H_{dR}^n(\mathfrak{U}_{t_1})\bigr)$ over $\mathbf{Z}$}; 
 
     % Draw edges
     \path [line] (input) -- (diag);

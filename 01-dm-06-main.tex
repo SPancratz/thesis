@@ -9,19 +9,20 @@ We point out that there are essentially no original contributions from the
 author;  we present the work of Lauder~\citep{Lau04} and also follow the 
 description by Gerkmann~\citep{Gerkmann2007}, focussing on the details 
 relevant to explicit computations.  The improvements in practical runtimes 
-that we observe are due to improved estimates of certain $p$-adic valuations 
-by Kedlaya~\citep{Kedlaya2010} and estimates of pole orders by Kedlaya and 
-Tuitman~\citep{KedlayaTuitman2012} as well as implementation details.
+that we observe in this part of the algorithm are due to improved estimates 
+of certain $p$-adic valuations by Kedlaya~\citep{Kedlaya2010} and estimates 
+of pole orders by Kedlaya and Tuitman~\citep{KedlayaTuitman2012} as well as 
+implementation details.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{$p$-Adic differential system and local expansion of Frobenius}
 
 We let $M$ denote the matrix for the Leibniz-linear connection on 
 $H_{dR}^n(\mathfrak{U})$, and $\Phi$ the matrix for the $\sigma$-semilinear 
-action of $p^{-1} F_p$, where $\sigma$ is the lift of the $p$th-power 
-Frobenius to $\mathbf{Q}_q$.  As described for example 
-in~\citep[\S 5]{Gerkmann2007}, these matrices satisfy the following 
-differential system,
+action of $p^{-1} F_p$, where $\sigma$ is the standard lift of the $p$th-power 
+Frobenius to~$\mathbf{Q}_q$ and~$\mathbf{Q}_q(t)$, sending $t \mapsto t^p$.  
+As described for example in~\citep[\S 5]{Gerkmann2007}, these matrices satisfy 
+the following differential system,
 \begin{equation} \label{eq:de_phi}
 \Bigl(\frac{d}{dt} + M\Bigr) \Phi = p t^{p-1} \Phi \sigma(M).
 \end{equation}
@@ -38,10 +39,17 @@ the above differential system is equivalent to the homogenous system
 \begin{equation} \label{eq:de}
 \Bigl(\frac{d}{dt} + M\Bigr) C = 0
 \end{equation}
-with initial condition $C(0) = \text{Id}$.  We now obtain a power series 
-solution $C = \sum_{i \geq 0} C_i t^i$ around $t=0$ as follows.  Let us 
-write $M = B/r$ where $B = \sum_{i=0}^{\deg(B)} B_i t^i$ is a matrix over 
-$\mathbf{Z}[t]$ and $r \in \mathbf{Z}[t]$.  Thus, we find the recursion 
+with initial condition $C(0) = \text{Id}$.  Let us write 
+\begin{equation}
+M(t) = \frac{B(t)}{r(t)}
+\end{equation}
+where $B(t) = \sum_{i=0}^{\deg(B)} B_i t^i$ is a matrix over $\mathbf{Z}[t]$ 
+and $r(t) \in \mathbf{Z}[t]$.  We can now obtain a power series solution 
+$C(t) = \sum_{i \geq 0} C_i t^i$ around $t=0$ for 
+\begin{equation}
+r(t) \frac{dC}{dt} + B(t) C(t) = 0
+\end{equation}
+using the recursion 
 \begin{equation}
 C_{i+1} = \frac{-1}{r_0 (i+1)} \biggl(
     \sum_{j=\max{\{0,i-\deg(B)\}}}^i B_{i-j} C_j + 
@@ -50,13 +58,12 @@ C_{i+1} = \frac{-1}{r_0 (i+1)} \biggl(
 where we recall that by assumption $r_0 \neq 0 \pmod{p}$ and so, 
 in particular, $r_0 \neq 0$.  [[TODO:  Include this somewhere.]]
 
-As part of the deformation method, we are only interested in a power 
-series solution modulo $p^N$ and $t^K$ for some values of $N$ and $K$ 
-discussed in [[TODO: Reference]].  In order to take advantage of this, 
-we need to understand the loss of $p$-adic precision involved in the 
-computation of $C_0, C_1, \dotsc, C_{K-1}$.  More precisely, let 
-$D_0, D_1, \dotsc$ denote an approximation defined by $D_0 = \text{Id}$ 
-and 
+From a computational perspective, we are only interested in a power 
+series solution to some $p$-adic and $t$-adic precisions $N$ and $K$, 
+respectively, as discussed in the next two sections.  As such we need 
+to understand the loss of $p$-adic precision involved in the computation 
+of $C_0, C_1, \dotsc, C_{K-1}$.  More precisely, let $D_0, D_1, \dotsc$ 
+denote an approximation defined by $D_0 = \text{Id}$ and 
 \begin{equation}
 D_{i+1} = \frac{-1}{r_0 (i+1)} \biggl(
     \sum_{j=\max{\{0,i-\deg(B)\}}}^i B_{i-j} D_j + 
