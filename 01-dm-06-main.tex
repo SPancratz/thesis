@@ -81,11 +81,7 @@ valuation of $C_0, C_1, \dotsc$ by Kedlaya~\citep{Kedlaya2010}.
 For all $i \geq 0$, the $p$-adic valuation of the matrix~$C_i$ 
 can be bounded by 
 \begin{equation}
-\ord_p(C_i) \geq - \bigl(2 (r + s) + (n - 1)\bigr) \ceil{\log_p i}
-\end{equation}
-as well as 
-\begin{equation}
-\ord_p(C_i) \geq (b - 1) \ord_p(M) - \bigl(2 (r + s) + (n - 1)\bigr) \floor{\log_p i}.
+\ord_p(C_i) \geq - \bigl(2 (r + s) + (n - 1)\bigr) \ceil{\log_p i}.
 \end{equation}
 \end{thm}
 
@@ -96,9 +92,17 @@ by Poincar\'e duality.  Thus, we see that
 \begin{equation}
 \ord_p(\Phi) + \ord_p(\Phi^{-1}) \geq - 2 (r+s) - (n-1)
 \end{equation}
-and the two bounds follow now from Theorem~{18.3.3} and Remark~{18.3.4} 
-in~\citep{Kedlaya2010}, respectively.
+and the bound follows now from Theorem~{18.3.3} in~\citep{Kedlaya2010}.
 \end{proof}
+
+\begin{rem}
+Kedlaya~\citep[Remark~18.3.4]{Kedlaya2010} also includes another bound,
+\begin{equation}
+\ord_p(C_i) \geq (b - 1) \ord_p(M) - \bigl(2 (r + s) + (n - 1)\bigr) \floor{\log_p i},
+\end{equation}
+which sometimes is better than the estimate used in the previous 
+theorem.
+\end{rem}
 
 \begin{thm}
 Let the sequences of matrices $(C_i)$ and $(D_i)$ over $\mathbf{Q}$ and 
@@ -140,7 +144,6 @@ for $C$, $\Phi(0)$, and $\sigma(C)^{-1}$, we are in a position to determine
 the power series for $\Phi = C \Phi(0) \sigma(C)^{-1}$.  The final issue 
 to address in this section is the $p$-adic precision that we require for 
 the three matrices $C$, $\Phi(0)$, and $C^{-1}$.
-
 We begin by developing generic bounds on the products of $p$-adic numbers 
 and matrices:
 
@@ -254,26 +257,23 @@ the bound $\ord_p(\Phi(0)) \geq -(r+s)$ from~\citep[Lemma~3.3]{Gerkmann2007}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Analytic continuation and evaluation}
 
-The matrix~$\Phi(t)$ is computed as matrix of power series in the first place 
-by finding the local expansion of the solution to the differential equation 
-around~$t = 0$.  Wishing to evaluate its entries at a point different 
-from the origin, we are prompted to compute its analytic continuation, that is 
-to say, express the entries as rational functions instead of power series.
+In the previous section we described how to compute matrix $\Phi(t)$ as 
+a local power series expansion around $t = 0$.  In order to evaluate it 
+at a second point $t = t_1$, we wish to $p$-adically approximate it 
+using rational functions with denominators a power of $r(t)$, which 
+is possible as the entries of the matrix for the action of $p^{-1} F_p$ 
+on $H_{dR}^{n}(\mathfrak{U})$ are \emph{overconvergent functions}.
 
-[[TODO:  Say that the rational functions can only have denominators that 
-are powers of $r(t)$.]]
+[[TODO:  Define the weak completion rings.  Find a reference of 
+overconvergence.]]
 
-[[TODO:  Say that in order to recover the rational functions to some 
-$p$-adic precision, we need determine the power series to a certain 
-$t$-adic and $p$-adic precisions.]]
+More precisely, given a desired $p$-adic precision~$N_2$, we would 
+like to determine integers~$m$ and~$K$ such that, modulo~$p^{N_2}$, 
+the entries of the matrix $r(t)^m \Phi(t)$ are polynomials of degree 
+at most~$K$.  We can then recover these polynomials from our power 
+series approximation modulo~$t^K$ computed in the previous section.
 
-Given a desired $p$-adic precision $N_2$, we would like to determine 
-integers $m$ and $K$ such that, modulo $p^{N_2}$, the entries of the 
-matrix $r(t)^m \Phi(t)$ are polynomials of degree at most $K$.  We 
-will then be able to recover these polynomials from our power series 
-approximation modulo $t^K$ computed in the previous section.
-
-Gerkmann developed suitable results in~\citep[\S 6]{Gerkmann2007}, 
+Gerkmann described suitable results in~\citep[\S 6]{Gerkmann2007}, 
 however the estimates are not sharp in practice.  There has been recent 
 progress by Kedlaya and Tuitman~\citep[Theorem~2.1]{KedlayaTuitman2012}, 
 which we present in a slightly simplified form:
@@ -306,28 +306,31 @@ since even when the hypotheses are not satisfied, the required bounds are
 often closer to the result of Kedlaya and Tuitman than to the estimates 
 provided by Gerkmann.
 
-Typically, the contribution of the terms $\max_i \lambda_i - p \min_i \lambda_i$ 
-in Equation~\citep{eq:KedlayaTuitman} is small compared to the term $p g(N_2)$. 
-Thefore, in a heuristic implementation, one could choose e.g.\ 
-$m = 1.1 \times p N_2$ and $K = \deg(r) m$.
+The contribution of the terms $\max_i \lambda_i - p \min_i \lambda_i$ 
+in Equation~\eqref{eq:KedlayaTuitman} typically is small compared to the 
+term~$p g(N_2)$. Therefore, in a heuristic implementation, one 
+could choose e.g.\ $m = 1.1 \times p N_2$ and $K = \deg(r) m$.
 \end{rem}
 
-We conclude this section by consider the evaluation of $\Phi(t)$ at the point 
-$t=t_1$.  The matrix $\Phi_1$ is defined as the matrix of $p^{-1} F_p$ 
-on $H_{dR}^n(\mathfrak{U}_1)$ and it is computed modulo $p^{N_2}$ as 
-\begin{equation*}
-Phi_1 = r(\hat{t}_1)^{-m} G(\hat{t}_1) \pmod{p^{N_2}}.
-\end{equation*}
-We claim that it suffices to compute $\hat{t}_1$ and $G$ to precision~$N_2$. 
-Indeed, by assumption $r(t_1)$ is a $p$-adic unit and hence so is 
-$r(\hat{z}_1)^{-m}$, which implies that it can be computed modulo $p^{N_2}$ 
-without precision loss.  The matrix $G$ is computed as $G = r^m Phi$ over 
-$\mathbf{Q}_p[[t]]$ modulo~$(p^{N_2}, t^{K})$.
+Having obtained an expression for the action of~$p^{-1} F_p$ 
+on~$H_{dR}^{n}(\mathfrak{U})$ in terms of rational functions, we conclude 
+this section by describing the evaluation at $t = t_1$.  Modulo~$p^{N_2}$, 
+the matrix $\Phi_1$ representing $p^{-1} F_p$ on 
+$H_{dR}^{n}(\mathfrak{U}_{t_1})$ is equal to 
+\begin{equation}
+\Phi_1 = 
+    r(\hat{t}_1)^{-m} 
+    \Bigl( r(t)^m \Phi(t) \bmod{t^K} \Bigr) \Big\vert_{t=t_1} \pmod{p^{N_2}}.
+\end{equation}
+Since, by assumption, $r(t_1)$ is a $p$-unit and hence so is 
+$r(\hat{t}_1)^{-m}$ we observe that it suffices to compute the 
+Teichm\"uller lift~$\hat{t}_1$ and the matrix~$r(t)^m \Phi(t)$ 
+over~$\mathbf{Q}_p[t]$ to precision~$N_2$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Recovering zeta functions}
 
-Recall that the zeta function of $X_1$ is of the form,
+Recall that the zeta function of the hypersurface~$X_1$ is of the form,
 \begin{equation*}
 Z(X_1,T) = \frac{p(T)^{(-1)^n}}{(1 - T) (1 - qT) \dotsm (1 - q^{n-1}T)}
 \end{equation*}
@@ -346,17 +349,17 @@ Let $\Phi_1$ and $\Phi_{q,1}$ denote the matrices representing the
 actions of $p^{-1} F_p$ and $q^{-1} F_q$ on $H_{dR}^{n}(\mathfrak{U}_1)$, 
 respectively.  Then 
 \begin{equation*}
-\Phi_{q,1} = \Phi_1 \Phi_1^{\sigma} \dotsm \Phi_1^{\sigma^{a-1}}.
+\Phi_{q,1} = \Phi_1 \Phi_1^{\sigma} \dotsm \Phi_1^{\sigma^{a-1}},
 \end{equation*}
-where $a = \log_p q$.  Note that the map 
-$\sigma \in \Gal(\mathbf{Q}_q / \mathbf{Q}_p)$ is valuation preserving 
-and hence the valuations of the matrices 
+where $a = \log_p q$.  Note that the lift of Frobenius~$\sigma$ 
+is valuation preserving and hence the valuations of the matrices 
 $\Phi_1, \Phi_1^{\sigma}, \dotsc, \Phi_1^{\sigma^{a-1}}$ are at least 
 $-(r+s)$ by Gerkmann~\citep[Lemma~3.3]{Gerkmann2007}.
 
 It now follows from Proposition~\ref{prop:matrixproductval} that 
-we it suffices to determine $\Phi_1$ to precision $N_2 \geq N_1 + (a-1) (r+s)$ 
-in order to compute $\Phi_{q,1}$ to precision $N_1$.
+it suffices to compute $\Phi_1$ to precision~$N_2$ at least 
+\mbox{$N_1 + (a-1) (r+s)$} in order to determine $\Phi_{q,1}$ to 
+precision~$N_1$.
 
 \subsection{Computing characteristic polynomials}
 
@@ -366,17 +369,17 @@ given to finite precision over $\mathbf{Q}_p$.
 
 In general, from the definition of the determinant function and 
 Proposition~\ref{prop:productval}, it appears that the precision 
-loss should be at most $(b-1) \ord_p(A)$.  However, in the case 
-of the matrix representing the action of Frobenius 
+loss could be as great as $(b-1) \ord_p(A)$.  However, in the case 
+of matrices representing the action of Frobenius 
 on $H_{dR}^n(\mathfrak{U}_1)$, much better bounds are available:
 
 \begin{lem} \label{lem:charpoly}
-Let $A$ denote the matrix representing the action of $q^{-1} F_q$ 
+Let $F$ denote the matrix representing the action of $q^{-1} F_q$ 
 on $H_{dR}^{n}(\mathfrak{U}_1)$ with respect to some basis.  Define 
 two integers $r$ and $s$ via \mbox{$r = \ord_p((n-1)!)$} and 
 \mbox{$s = (n + 1) \floorts{\log_p (n-1)}$} and suppose that 
-$A$ and $\tilde{A}$ are $p$-adically close, $\ord_p(A-\tilde{A}) \geq N + (r + s)$.  
-Then 
+$F$ and $\tilde{F}$ are $p$-adically close, 
+$\ord_p(F-\tilde{F}) \geq N + (r + s)$.  Then 
 \begin{equation*}
 \ord_p \bigl( \det(1 - t A) - \det(1 - t \tilde{A}) \bigr) \geq N.
 \end{equation*}
@@ -386,21 +389,19 @@ Then
 See Gerkmann~\citep[Lemma~3.3, Lemma~3.4]{Gerkmann2007}.
 \end{proof}
 
-\begin{defn}
-As a consequence of Lemma~\ref{lem:charpoly}, we can take 
+The previous lemma allows us to take 
 $N_1 = N_0 + r + s$ in our description of the deformation 
 algorithm.
-\end{defn}
 
 \subsection{Computing Weil polynomials}
 
 In the final step of the deformation method, we compute the 
-reverse characteristic polynomial $f(T)$ of the matrix $F_{q,1}$, 
-which represents $q^{-1} F_q$ on $H^n(\mathfrak{U}_1)$ to some finite 
-$p$-adic precision~$N_0$.  Which precision is necessary in order to 
-correctly recover the Weil polynomial $p(T)$ over the integers?
+reverse characteristic polynomial $p(T)$ of the matrix $\Phi_{1,q}$, 
+which represents $q^{-1} F_q$ on $H^n(\mathfrak{U}_{t_1})$, to some finite 
+$p$-adic precision.  Which precision~$N_0$ is necessary in order to 
+correctly recover the polynomial $p(T)$ over the integers?
 
-We explicitly combine Theorem~{3.2} from Gerkmann~\citep{Gerkmann2007} 
+We explicitly combine a result from Gerkmann~\citep[Theorem~3.2]{Gerkmann2007}
 with an improvement suggested by Kedlaya~\citep[Lemma~1.2.3]{Kedlaya2011}
 to obtain the following precision bounds:
 
@@ -450,10 +451,8 @@ exactly, we can determine $s_i$ as an integer provided we know
 $i a_i$ modulo~$p^N$ with \mbox{$p^N > 2 b q^{i(n-1)/2}$}.
 
 Using the functional equation to relate $a_{i}$ and $a_{b-i}$ 
-and knowing the sign~$\varepsilon$, we can compute the top half 
-of the coefficients once we have found $a_i$ for 
-$0 \leq i \leq \floorts{b/2}$.
-
+and knowing the sign~$\varepsilon$, the top half of the coefficients 
+can be determined once we have found $a_i$ for $0 \leq i \leq \floorts{b/2}$.
 Thus, we can recover $p(T)$ as a polynomial over the integers 
 from its residue modulo~$p^N$ where 
 \begin{equation*}
@@ -481,7 +480,6 @@ N > \begin{cases}
 
 \begin{rem}
 We observe that $\varepsilon = \sgn(\det(q^{-1} F_q)) = 1$ whenever $b$ is even.
-
 Indeed, from the Weil conjectures, we know that $\alpha \mapsto q^{n-1} \alpha^{-1}$ 
 is a permutation of the roots.  Since it is a self-inverse, it partitions the 
 set of roots into pairs and hence we can evaluate the product of the roots,

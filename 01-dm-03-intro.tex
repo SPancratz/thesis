@@ -110,10 +110,10 @@ The deformation algorithm is outlined in Figure~\ref{fig:01-03-deformation}.
         on $H_{dR}^n(\mathfrak{U}_t)$};
 
     \node [block, below=6mm of series, text width = 78mm] (poly) 
-        {Matrix $\Psi(t) = r(t)^m \Phi(t)$ over $\mathbf{Q}_p[t] \bmod {p^{N_2}}$};
+        {Matrix $r(t)^m \Phi(t)$ over $\mathbf{Q}_p[t] \bmod {p^{N_2}}$};
 
-    \node [block, below=6mm of poly, text width = 114mm] (eval) 
-        {Matrix $\Phi_1 = r(\hat{t}_1)^{-m} \Psi(\hat{t}_1)$ over 
+    \node [block, below=6mm of poly, text width = 74mm] (eval) 
+        {Matrix $\Phi_1 = r(\hat{t}_1)^{-m} \bigl(r(t)^m \Phi(t)\bigr) \big\vert_{t={\hat{t}_1}}$ over 
         $\mathbf{Q}_q \bmod p^{N_2}$ for $p^{-1} F_p$ on 
         $H_{dR}^n(\mathfrak{U}_{t_1})$}; 
 
