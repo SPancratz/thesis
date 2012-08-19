@@ -260,7 +260,7 @@ modulo~$p^{\tilde{N}}$ via
 \mu_m = \frac{2^{\floor{3m/4}}}{m!} 
     \sum_{k=0}^{\floor{m/2}} \frac{m!}{2^k (m-2k)! k!}
 \end{equation*}
-using only $p$-adic inversion.  We observe that the summands are 
+using only one $p$-adic inversion.  We observe that the summands are 
 integers of size $\mathcal{O}(m \log m)$ bits, which allows us to 
 avoid performing intermediate reductions modulo $p^{\tilde{N}}$.
 \end{rem}
@@ -520,9 +520,11 @@ entries of~$F$ modulo~$p^N$ in Algorithm~\ref{alg:01-04-diagfrob}.
 
 \section{Computational examples} 
 
-We conclude this chapter by presenting two examples, demonstrating the 
-relevance of the improvements in practical computations.  In each case, 
-we find runtime improvements exceeding a factor of~$4500$.
+We conclude this chapter by presenting three examples, demonstrating the 
+relevance of the improvements in practical computations.  The first two 
+allow us to compare our implementations with timings report by 
+Gerkmann~\citep{Gerkmann2007}, and the third example features an increase 
+in various parameters.
 
 Firstly, let us consider the surface given by 
 \begin{equation*}
@@ -537,8 +539,9 @@ $m \leq 1768$.
 
 In~\citep[Section~7.4]{Gerkmann2007}, Gerkmann considers this example 
 and reports a runtime of $45.26$~minutes.  In contrast, we are able 
-to compute this matrix in $0.62$~seconds, of which $0.5$~seconds are 
-spent in the precomputation of the sequence~$(\mu_m)$.
+to compute this matrix in $0.55$~seconds, of which $0.39$~seconds are 
+spent in the precomputation of the sequence~$(\mu_m)$, an improvement 
+of a factor of nearly~$5,000$.
 
 Secondly, we consider a quintic surface over $\mathbf{F}_2$, 
 \begin{equation*}
@@ -550,10 +553,8 @@ requires us to compute $\mu_{m}$ up to $M = 1528$.
 
 Gerkmann~\citep[Section~7.6]{Gerkmann2007} reports a runtime of 
 $64.13$~minutes.  In contrast, we are able to compute this matrix 
-in $0.5$~seconds, of which $0.42$~seconds are spent in the precomputation 
-of the sequence~$(\mu_m)$.
+in $0.32$~seconds, of which $0.27$~seconds are spent in the precomputation 
+of the sequence~$(\mu_m)$, an improvement by a factor of over~$12,000$.
 
-[[TODO:  Run this computation on wolverine.  The timings will be 
-about the same, but I think it is important that I run all my 
-computations on the same machine for consistency across the thesis.]]
+[[TODO:  Include third example if its done by tonight.]]
 
