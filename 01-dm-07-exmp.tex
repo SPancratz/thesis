@@ -28,7 +28,7 @@ the same absolute value.  This property allows us to at least
 heuristically verify the output, even when computed with insufficient 
 precision.
 
-Further work has been carried out Kedlaya~\citep{Kedlaya2008} on 
+Further work has been carried out by Kedlaya~\citep{Kedlaya2008} on 
 verifying the correctness of a computation that has been carried out 
 with intermediate $p$-adic precisions too low to be provably correct. 
 The methods investigated and implemented are crucially based on the 
@@ -164,9 +164,9 @@ $0.35$, and $0.77$~seconds, yielding a total of $2.17$~seconds ($4.9$ hours)
 for this part of the computation.
 
 We note that Gerkmann observes that the family in this example does 
-not contain any singular fibres, which makes the analytic continuation 
-step unnecessary and allows Gerkmann to directly evaluate the local 
-expansion of Frobenius around the origin.  Our automated routine 
+not contain any finite singular fibres, which makes the analytic 
+continuation step unnecessary and allows Gerkmann to directly evaluate 
+the local expansion of Frobenius around the origin.  Our automated routine 
 does not take advantage of this observation, however, it justifies 
 our choice of heuristic estimates for $m$ and $K$.  This is important 
 here as we cannot apply Theorem~\ref{thm:KedlayaTuitman} in this case.  
@@ -318,7 +318,7 @@ $m = 60$ and $K = 13740$.
 
 The Gauss--Manin connection matrix is computed in $323.55$~seconds and found 
 to have denominator $r(t)$ of degree~$228$, which explains the large value 
-of the $t$-adic parameters~$K$.  The matrix for $p^{-1} F_p$ on 
+of the $t$-adic parameter~$K$.  The matrix for $p^{-1} F_p$ on 
 $H_{dR}^{n}(\mathfrak{U}_0)$ is computed in $0.01$~seconds.  The local 
 solutions $C$ and $C^{-1}$ form the most time-consuming part in this example, 
 requiring $1909.3$ and $342.22$~seconds.  The matrix product to determine the 
