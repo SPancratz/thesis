@@ -1,0 +1,39 @@
+% Chapter:  Introduction to point counting  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Zeta functions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Zeta functions}
+
+\begin{thm} \label{thm:Zetafunctions}
+Let $X$ be a separated scheme of finite type over the finite 
+field~$\mathbf{F}_q$.  Then the zeta function of~$X$ is the power series 
+representation of a rational functions~$T$.  Moreover, if $X$ is smooth 
+and proper over~$\mathbf{F}_q$, then there is a unique way to write 
+\begin{equation}
+\zeta_{X}(T) = \prod_{i=0}^{2 \dim(X)} P_i(T)^{(-1)^{i+1}}
+\end{equation}
+for some polynomials $P_i(T) \in \mathbf{Z}[T]$ with $P_i(0) = 1$, 
+satisfying the following conditions.
+\begin{enumerate}
+\item We have 
+\begin{equation*}
+P_i(q^{-i} / T) = \pm q^{-i \deg(P_i) / 2} T^{- \deg(P_i)} P_i(T),
+\end{equation*}
+with the sign being $+$ whenever $i$ is odd.  In other words, the roots 
+of~$P_i$ are invariant under the map $r \mapsto q^{-i} / r$, and if $i$ 
+is odd then the multiplicities of $\pm q^{-i/2}$ are even.
+\item The complex roots of $P_i$ all have absolute value $q^{-i/2}$.
+\item If $X \cong \mathfrak{X}_{\mathbf{F}_q}$ for some smooth proper 
+scheme~$\mathfrak{X}$ over the local ring $R = \mathfrak{o}_{K,\mathfrak{p}}$, 
+for some number field~$K$ and some prime ideal~$\mathfrak{p}$ of 
+$\mathfrak{o}_K$ with residue field~$\mathbf{F}_q$, then for any 
+embedding~$K \into \mathbf{C}$, 
+\begin{equation*}
+\deg(P_i) = \dim_{\mathbf{C}} H^{i} \bigl( (\mathfrak{X} \times_R \mathbf{C})^{\text{an}}, \mathbf{C} \bigr).
+\end{equation*}
+In other words, $\deg(P_i)$ equals the $i$-th Betti number of 
+$\mathfrak{X} \times_{R} \mathbf{C}$.
+\end{enumerate}
+\end{thm}
+
+
