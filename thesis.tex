@@ -6,7 +6,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Geometry and page layout
 
-\usepackage[hmargin=2.2cm,vmargin=3cm,a4paper,centering,twoside]{geometry}
+\usepackage[hmargin=3.2cm,vmargin=3.2cm,a4paper,centering,twoside]{geometry}
 
 \setlength{\headheight}{14pt}
 
@@ -191,6 +191,22 @@
 \newtheorem{obs}[thm]{Observation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Line spacing
+
+\usepackage{setspace}
+
+\doublespacing
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Table of contents spacing
+
+\makeatletter
+\renewcommand{\l@section}{\@dottedtocline{1}{1.2em}{2.8em}}
+\renewcommand{\l@subsection}{\@dottedtocline{2}{4.0em}{3.6em}}
+\renewcommand{\l@subsubsection}{\@dottedtocline{3}{7.4em}{4.5em}}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DOCUMENT                                                                    %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -204,19 +220,16 @@
 
 {%
 \part{The deformation method}
-\setlength{\baselineskip}{1.5\baselineskip}
 \include{01-dm}
 }
 
 {%
 \part{The fibration method and fast radix conversion for polynomials}
-\setlength{\baselineskip}{1.5\baselineskip}
 \include{02-rc}
 }
 
 {%
 \part{Implementation details}
-\setlength{\baselineskip}{1.5\baselineskip}
 \include{03-ar}
 }
 
