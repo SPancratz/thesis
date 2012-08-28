@@ -31,30 +31,43 @@ and using the Frobenius action on~$\mathfrak{X}_{t_0}$ as the initial
 condition, by an appropriate evaluation we can compute the Frobenius matrix 
 for~$X_{t_1}$ and hence recover its zeta function.
 
-For the remaining part of this thesis, we restrict ourselves to the 
-case where the family $\mathfrak{X}/\mathfrak{S}$ is defined over a 
-prime field, $t_0 = 0$, and the initial fibre $X_0$ is diagonal.  
-Specifically, we establish the following set-up.
+For the remaining part of this thesis, we restrict ourselves to the case 
+where the family $\mathfrak{X}/\mathfrak{S}$ is defined over a prime field, 
+$t_0 = 0$, and the initial fibre $X_0$ is diagonal.  Specifically, we 
+establish our set-up closely following Tuitman~\citep[\S 3.6]{Tuitman2011} 
+and using the same choice of resultant as Lauder~\citep[\S 2.3.2]{Lauder2011}.
 
 \begin{notation} \label{not:01-03-main}
-Let $p$ be a prime number, $q$ a power of $p$, and let $\mathbf{Q}_q$ 
-denote the unique unramified extension of $\mathbf{Q}_p$ with residue 
-field~$\mathbf{F}_q$ and $\mathbf{Z}_q$ its ring of integers.  
-We consider two smooth $\mathbf{Z}_q$-schemes~$\mathfrak{X}$ and $\mathfrak{S}$ 
-together with a smooth projective morphism $\mathfrak{X} \to \mathfrak{S}$, 
-where $\mathfrak{X}$ is a family of hypersurfaces 
-and $\mathfrak{S} \subset \mathbf{A}_{\mathbf{Z}_q}^1(t)$ is an affine, open 
-subset containing the point~$0$ and the Teichm\"uller lift~$\hat{t}_1$ of 
-$t_1 \in \mathbf{F}_q$.  
-We assume that this family is defined by a homogenous polynomial 
-$P \in \mathbf{Z}[t][x_0,\dotsc,x_n]$ over the integers of degree~$d$, 
-where $n \geq 1$ and $d \geq 1$.  
-Moreover, we require that at $t = 0$, the polynomial $P_0(x_0,\dotsc,x_n)$ 
-is diagonal.  Finally, we let $X$ denote the projection of~$\mathfrak{X}$ 
-to characteristic~$p$ and also define complements~$\mathfrak{U}$ and~$U$ 
-by $\mathbf{P}_{\mathbf{Z}_q}^n \times \mathfrak{S} - \mathfrak{X}$ 
-and $\mathbf{P}_{\mathbf{F}_q}^n \times S - X$, respectively, 
-where $S \subset \mathbf{A}_{\mathbf{F}_q}^1(t)$.  
+Let $\mathbf{F}_q$ be the finite field with $q = p^a$ elements, 
+let $\mathbf{Q}_q$ denote the unique unramified extension of $\mathbf{Q}_p$ 
+with residue field $\mathbf{F}_q$, and let $\mathbf{Z}_q$ denote its 
+ring of integers.
+
+We let $P \in \mathbf{Z}[t][x_0,\dotsc,x_n]$ be a homogenous polynomial 
+of degree~$d$ with $n, d \geq 1$.  We define $r(t) \in \mathbf{Q}[t]$ as 
+the \emph{Macaulay resultant} of the partial derivatives of~$P$ as 
+in~\citep[Page~7, Chapter~I.6]{Macaulay1994}.  We can now define two 
+smooth $\mathbf{Z}_q$-schemes $\mathfrak{X}$ and $\mathfrak{S}$ as 
+\begin{align*}
+\mathfrak{X} & = \Spec\bigl( \mathbf{Z}_q[t,r(t)^{-1}][x_0,\dotsc,x_n] / (P)\bigr), \\
+\mathfrak{S} & = \Spec\bigl( \mathbf{Z}_q[t,r(t)^{-1}] \bigr)
+\end{align*}
+together with the obvious smooth projective morphism 
+$\mathfrak{X} \to \mathfrak{S}$.  We also define the generic fibres 
+$\mathbf{X}$ and $\mathbf{S}$ of $\mathfrak{X}$ and $\mathfrak{S}$ as 
+\begin{align*}
+\mathbf{X} & = \Spec\bigl( \mathbf{Q}_q[t,r(t)^{-1}][x_0,\dotsc,x_n] / (P)\bigr), \\
+\mathbf{S} & = \Spec\bigl( \mathbf{Q}_q[t,r(t)^{-1}] \bigr),
+\end{align*}
+respectively.  Moreover, we let $X$ and $S$ denote the projections 
+of $\mathfrak{X}$ and $\mathfrak{S}$ to characteristic~$p$. 
+Finally, we define complements $\mathfrak{U}$, $\mathbf{U}$, and $U$ 
+of $\mathfrak{X}$, $\mathbf{X}$, and $X$, respectively, in the 
+ambient projective $n$-space.
+
+We assume that $r(0) \neq 0$ and hence that $\mathfrak{X}_0$ is a 
+smooth, projective hypersurface, which we will moreover assume to be 
+diagonal, and that $t_1 \in S$ is a non-zero point.
 \end{notation}
 
 \begin{notation}
@@ -65,9 +78,8 @@ is even.
 \end{notation}
 
 \begin{rem}
-It follows that all fibres $X_t$ are non-singular varieties, 
-and by considering the diagonal fibre~$X_0$ we see that our 
-assumptions imply $p \nmid d$.
+By considering the diagonal fibre~$X_0$, which is a non-singular variety 
+over $\mathbf{F}_p$, we see that our assumptions imply $p \nmid d$.
 \end{rem}
 
 % Outline of the algorithm %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
