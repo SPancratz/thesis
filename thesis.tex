@@ -150,7 +150,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Bibliography name
 
-\renewcommand{\bibname}{References}
+% \renewcommand{\bibname}{References}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Mathematical definitions
@@ -200,11 +200,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Table of contents spacing
 
-\makeatletter
-\renewcommand{\l@section}{\@dottedtocline{1}{1.2em}{2.8em}}
-\renewcommand{\l@subsection}{\@dottedtocline{2}{4.0em}{3.6em}}
-\renewcommand{\l@subsubsection}{\@dottedtocline{3}{7.4em}{4.5em}}
-\makeatother
+\usepackage{tocstyle}
+
+\usetocstyle{standard}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DOCUMENT                                                                    %
@@ -213,6 +211,8 @@
 \begin{document}
 
 \frontmatter
+
+\include{Cover}
 
 \tableofcontents
 
@@ -236,7 +236,7 @@
 \backmatter
 
 \phantomsection
-\addcontentsline{toc}{chapter}{References}
+\addcontentsline{toc}{part}{Bibliography}
 
 \bibliographystyle{amsplain}
 \bibliography{../SPancratz}
