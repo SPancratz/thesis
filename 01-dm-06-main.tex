@@ -18,11 +18,11 @@ implementation details.
 \section{$p$-Adic differential system and local expansion of Frobenius}
 
 We let $M$ denote the matrix for the Leibniz-linear connection on 
-$H_{dR}^n(\mathfrak{U})$, and $\Phi$ the matrix for the $\sigma$-semilinear 
+$H_{dR}^n(\mathfrak{U}_t)$, and $\Phi$ the matrix for the $\sigma$-semilinear 
 action of $p^{-1} F_p$, where $\sigma$ is the standard lift of the $p$th-power 
 Frobenius to~$\mathbf{Q}_q$ and~$\mathbf{Q}_q(t)$, sending $t \mapsto t^p$.  
-As described for example in~\citep[\S 5]{Gerkmann2007}, these matrices satisfy 
-the following differential system,
+As described for example by Gerkmann~\citep[\S 5]{Gerkmann2007}, these 
+matrices satisfy the following differential system,
 \begin{equation} \label{eq:de_phi}
 \Bigl(\frac{d}{dt} + M\Bigr) \Phi = p t^{p-1} \Phi \sigma(M).
 \end{equation}
@@ -39,12 +39,12 @@ the above differential system is equivalent to the homogenous system
 \begin{equation} \label{eq:de}
 \Bigl(\frac{d}{dt} + M\Bigr) C = 0
 \end{equation}
-with initial condition $C(0) = \text{Id}$.  Let us write 
+with the initial condition that $C(0)$ is the identity matrix.  Let us write 
 \begin{equation}
 M(t) = \frac{B(t)}{r(t)}
 \end{equation}
-where $B(t) = \sum_{i=0}^{\deg(B)} B_i t^i$ is a matrix over $\mathbf{Z}[t]$ 
-and $r(t) \in \mathbf{Z}[t]$.  We can now obtain a power series solution 
+where $B(t) = \sum_{i=0}^{\deg(B)} B_i t^i$ is a matrix over $\mathbf{Q}[t]$ 
+and $r(t) \in \mathbf{Q}[t]$.  We can now obtain a power series solution 
 $C(t) = \sum_{i \geq 0} C_i t^i$ around $t=0$ for 
 \begin{equation}
 r(t) \frac{dC}{dt} + B(t) C(t) = 0
@@ -62,7 +62,7 @@ From a computational perspective, we are only interested in a power
 series solution to some $p$-adic and $t$-adic precisions $N$ and $K$, 
 respectively, as discussed in the next two sections.  As such we need 
 to understand the loss of $p$-adic precision involved in the computation 
-of $C_0, C_1, \dotsc, C_{K-1}$.  More precisely, let $D_0, D_1, \dotsc$ 
+of $C_0, C_1, \dotsc, C_{K-1}$.  Specifically, let $D_0, D_1, \dotsc$ 
 denote an approximation defined by $D_0 = \text{Id}$ and 
 \begin{equation}
 D_{i+1} = \frac{-1}{r_0 (i+1)} \biggl(
@@ -128,13 +128,14 @@ they also apply to the inverse matrix~$C^{-1}$, the result follows.
 
 In order to determine the power series expansion of the matrix $\Phi$, 
 we also need to compute the matrix $\sigma(C)^{-1}$.  As we assume that 
-the family $X$ of hypersurfaces is defined over $\mathbf{Z}$, the connection 
-matrix~$M$ is a matrix over $\mathbf{Q}(t)$ and the local solution~$C$ is 
-over $\mathbf{Q}_p[[t]]$.  Thus, $\sigma(C)^{-1} = C(t^p)^{-1} = C^{-1}(t^p)$. 
+the family~$X$ of hypersurfaces is defined over $\mathbf{Z}_p$, the connection 
+matrix~$M$ is a matrix over $\mathbf{Q}_p(t)$ and the local solution~$C$ is 
+over $\mathbf{Q}_p[[t]]$.  As $\sigma$ acts trivially on $\mathbf{Q}_p$, 
+we have that $\sigma(C)^{-1} = C(t^p)^{-1} = C^{-1}(t^p)$. 
 The matrix $C^{-1}$ could be computed using matrix inversion over the ring 
 $\mathbf{Q}_p[[t]]$.  An alternative approach, which is typically favourable 
 in practice, follows from observing that whenever $C$ satisfies 
-Equation~\eqref{eq:de}, $C^{-1}$ satisfies 
+Equation~\eqref{eq:de}, $C^{-1}$ satisfies the related equation 
 \begin{equation}
 \Bigl(\frac{d}{dt} - M^t\Bigr) \bigl(C^{-1}\bigr)^t = 0.
 \end{equation}
@@ -257,7 +258,7 @@ the bound $\ord_p(\Phi(0)) \geq -(r+s)$ from~\citep[Lemma~3.3]{Gerkmann2007}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Analytic continuation and evaluation}
 
-In the previous section we described how to compute matrix $\Phi(t)$ as 
+In the previous section we described how to compute the matrix~$\Phi(t)$ as 
 a local power series expansion around $t = 0$.  In order to evaluate it 
 at a second point $t = t_1$, we wish to $p$-adically approximate it 
 using rational functions with denominators a power of $r(t)$, which 
@@ -299,7 +300,7 @@ g(N) = \max\Bigl\{ i \in \mathbf{N} : i - (r+s) - \bigl(2(r+s) + (n-1)\bigr) \ce
 See \citep[Theorem~2.1]{KedlayaTuitman2012}.
 \end{proof}
 
-\begin{rem}
+\begin{rem} \label{rem:KedlayaTuitman}
 In practice, it might be convenient to avoid computing the exponents and 
 verifying the hypotheses of the previous theorem.  This is more relevant 
 since even when the hypotheses are not satisfied, the required bounds are 
@@ -309,7 +310,7 @@ provided by Gerkmann.
 The contribution of the terms $\max_i \lambda_i - p \min_i \lambda_i$ 
 in Equation~\eqref{eq:KedlayaTuitman} typically is small compared to the 
 term~$p g(N_2)$. Therefore, in a heuristic implementation, one 
-could choose e.g.\ $m = 1.1 \times p N_2$ and $K = \deg(r) m$.
+could choose e.g.\ $m = 1.1 \times p N_2$ and $K = (\deg(r) + 1) m$.
 \end{rem}
 
 Having obtained an expression for the action of~$p^{-1} F_p$ 
@@ -399,127 +400,66 @@ In the final step of the deformation method, we compute the
 reverse characteristic polynomial $p(T)$ of the matrix $\Phi_{1,q}$, 
 which represents $q^{-1} F_q$ on $H^n(\mathfrak{U}_{t_1})$, to some finite 
 $p$-adic precision.  Which precision~$N_0$ is necessary in order to 
-correctly recover the polynomial $p(T)$ over the integers?
+correctly recover the polynomial~$p(T)$ over the integers?
 
-We explicitly combine a result from Gerkmann~\citep[Theorem~3.2]{Gerkmann2007}
-with an improvement suggested by Kedlaya~\citep[Lemma~1.2.3]{Kedlaya2011}
-to obtain the following precision bounds:
-
-\begin{thm}
+\begin{thm} \label{thm:N0}
 In order to recover $p(T)$ over $\mathbf{Z}$ it suffices to compute 
-$f(T)$ modulo~$p^N$ where 
+an approximation modulo~$p^N$ where 
 \begin{equation*}
-N > \begin{cases}
-    2 & (q,n,d) = (2,2,3) \\
-    4 & (q,n,d) = (2,2,4) \\
-    5 & (q,n,d) = (2,2,5) \\
-    1 & (q,n,d) = (3,2,3) \\
-    \log_p \bigl( 2 b \floorts{b/2}^{-1} q^{\floor{b/2} (n - 1) / 2} \bigr) & \text{otherwise}
-    \end{cases}
+p^N > 2 \max_{0 \leq i \leq b} \binom{b}{i} q^{i (n-1) / 2}.
 \end{equation*}
-provided that $\varepsilon = \sgn(\det(q^{-1} F_q))$ is known.
+Moreover, this can be improved to 
+\begin{equation*}
+p^N > 2 \binom{b}{\floor{b/2}} q^{\floor{b/2} (n-1) / 2}
+\end{equation*}
+provided that the sign $\varepsilon = \sgn(\det(q^{-1} F_q))$ of the 
+functional equation for the zeta function is known.
 \end{thm}
 
 \begin{proof}
-Let us write the reverse characteristic polynomial of $q^{-1} F_q$ as 
-\begin{equation*}
-p(T) = \sum_{i=0}^{b} a_i T = \prod_{j=1}^{b} (1 - \alpha_j T).
-\end{equation*}
-We first recall three properties guaranteed by the Weil conjectures:
-\begin{enumerate}
-\item The map $\alpha \mapsto q^{n-1} \alpha^{-1}$ permutes the roots of $p(T)$.
-\item The roots $\alpha_j$ have absolute value $\abs{\alpha_j} = q^{(n-1)/2}$.
-\item The zeta function satisfies a function equation, which in terms of 
-      the coefficients $a_0, \dotsb, a_b$ yields, for $0 \leq i \leq b$, 
-      \begin{equation*}
-      a_{b-i} = (-1)^b \varepsilon q^{(n-1) (b/2 - i)} a_i.
-      \end{equation*}
-\end{enumerate}
-
-We now define the power sums $s_i$, for $i \geq 1$, 
-\begin{equation*}
-s_i = \alpha_{1}^i + \dotsb + \alpha_{b}^i
-\end{equation*}
-which satisfy the Newton identities 
-\begin{equation*}
-s_i + a_1 s_{i-1} + \dotsb a_{i-1} s_1 + i a_i = 0.
-\end{equation*}
-In particular, $s_i$ is an integer and 
-$\abs{s_i} \leq b \max_j{\abs{\alpha_j}}^i = b q^{i(n-1)/2}$.
-Assuming that we know $a_1, \dotsc, a_{i-1}$ and $s_1, \dotsc, s_{i-1}$ 
-exactly, we can determine $s_i$ as an integer provided we know 
-$i a_i$ modulo~$p^N$ with \mbox{$p^N > 2 b q^{i(n-1)/2}$}.
-
-Using the functional equation to relate $a_{i}$ and $a_{b-i}$ 
-and knowing the sign~$\varepsilon$, the top half of the coefficients 
-can be determined once we have found $a_i$ for $0 \leq i \leq \floorts{b/2}$.
-Thus, we can recover $p(T)$ as a polynomial over the integers 
-from its residue modulo~$p^N$ where 
-\begin{equation*}
-p^N > \max \biggl\{ \frac{2b q^{k(n-1)/2}}{k} : 0 \leq k \leq \floorts{b/2} \biggr\}.
-\end{equation*}
-
-We observe that the sequence $\gamma_k = k^{-1} q^{k (n - 1) / 2}$ 
-with $k \geq 1$ is increasing unless $(q,n)$ equals $(2,2)$ or $(3,2)$.  
-In these remaining two cases, 
-\begin{align*}
-\gamma_3 & < \gamma_2 = \gamma_4 < \gamma_5 < \gamma_6 < \gamma_1 < \gamma_7 < \dotsc & (q,n) & = (2,2) \\
-\gamma_2 & < \gamma_1 = \gamma_3 < \gamma_4 < \dotsc & (q,n) & = (3,2)
-\end{align*}
-Thus, we obtain the condition that 
-\begin{equation*}
-N > \begin{cases}
-    2 & (q,n,d) = (2,2,3) \\
-    4 & (q,n,d) = (2,2,4) \\
-    5 & (q,n,d) = (2,2,5) \\
-    1 & (q,n,d) = (3,2,3) \\
-    \log_p \bigl( 2 b \floorts{b/2}^{-1} q^{\floor{b/2} (n - 1) / 2} \bigr) & \text{otherwise}
-    \end{cases}
-\end{equation*}
+This is a slight reformulation of {Theorem~3.2} in~\citep{Gerkmann2007}, 
+which follows readily from its proof.
 \end{proof}
 
 \begin{rem}
-We observe that $\varepsilon = \sgn(\det(q^{-1} F_q)) = 1$ whenever $b$ is even.
-Indeed, from the Weil conjectures, we know that $\alpha \mapsto q^{n-1} \alpha^{-1}$ 
-is a permutation of the roots.  Since it is a self-inverse, it partitions the 
-set of roots into pairs and hence we can evaluate the product of the roots,
-\begin{equation*}
-a_b = \prod_{j=1}^{b} \alpha_j = q^{(n-1)b/2}.
-\end{equation*}
-Using the functional equation to relate $a_0 = 1$ and $a_b$, 
-\begin{equation*}
-a_{0} = (-1)^{b} \varepsilon q^{-(n-1) b / 2} a_{b}
-\end{equation*}
-it follows that $\varepsilon = (-1)^b$, which is equal to $1$ if $b$ is even.
+We observe that the sign $\varepsilon = \sgn(\det(q^{-1} F_q)) = 1$ 
+whenever $n$ is even.  [[TODO:  Explain]]
 \end{rem}
 
 \begin{rem}
-Moreover, $b$ is odd if and only if $n$ is odd and $d$ is even, which leaves 
-one quarter of the cases to consider.  We suggest two possible ways in which 
-one can arrive at a generic and provably correct implementation.
-
-The first approach is to follow the above proof without making use of the 
-functional equation, instead using the analogous precision estimate for the 
-top coefficient~$a_b$.  This approach roughly doubles the number of $p$-adic 
-digits that are required.  Specifically, the analogous result is to require 
+In the case that $n$ is odd, the sign~$\varepsilon$ of the functional 
+equation is unknown a priori.  However, in practice it is often still 
+possible to avoid having to use the greater of the two precisions in 
+Theorem~\ref{thm:N0} by just computing one additional coefficient 
+exactly.  Writing $p(T) = \sum_{i=0}^{b} a_i T^i$, we can recover 
+$a_0, \dotsc, a_{\floor{b/2}+1}$ exactly provided 
 \begin{equation*}
-N > \begin{cases}
-    2 & (q,n,d) = (2,2,3) \\
-    5 & (q,n,d) = (2,2,4) \\
-    1 & (q,n,d) = (3,2,3) \\
-    \log_p \bigl( 2 q^{b (n-1) / 2} \bigr) & \text{otherwise}
-    \end{cases}
+p^N > 2 \max\biggl\{\binom{b}{\floor{b/2}} q^{\floor{b/2} (n-1) / 2}, 
+                   \binom{b}{\floor{b/2}+1} q^{(\floor{b/2}+1) (n-1)/2} \biggr\}.
 \end{equation*}
-
-An alternative approach is to first compute an $i' > \floorts{b/2}$ such 
-that \mbox{$a_{i'} \neq 0$}.  This can be achieved, for example, by going 
-through the entire deformation procedure to compute the reverse characteristic 
-polynomial modulo~$p$ only.  In a second pass one then uses the analogous 
-precision estimate obtained from the above proof for $a_{i'}$ in order to 
-correctly determine the coefficients 
-$a_0, \dotsc, a_{\floor{b/2}}, \dotsc, a_{i'}$.  Finally, the functional 
-equation can be used to related $a_{b-i'}$ and $a_{i'}$ in order to determine 
-$\varepsilon$.
+This allows us to determine the sign~$\varepsilon$ from the two 
+coefficients $a_{\ceil{b/2}-1}$ and $a_{\floor{b/2}+1}$, provided 
+that they are non-zero, and we can then recover the remaining 
+coefficients using the functional equation.
 \end{rem}
 
+\begin{rem} \label{rem:N0Surfaces}
+In the case of smooth projective surfaces, when $p > 2$ and subject to 
+certain technical conditions, we can often exploit the growing divisibility 
+of the coefficients of $p(T)$ ensured by the Hodge polygon.  For such a surface 
+of degree~$d$, we know that the Hodge numbers $h_{0,2}$, $h_{1,1}$ and $h_{2,0}$ 
+satisfy $h_{0,2} = h_{2,0} = \binom{d-1}{3}$ and $2 h_{0,2} + h_{1,1} = b$. 
+It is now easier to determine the integer coefficients of the 
+polynomial~$q^{h_{0,2}} p(T/q)$ as the roots of the polynomial $p(T/q)$ lie 
+on the unit circle.  This allows us to take 
+\begin{align*}
+N_0 & = a h_{0,2} + \floor{\log_p \biggl( 2 \binom{b}{\floor{b/2}}\biggr)} + 1,\\
+N_1 & = N_0 + a,
+\end{align*}
+where $N_0$ here refers to the required precision for $q^{h_{0,2}} p(T/q)$ 
+and $N_1$ as before refers to the precision required for the matrix 
+representing $q^{-1} F_q$ on $H_{dR}^{n}(\mathfrak{U}_{t_1})$.
+For further details, we refer the reader to {Section~9.3.2} 
+and {Proposition~9.6} in~\citep{Lauder2006}.
+\end{rem}
 
