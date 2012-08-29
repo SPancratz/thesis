@@ -56,26 +56,25 @@ P = x^5 + y^5 + z^5 + t x y z^3 \in \mathbf{F}_3[t][x,y,z]
 which Gerkmann considers in~\citep[\S 7.4]{Gerkmann2007} with 
 $a = [\mathbf{F}_q : \mathbf{F}_p] = 40$ and $t_1$ a 
 generator for $\mathbf{F}_{3^{40}}^{\times}$.  As the dimension 
-$b = \dim H_{dR}^n(\mathfrak{U}) = 12$ is even we only need to 
+$n - 1$ of the hypersurface $X_{t_1}$ is odd, we only need to 
 determine the bottom half of the coefficients of the polynomial 
 $p(T)$ directly.  In our computation we use the following choice of 
 $p$-adic precisions $N_0 = N_1 = N_2 = 127$, $N_3 = 134$, $N_3' = 135$, 
 $N_4 = 142$ and note that in the analytic continuation step we 
-take $m = 419$ and $K = 2514$, observing that these numbers are 
-very similar to the choices made by Gerkmann.
+take $m = 419$ and $K = 2514$.
 
 We now compare the performance of our implementation with the 
-timings reported in~\citep[\S 7.4]{Gerkmann2007} where possible.  
-The computation of the Gauss--Manin connection is near instantaneous 
-with our implementation.  The computation of the Frobenius matrix on 
-the diagonal fibre takes $0.04$~seconds ($5.86$ minutes).  The local 
-solution $C(t)$, its inverse $C(t)^{-1}$ and the local expansion for 
-$p^{-1}F_p$ on $H_{dR}^n(\mathfrak{U})$ are computed in $0.38$, 
-$0.11$ and $1.28$~seconds, respectively, adding up to $1.77$~seconds 
-($83$ seconds).  The analytic continuation and subsequent evaluation 
-at a Teichm\"uller lift of~$t_1$ take $0.05$ and $0.2$ seconds, and 
-the computation of the $q$th-power Frobenius requires another 
-$7.33$~seconds ($101.4$ minutes).
+timings reported in~\citep[\S 7.4]{Gerkmann2007} where possible, 
+providing Gerkmann's timings in parentheses.  The computation of the 
+Gauss--Manin connection is near instantaneous with our implementation.  
+The computation of the Frobenius matrix on the diagonal fibre takes 
+$0.04$~seconds ($5.86$ minutes).  The local solution $C(t)$, its 
+inverse $C(t)^{-1}$ and the local expansion for $p^{-1}F_p$ on 
+$H_{dR}^n(\mathfrak{U})$ are computed in $0.38$, $0.11$ and $1.28$~seconds, 
+respectively, adding up to $1.77$~seconds ($83$ seconds).  The analytic 
+continuation and subsequent evaluation at a Teichm\"uller lift of~$t_1$ 
+take $0.05$ and $0.2$~seconds, and the computation of the $q$th-power 
+Frobenius requires another $7.33$~seconds ($101.4$ minutes).
 
 During the computation of the connection matrix over $\mathbf{Q}(t)$, 
 we find that it has denominator $r(t) = 135 t^5 + 15625$.  We 
@@ -92,7 +91,7 @@ x_0^4 + x_1^4 + x_2^4 + x_3^4 + t x_0 x_1 x_2 x_3 \in \mathbf{F}_3[t][x_0,x_1,x_
 \end{equation}
 Here, we choose $a = 20$ and $t_1 = \alpha^{2345}$ where 
 $\alpha$ is a generator for $\mathbf{F}_{3^{20}}^{\times}$. 
-As the dimension $b = 21$ is odd, a priori the sign of the 
+As the dimension $n - 1 = 2$ is even, a priori the sign of the 
 functional equation is unknown.  However, we can use 
 Remark~\ref{rem:N0Surfaces} and determine the polynomial 
 $3^{20} p\bigl(3^{-20} T\bigr) \in \mathbf{Z}[T]$ instead of $p(T)$. 
@@ -111,8 +110,7 @@ evaluation at the Teichm\"uller lift of $t_1$  and construction
 of the $q$th-power Frobenius take $0.02$, $0.04$ and $0.62$ seconds, 
 respectively, adding up to $0.68$~seconds ($18.66$~minutes).  The 
 root-unitary polynomial that we find is given by 
-\begin{equation*}
-\begin{split}
+\begin{align*}
 3^{20} p\bigl(3^{-20} T\bigr) & = 
   -3486784401 T^{21} - 39675197243 T^{20} - 191506614866 T^{19} \\
 & \quad - 482588946510 T^{18} - 552821487569 T^{17} + 243001138765 T^{16} \\
@@ -121,15 +119,14 @@ root-unitary polynomial that we find is given by
 & \quad + 2617001208822 T^9 + 410199003010 T^8 - 1793016627512 T^7 \\
 & \quad - 1641410078472 T^6 - 243001138765 T^5 + 552821487569 T^4 \\
 & \quad + 482588946510 T^3 + 191506614866 T^2 + 39675197243 T + 3486784401.
-\end{split}
-\end{equation*}
+\end{align*}
 
 As before, we prove that our heuristic choice of $t$-adic precisions 
 was sufficient by computing the exponents of the connection. 
-We find that the connection matrix has denominator $r(t) = 2 t^4 - 512$ 
-and at each of the four poles find compute the exponents as 
-$-3/2$ (with multiplicity~$1$), $-1/2$ (with multiplicity~$15$), 
-and $0$ (with multiplicity~$5$).
+We find that the connection matrix has denominator $r(t) = 2 t^4 - 512$, 
+which has distinct roots modulo~$3$, and at each of the four poles we 
+compute the exponents as $-3/2$ (with multiplicity~$1$), $-1/2$ (with 
+multiplicity~$15$), and $0$ (with multiplicity~$5$).
 Now Theorem~\ref{thm:KedlayaTuitman} establishes that the chosen 
 parameters were sufficient.
 
@@ -139,37 +136,33 @@ The final example from Gerkmann~\citep[\S 7.6]{Gerkmann2007},
 containing a diagonal fibre and hence being suitable for comparison, 
 is given by 
 \begin{equation}
-x_0^5 + x_1^5 + x_2^5 + x_3^5 + t x_0^2 x_1 x_2 x_3 \in \mathbf{F}_2[t][x_0,x_1,x_2,x_3], 
+x_0^5 + x_1^5 + x_2^5 + x_3^5 + t x_0^2 x_1 x_2 x_3 \in \mathbf{F}_2[t][x_0,x_1,x_2,x_3],
 \end{equation}
 with the point $t_1$ chosen as a generator of $\mathbf{F}_{2^{10}}^{\times}$. 
 Note that here we do \emph{not} have $p \geq n$ so the Frobenius matrix is not 
 automatically integral;  specifically, we find that $r = 1$, $s = 4$.  Thus, 
-we can not employ Remark~\ref{rem:N0Surfaces}.  However, the dimension 
-$b = \dim H_{dR}^{n}(\mathfrak{U}) = 52$ is even and hence we only need to 
-compute the bottom half of the coefficients of the polynomial~$p(T)$ directly 
-before using the functional equation.  We choose the $p$-adic precision 
-$N_0 = 310$, $N_1 = 315$, $N_2 = 360$, $N_3 = 509$, $N_3' = 521$, and 
-$N_4 = 660$ and let $m = 693$, $K = 4158$.
+we can not employ Remark~\ref{rem:N0Surfaces}.  Moreover, the 
+dimension~$n-1 = 2$ of the hypersurface $X_{t_1}$ is even and hence 
+the sign of the functional equation is a priori unknown.
+We choose the $p$-adic precisions $N_0 = 522$, $N_1 = 527$, $N_2 = 572$, 
+$N_3 = 721$, $N_3' = 890$, and $N_4 = 872$ and let $m = 1159$, $K = 6954$.
 
 The computation of the connection matrix, which has density $98 / 52^2$ 
-or approximately~$0.036$, requires $0.08$~seconds ($40$~seconds).  
-The Frobenius matrix on the diagonal fibre requires $1.56$~seconds 
+or approximately~$0.036$, requires $0.07$~seconds ($40$~seconds).  
+The Frobenius matrix on the diagonal fibre requires $3.4$~seconds 
 ($64.13$~minutes).  The computations of the matrices $C(t)$ and $C(t)^{-1}$ 
-are computed in $19.47$ and $9.92$~seconds, and the matrix product 
-$C(t) F(0) C^{-1}(t^p)$ is requires another $17.06$~seconds, leading 
-to an overall time of $46.45$~seconds ($31.03$~minutes) for the local 
+are computed in $33.05$ and $17.07$~seconds, and the matrix product 
+$C(t) F(0) C^{-1}(t^p)$ is requires another $40.08$~seconds, leading 
+to an overall time of $90.2$~seconds ($31.03$~minutes) for the local 
 expansion of Frobenius.  Finally, the analytic continuation, evaluation 
-at~$\hat{t}_1$ and computation of the $q$th-power Frobenius take $1.05$, 
-$0.35$, and $0.77$~seconds, yielding a total of $2.17$~seconds ($4.9$ hours) 
+at~$\hat{t}_1$ and computation of the $q$th-power Frobenius take $3.09$, 
+$0.66$, and $1.16$~seconds, yielding a total of $4.91$~seconds ($4.9$ hours) 
 for this part of the computation.
 
 We note that Gerkmann observes that the family in this example does 
-not contain any finite singular fibres, which makes the analytic 
-continuation step unnecessary and allows Gerkmann to directly evaluate 
-the local expansion of Frobenius around the origin.  Our automated routine 
-does not take advantage of this observation, however, it justifies 
-our choice of heuristic estimates for $m$ and $K$.  This is important 
-here as we cannot apply Theorem~\ref{thm:KedlayaTuitman} in this case.  
+not contain any singular fibres, which implies that a much lower value 
+of~$m$ would be sufficient.  This observation is important here as we 
+cannot apply Theorem~\ref{thm:KedlayaTuitman} in this case.  
 We find the denominator of the connection matrix $r(t) = 20 t^5+15625$ 
 and compute the exponents $-3/2$ (with multiplicity $4$), 
 $-1/2$ (with multiplicity $21$), and $0$ (with multiplicity $27$), 
@@ -187,9 +180,10 @@ this is an example that is extensively discussed by
 Kedlaya~\citep[Example~1.6.1]{Kedlaya2011}.  
 
 Our work demonstrates that examples like this one can be computed in an 
-automated fashion in short time.  Our choice of $p$-adic precisions is 
-$N_0 = N_1 = N_2 = 12$, $N_3 = 24$, $N_3' = 27$, $N_4 = 39$ and 
-we have heuristic $t$-adic parameters $m = 92$, $K = 5796$.
+automated fashion in short time.  As the dimension $n-1 = 3$ is odd, our 
+choice of $p$-adic precisions is $N_0 = N_1 = N_2 = 12$, $N_3 = 24$, 
+$N_3' = 27$, $N_4 = 39$ and we have heuristic $t$-adic parameters $m = 92$ 
+and $K = 5796$.
 
 The Gauss--Manin connection matrix is a $10 \times 10$~matrix with 
 $50$~non-zero entries.  We find that the denominator $r(t)$ is a degree~$62$ 
@@ -202,13 +196,11 @@ $3.67$~seconds.  The analytic continuation step now requires $0.21$~seconds,
 but the remaining part of the computation is near instantaneous.
 
 We also verify that our output polynomial 
-\begin{equation*}
-\begin{split}
+\begin{align*}
 p(T) & = 4747561509943 T^{10}+96889010407 T^9+17795940687 T^8 +80707214 T^7 \\
 & \quad -25529833 T^6 
 -756315 T^5-74431 T^4+686 T^3+441 T^2+7 T+1
-\end{split}
-\end{equation*}
+\end{align*}
 agrees with Kedlaya's work~\citep[p.~20]{Kedlaya2011}.
 
 \section{A generic quintic curve}
@@ -225,7 +217,8 @@ x^5 + y^5 + z^5 + t \bigl(
 \end{equation*}
 over $\mathbf{F}_{11}$ and $t_1 = 1$.
 
-We note that $b = 12$ and hence we only need to determine the 
+We note that $n-1 = 1$ is odd, that the sign of the functional 
+equation is positive and hence we only need to determine the 
 bottom half of the coefficients directly.  This allows us to 
 choose the $p$-adic precisions as $N_0 = N_1 = N_2 = 7$, 
 $N_3 = 10$, $N_3' = 11$, and $N_4 = 14$ and let $m = 84$, $K = 6636$.
@@ -241,12 +234,10 @@ $14.45$~seconds.  Finally, the analytic continuation and evaluation steps
 require $0.54$ and $0.02$~seconds.
 
 The output of the computation is the polynomial 
-\begin{equation*}
-\begin{split}
+\begin{align*}
 p(T) & = 1771561 T^{12}-322102 T^{11}+14641 T^{10}+17303 T^9-1936 T^8 \\
      & \quad +2310 T^7-250 T^6+210 T^5-16 T^4+13 T^3+T^2-2 T+1.
-\end{split}
-\end{equation*}
+\end{align*}
 We heuristically confirm the correctness of this result by 
 numerically computing its complex roots, finding that they 
 have absolute value $11^{-1/2}$ as required.
@@ -267,11 +258,11 @@ x^6 + y^6 + z^6 + t \bigl(
 \end{equation*}
 over $\mathbf{F}_{5}$ and $t_1 = 2$.
 
-In this example, we note that $b = \dim H_{dR}^n(\mathfrak{U_{t_1}}) = 20$ is 
-even and hence we only need to determine the bottom half of the 
-coefficients of $p(T)$ directly.  The $p$-adic precisions we are led to 
-use are $N_0 = N_1 = N_2 = 13$, $N_3 = 18$, $N_3' = 19$, and $N_4 = 24$, 
-and we take heuristic $t$-adic parameters $m = 71, K = 8591$.
+In this example, we note that $n-1 = 1$ is odd and hence we only need 
+to determine the bottom half of the coefficients of $p(T)$ directly.  
+The $p$-adic precisions we are led to use are $N_0 = N_1 = N_2 = 13$, 
+$N_3 = 18$, $N_3' = 19$, and $N_4 = 24$, and we take heuristic $t$-adic 
+parameters $m = 71, K = 8591$.
 
 The Gauss--Manin connection matrix, which is dense and has a degree~$120$ 
 denominator $r(t)$ in this example, is computed in $60.08$~seconds.  We 
@@ -283,13 +274,11 @@ matrix in $94.87$~seconds.  The remaining two steps, the analytic continuation
 and evaluation require $2.71$ and $0.11$~seconds, respectively.
 
 The final result of the computation is the polynomial 
-\begin{equation*}
-\begin{split}
+\begin{align*}
 p(T) & = 9765625 T^{20}-7812500 T^{19}+1562500 T^{18}+781250 T^{17}-531250 T^{16}\\
      & \quad -56250 T^{15}+108125 T^{14}+5375 T^{13}-21475 T^{12}+4945 T^{11}-503 T^{10}\\
      & \quad +989 T^9-859 T^8+43 T^7+173 T^6-18 T^5-34 T^4+10 T^3+4 T^2-4 T+1
-\end{split}
-\end{equation*}
+\end{align*}
 We verify that the reverse of $p(T)$ is a Weil polynomial and numerically 
 find that the absolute value of its complex roots is~$5^{-1/2}$.
 
