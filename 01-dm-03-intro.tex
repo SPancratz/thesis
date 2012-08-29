@@ -1,8 +1,8 @@
 % Chapter:  Introduction to the deformation method  %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Definitions and notation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Introduction %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Definitions and notation}
+\section{Introduction}
 
 In this section we present the problem that we are concerned 
 with in this part of the thesis and carefully set up the notation 
@@ -17,25 +17,29 @@ facilitated by computing
 the action of the Frobenius morphism on the associated rigid cohomology 
 spaces $H_{rig}^{\bullet}(X_{t_1})$.  The main idea is to embed this 
 hypersurface in a family of smooth projective hypersurfaces~$X/S$ 
-defined over a finite field~$k$, where $S \subset A_k^1(t)$, containing 
-a fibre~$X_{t_0}$ for which it is easier to compute the Frobenius action. 
-Lifting the family~$X/S$ to a family $\mathfrak{X}/\mathfrak{S}$ in 
+defined over a finite field~$k$, where $S \subset \mathbf{A}_k^1(t)$, 
+containing a fibre~$X_{t_0}$ for which it is easier to compute the Frobenius 
+action. Lifting the family~$X/S$ to a family $\mathcal{X}/\mathcal{S}$ in 
 characteristic zero, we can utilise a certain $p$-adic differential 
 equation involving the Frobenius matrix and the algebraic Gauss--Manin 
 connection.  Moreover, due to a comparison theorem of Baldassarri and 
 Chiarellotto~\citep{BalChi94}, in this 
 part of the algorithm we can work with the algebraic de~Rham cohomology 
-spaces~$H_{dR}^{\bullet}(\mathfrak{X}/\mathfrak{S})$, which are 
-computationally more accessible.  Solving this differential equation 
-and using the Frobenius action on~$\mathfrak{X}_{t_0}$ as the initial 
+spaces~$H_{dR}^{\bullet}(\mathfrak{X}/\mathfrak{S})$ of the generic 
+fibres, which are computationally more accessible.  Solving this differential 
+equation and using the Frobenius action on~$\mathfrak{X}_{t_0}$ as the initial 
 condition, by an appropriate evaluation we can compute the Frobenius matrix 
 for~$X_{t_1}$ and hence recover its zeta function.
 
+% Families of smooth, projective hypersurfaces %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Families of smooth, projective hypersurfaces}
+
 For the remaining part of this thesis, we restrict ourselves to the case 
-where the family $\mathfrak{X}/\mathfrak{S}$ is defined over a prime field, 
-$t_0 = 0$, and the initial fibre $X_0$ is diagonal.  Specifically, we 
-establish our set-up closely following Tuitman~\citep[\S 3.6]{Tuitman2011} 
-and using the same choice of resultant as Lauder~\citep[\S 2.3.2]{Lauder2011}.
+where the family $X/S$ is defined over a prime field, $t_0 = 0$, and the 
+initial fibre $X_0$ is diagonal.  Specifically, we establish our set-up 
+closely following Tuitman~\citep[\S 3.6]{Tuitman2011} and using the same 
+choice of resultant as Lauder~\citep[\S 2.3.2]{Lauder2011}.
 
 \begin{notation} \label{not:01-03-main}
 Let $\mathbf{F}_q$ be the finite field with $q = p^a$ elements, 
@@ -44,29 +48,29 @@ with residue field $\mathbf{F}_q$, and let $\mathbf{Z}_q$ denote its
 ring of integers.
 
 We let $P \in \mathbf{Z}[t][x_0,\dotsc,x_n]$ be a homogenous polynomial 
-of degree~$d$ with $n, d \geq 1$.  We define $r(t) \in \mathbf{Q}[t]$ as 
+of degree~$d$ with $n, d \geq 1$.  We define $r(t) \in \mathbf{Z}[t]$ as 
 the \emph{Macaulay resultant} of the partial derivatives of~$P$ as 
 in~\citep[Page~7, Chapter~I.6]{Macaulay1994}.  We can now define two 
-smooth $\mathbf{Z}_q$-schemes $\mathfrak{X}$ and $\mathfrak{S}$ as 
+smooth $\mathbf{Z}_q$-schemes $\mathcal{X}$ and $\mathcal{S}$ as 
 \begin{align*}
-\mathfrak{X} & = \Spec\bigl( \mathbf{Z}_q[t,r(t)^{-1}][x_0,\dotsc,x_n] / (P)\bigr), \\
-\mathfrak{S} & = \Spec\bigl( \mathbf{Z}_q[t,r(t)^{-1}] \bigr)
+\mathcal{X} & = \Spec\bigl( \mathbf{Z}_q[t,r(t)^{-1}][x_0,\dotsc,x_n] / (P)\bigr), \\
+\mathcal{S} & = \Spec\bigl( \mathbf{Z}_q[t,r(t)^{-1}] \bigr)
 \end{align*}
 together with the obvious smooth projective morphism 
-$\mathfrak{X} \to \mathfrak{S}$.  We also define the generic fibres 
-$\mathbf{X}$ and $\mathbf{S}$ of $\mathfrak{X}$ and $\mathfrak{S}$ as 
+$\mathcal{X} \to \mathcal{S}$.  We also define the generic fibres 
+$\mathfrak{X}$ and $\mathfrak{S}$ of $\mathcal{X}$ and $\mathcal{S}$ as 
 \begin{align*}
-\mathbf{X} & = \Spec\bigl( \mathbf{Q}_q[t,r(t)^{-1}][x_0,\dotsc,x_n] / (P)\bigr), \\
-\mathbf{S} & = \Spec\bigl( \mathbf{Q}_q[t,r(t)^{-1}] \bigr),
+\mathfrak{X} & = \Spec\bigl( \mathbf{Q}_q[t,r(t)^{-1}][x_0,\dotsc,x_n] / (P)\bigr), \\
+\mathfrak{S} & = \Spec\bigl( \mathbf{Q}_q[t,r(t)^{-1}] \bigr),
 \end{align*}
 respectively.  Moreover, we let $X$ and $S$ denote the projections 
-of $\mathfrak{X}$ and $\mathfrak{S}$ to characteristic~$p$. 
-Finally, we define complements $\mathfrak{U}$, $\mathbf{U}$, and $U$ 
-of $\mathfrak{X}$, $\mathbf{X}$, and $X$, respectively, in the 
+of $\mathcal{X}$ and $\mathcal{S}$ to characteristic~$p$. 
+Finally, we define complements $\mathcal{U}$, $\mathfrak{U}$, and $U$ 
+of $\mathcal{X}$, $\mathfrak{X}$, and $X$, respectively, in the 
 ambient projective $n$-space.
 
-We assume that $r(0) \neq 0$ and hence that $\mathfrak{X}_0$ is a 
-smooth, projective hypersurface, which we will moreover assume to be 
+We assume that $r(0) = 0 \pmod{p}$ and hence that $\mathcal{X}_0$ is 
+a smooth, projective hypersurface, which we will moreover assume to be 
 diagonal, and that $t_1 \in S$ is a non-zero point.
 \end{notation}
 
@@ -78,76 +82,131 @@ is even.
 \end{notation}
 
 \begin{rem}
-By considering the diagonal fibre~$X_0$, which is a non-singular variety 
-over $\mathbf{F}_p$, we see that our assumptions imply $p \nmid d$.
+By considering the diagonal fibre~$X_0$, which is a smooth, 
+projective hypersurface over $\mathbf{F}_p$, we see that our 
+assumptions imply $p \nmid d$.
 \end{rem}
 
-% Outline of the algorithm %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Gauss--Manin connection and Frobenius structure %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Gauss--Manin connection and Frobenius structures}
+
+We will now briefly describe the actions of the Gauss--Manin connection 
+and Frobenius on the vector space $H_{dR}^{n}(\mathfrak{U}/\mathfrak{S})$, 
+following Tuitman~\citep[\S 3.4.2, \S 3.6.1]{Tuitman2011} and 
+Walker~\citep[\S 3.2.2.2]{Walker2009}.
+
+Suppose that $(v_1,\dotsc,v_b)$ is a basis for the finite-dimensional 
+vector space $H_{dR}^{n}(\mathfrak{U}/\mathfrak{S})$ over 
+$\mathbf{Q}_q[t,r(t)^{-1}]$.  The Gauss--Manin connection is a map 
+\begin{equation*}
+\nabla \colon H_{dR}^{n}(\mathfrak{U}/\mathfrak{S}) 
+    \to H_{dR}^{n}(\mathfrak{U}/\mathfrak{S}) 
+    \otimes_{\mathbf{Q}_q[t,r(t)^{-1}]} \Omega_{\mathfrak{S}}^{1}
+\end{equation*}
+and its Leibniz-linear action is represented by a matrix~$M$ over 
+$\mathbf{Q}_q[t,r(t)^{-1}]$ with 
+\begin{equation*}
+\nabla(v_j) = \sum_{i=1}^{b} M_{ij} v_i \otimes dt.
+\end{equation*}
+As the polynomial~$P$ is a polynomial over the integers and 
+as our family~$X$ is defined over base field~$\mathbf{F}_p$ 
+already, the entries of~$M$ actually lie in~$\mathbf{Q}[t,r(t)^{-1}]$. 
+We present further details of this construction and give an explicit 
+computational routine for the computation of the matrix~$M$ in 
+Chapter~\ref{ch:GMConnection}.
+
+Now let $F_p$ denote the standard lift of the $p$-th power Frobenius 
+from $\mathbf{F}_q$ to $\mathbf{Q}_q[t]$, which is equal to 
+$\sigma \in \Gal(\mathbf{Q}_q/\mathbf{Q}_p)$ on $\mathbf{Q}_q$ and 
+is extended to $\mathbf{Q}_q[t]$ by sending $t$ to $t^p$.  Here, $\sigma$ 
+is the unique lift of the $p$-th power Frobenius map to $\mathbf{Q}_q$.  
+The map 
+\begin{equation*}
+p^{-1} F_p \colon (p^{-1} F_p)^{*} H_{dR}^{n}(\mathfrak{U}/\mathfrak{S}) 
+    \to H_{dR}^{n}(\mathfrak{U}/\mathfrak{S})
+\end{equation*}
+can be represented by a matrix~$\Phi$ such that 
+\begin{equation*}
+p^{-1} F_p (v_j) = \sum_{i=1}^{b} \Phi_{ij} v_i.
+\end{equation*}
+It can be shown that the entries of~$\Phi$ are in fact overconvergent 
+power series, that is, they lie in the ring 
+$\mathbf{Q}_q\langle t, r(t)^{-1}\rangle^{\dagger}$ as defined in 
+Definition~\ref{defn:Overconvergence}.  This means that the matrix~$\Phi$ 
+converges on $\mathbf{P}^{1}(\mathbf{Q}_q)$ with disks of radius strictly 
+less than~$1$ removed around the roots of $r(t)$ and~$\infty$.  Thus, the 
+entries of~$\Phi$ can be approximated modulo any given power of~$p$ by 
+rational functions with denominators some power of~$r(t)$.  We provide 
+explicit estimates for this convergence in 
+Section~\ref{sec:01-dm-06-continuation}.
+
+As we do not present any original, theoretic improvements to this part of 
+the deformation method, that is, the computation of the action of Frobenius 
+on the generic fibre, we provide fewer details.
+
+[[TODO:  Mention that we omit lots of details of rigid cohomology etc, 
+give some appropriate references.]]
+
+Finally, we note that the Gauss--Manin connection and the action of 
+Frobenius satisfy the following commutative diagram,
+\begin{equation*}
+\def\labelstyle{\textstyle}
+\xymatrix@C=6.8em@R=4em{
+H_{dR}^{n}(\mathfrak{U}/\mathfrak{S}) \ar[d]_{q^{-1} F_q} \ar[r]^{\nabla} & 
+\Omega_{\mathfrak{S}}^{1} \otimes H_{dR}^{n}(\mathfrak{U}/\mathfrak{S}) \ar[d]^{q^{-1} F_q} \\
+H_{dR}^{n}(\mathfrak{U}/\mathfrak{S}) \ar[r]^{\nabla} & 
+\Omega_{\mathfrak{S}}^{1} \otimes H_{dR}^{n}(\mathfrak{U}/\mathfrak{S}) 
+}
+\end{equation*}
+This implies that the matrices~$M$ and~$\Phi$ satisfy the $p$-adic 
+differential equation given by 
+\begin{equation*}
+\Bigl( \frac{d}{dt} + M \Bigr) \Phi = p t^{p-1} \Phi \sigma(M).
+\end{equation*}
+Further details regarding this can be found in \citep[\S 5]{Gerkmann2007}.
 
 \section{Outline of the algorithm}
 
-The deformation algorithm is outlined in Figure~\ref{fig:01-03-deformation}.
+\begin{enumerate}
+\item[Step~$I$.]
+Let $\Phi_0$ denote the matrix for the action of $p^{-1} F_p$ on 
+$H_{dR}^{n}(\mathbf{U}_0)$, which has entries in $\mathbf{Q}_p$.  
+We compute an approximation to $p$-adic precision~$N_4$.
+\item[Step~$II$.]
+We compute the matrix~$M$, which denotes the connection matrix 
+on $H_{dR}^{n}(\mathbf{U}/\mathbf{S})$ and has entries in 
+$\mathbf{Q}[t,r(t)^{-1}]$.
+\item[Step~$III$.]
+Let $C$ denote the matrix over $\mathbf{Q}[[t]]$ for the local 
+expansion of the solution to the $p$-adic differential equation 
+$\bigl(\tfrac{d}{dt} + M\bigr) C = 0$.  We compute an approximation 
+modulo~$t^K$ to $p$-adic precision~$N_3$.  We also compute an 
+approximation for the matrix~$C(t^p)^{-1}$ modulo~$t^K$ to $p$-adic 
+precision~$N_3'$.
+\item[Step~$IV$.]
+Let $\Phi(t)$ denote the matrix for the action of $p^{-1} F_p$ on 
+$H_{dR}^{n}(\mathbf{U}_t)$, which satisfies the equation 
+$\Phi(t) = C(t) \Phi_0 C(t^p)^{-1}$ and has entries in 
+$\mathbf{Q}_p[t,r(t)^{-1}]$.  We compute an approximation modulo~$t^K$ 
+to $p$-adic precision~$N_2$.
+\item[Step~$V$.]
+Let $\Phi_1$ denote the matrix for the action of $p^{-1} F_p$ 
+on $H_{dR}^{n}(\mathbf{U}_1)$, which has entries in $\mathbf{Q}_q$. 
+Firstly, we compute an approximation to $\Psi(t) = r(t)^m \Phi(t)$ 
+modulo~$t^K$ to $p$-adic precision~$N_2$.  We can then compute an 
+approximation for $\Phi_1$ to $p$-adic precision~$N_2$ as 
+$r(\hat{t}_1)^{-m} \Psi(\hat{t}_1)$.
+\item[Step~$VI$.]
+Let $\Phi_1^{(q)}$ denote the matrix for the action of $q^{-1} F_q$ on 
+$H_{dR}^{n}(\mathbf{U}_1)$, which satisfies 
+$\Phi_1^{(q)} = \Phi_1 \sigma(\Phi_1) \dotsm \sigma^{a-1}(\Phi_1)$ and 
+has entries in $\mathbf{Q}_q$.  We compute an approximation to this 
+matrix with $p$-adic precision~$N_1$.
+\item[Step~$VII$.]
+Let $p(T) = \det\bigl(1 - T q^{-1} F_q | H_{dR}^n(\mathbf{U}_{t_1})\bigr)$, 
+which is an integer polynomial.  We recover this exactly by computing 
+an approximation to the reverse characteristic polynomial of $\Phi_1^{(q)}$ 
+to $p$-adic precision~$N_0$.
+\end{enumerate}
 
-\begin{figure}[h]
-\centering
-\begin{tikzpicture}[node distance = 24mm, auto]
-
-    % Define block styles
-    \tikzstyle{block} = [rectangle, draw, 
-        text centered, rounded corners, minimum height = 6mm]
-    \tikzstyle{empty} = [rectangle]
-    \tikzstyle{line} = [draw, -latex']
-
-    % Place nodes
-    \node [block, text width = 100mm] (input) 
-        {Polynomial $P \in \mathbf{Z}[t][x_0, \dotsc, x_n]$; 
-        point $t_1 \in \mathbf{F}_q$ with $q = p^a$};
-
-    \node [block, below left=14.6mm and -30mm of input, text width = 48mm] (diag) 
-        {Matrix $\Phi_0$ over $\mathbf{Q}_p \bmod p^{N_4}$ for $p^{-1} F_p$ 
-        on $H_{dR}^n(\mathfrak{U}_0)$};
-
-    \node [block, below right=6mm and -50mm of input, text width = 58mm] (gm) 
-        {Connection matrix $M$ over $\mathbf{Q}(t)$ 
-        with denominator $r \in \mathbf{Z}[t]$};
-
-    \node [block, below=6mm of gm, text width = 82mm] (local) 
-        {Solution $C(t)$ in $\mathbf{Q}_p[[t]] \bmod {\bigl(p^{N_3}, t^{K}\bigr)}$ of the 
-        differential equation \mbox{$\bigl(\tfrac{d}{dt} + M\bigr) C = 0$}, 
-        and $C(t^p)^{-1}$};
-
-    \node [block, below=42mm of input, text width = 130mm] (series)
-        {Matrix $\Phi(t) = C(t) \Phi_0 C(t^p)^{-1}$ in 
-        $\mathbf{Q}_p[[t]] \bmod {\bigl(p^{N_2}, t^{K}\bigr)}$ for $p^{-1} F_p$ 
-        on $H_{dR}^n(\mathfrak{U}_t)$};
-
-    \node [block, below=6mm of series, text width = 78mm] (poly) 
-        {Matrix $r(t)^m \Phi(t)$ over $\mathbf{Q}_p[t] \bmod {p^{N_2}}$};
-
-    \node [block, below=6mm of poly, text width = 74mm] (eval) 
-        {Matrix $\Phi_1 = r(\hat{t}_1)^{-m} \bigl(r(t)^m \Phi(t)\bigr) \big\vert_{t={\hat{t}_1}}$ over 
-        $\mathbf{Q}_q \bmod p^{N_2}$ for $p^{-1} F_p$ on 
-        $H_{dR}^n(\mathfrak{U}_{t_1})$}; 
-
-    \node [block, below=6mm of eval, text width = 120mm] (qpower) 
-        {Matrix $\Phi_{q,1} = \Phi_1 \Phi_1^{\sigma} \dotsm \Phi_1^{\sigma^{a-1}}$ 
-        over $\mathbf{Q}_q \bmod {p^{N_1}}$ for $q^{-1} F_q$ on $H_{dR}^n(\mathfrak{U}_{t_1})$};
-
-    \node [block, below=6mm of qpower, text width = 92mm] (zeta) 
-        {Polynomial $p(T) = \det\bigl(1 - T q^{-1} F_q | H_{dR}^n(\mathfrak{U}_{t_1})\bigr)$ over $\mathbf{Z}$}; 
-
-    % Draw edges
-    \path [line] (input) -- (diag);
-    \path [line] (input) -- (gm);
-    \path [line] (gm) -- (local);
-    \path [line] (diag) -- (series);
-    \path [line] (local) -- (series);
-    \path [line] (series) -- (poly);
-    \path [line] (poly) -- (eval);
-    \path [line] (eval) -- (qpower);
-    \path [line] (qpower) -- (zeta);
-
-\end{tikzpicture}
-\caption{Flowchart describing the deformation algorithm}
-\label{fig:01-03-deformation}
-\end{figure}
