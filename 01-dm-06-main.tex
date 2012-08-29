@@ -257,6 +257,7 @@ the bound $\ord_p(\Phi(0)) \geq -(r+s)$ from~\citep[Lemma~3.3]{Gerkmann2007}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Analytic continuation and evaluation}
+\label{sec:01-dm-06-continuation}
 
 In the previous section we described how to compute the matrix~$\Phi(t)$ as 
 a local power series expansion around $t = 0$.  In order to evaluate it 
@@ -267,6 +268,21 @@ on $H_{dR}^{n}(\mathfrak{U})$ are \emph{overconvergent functions}.
 
 [[TODO:  Define the weak completion rings.  Find a reference of 
 overconvergence.]]
+
+\begin{defn} \label{defn:Overconvergence}
+We now define the ring over \emph{overconvergent power series} 
+over $\mathbf{Q}_q$.  Given indeterminates $z_1, \dotsc, z_k$, 
+the ring $\mathbf{Q}_q \langle z_1, \dotsc, z_k \rangle^{\dagger}$ 
+consists of power series of the form 
+\begin{equation*}
+\sum_{i_1,\dotsc,i_k \geq 0} a_{i_1,\dotsc,i_k} z_1^{i_1} \dotsm z_k^{i_k}
+\end{equation*}
+such that there exist real numbers $\epsilon > 0$ and $\nu$ 
+such that, for all $i_1, \dotsc, i_k \geq 0$, 
+\begin{equation*}
+\ord_p (a_{i_1,\dotsc,i_k}) \geq \epsilon(i_1 + \dotsb + i_k) + \nu.
+\end{equation*}
+\end{defn}
 
 More precisely, given a desired $p$-adic precision~$N_2$, we would 
 like to determine integers~$m$ and~$K$ such that, modulo~$p^{N_2}$, 
