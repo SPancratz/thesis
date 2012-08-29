@@ -59,7 +59,7 @@ where $\hat{a}_i$ is the Teichm\"uller lift of $a_i \in \mathbf{F}_p$
 to $\mathbf{Q}_p$ and the summation indices $m, r \geq 0$ satisfy 
 $p u_i - v_i = d (m - pr)$.
 
-\begin{thm} \label{thm:01-04-diagfrob}
+\begin{thm} \label{thm:01-03-diagfrob}
 Continuing with the notation set out above, let $\omega_1$ and $\omega_2$ 
 denote the forms in $\mathcal{B}_1 \cup \dotsb \cup \mathcal{B}_n$ 
 corresponding to $u$ and $v$, respectively.  
@@ -472,7 +472,7 @@ where $r = \ord_p((n-1)!)$ and $s = (n+1) \floor{\log_p(n-1)}$.
 \begin{proof}
 Recall from Gerkmann~\citep[Lemma~3.3]{Gerkmann2007} that the valuations 
 of the entries of the matrix~$F$ are bounded from below by $-(r+s)$. 
-Thus, by Theorem~\ref{thm:01-04-diagfrob}, 
+Thus, by Theorem~\ref{thm:01-03-diagfrob}, 
 \begin{equation*}
 -(r+s) \leq \ord_p((v'-1)!) + n - \ord_p((u'-1)! \alpha_{u+1,v+1})
 \end{equation*}
@@ -481,11 +481,11 @@ hence $v' \leq n$, the result follows.
 \end{proof}
 
 This allows us to formalise the procedure for computing the 
-entries of~$F$ modulo~$p^N$ in Algorithm~\ref{alg:01-04-diagfrob}.
+entries of~$F$ modulo~$p^N$ in Algorithm~\ref{alg:01-03-diagfrob}.
 
 \begin{algorithm}
 \caption{Compute the matrix for $p^{-1} F_p$ on $H_{dR}^n(\mathfrak{U})$}
-\label{alg:01-04-diagfrob}
+\label{alg:01-03-diagfrob}
 \begin{algorithmic}
 \vspace{1mm}
 \Require Polynomial $a_0 x_0^d + \dotsb + a_n x_n^d$, 

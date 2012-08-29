@@ -112,7 +112,7 @@ $\Omega_{A/K}^1 \otimes_{A} H_{dR}^j(\mathfrak{X}/\mathfrak{S})$.
 % Hypersurfaces in projective space  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Hypersurfaces in projective space}
-\label{sec:01-05-hypersurfaces}
+\label{sec:01-04-hypersurfaces}
 
 In this section we make the results from the previous sections concrete, 
 specialising to the case of hypersurfaces in projective space.  In the 
@@ -123,7 +123,7 @@ de~Rham cohomology and Kedlaya~\citep[\S 3.2]{Kedlaya2008} when
 expressing the action of the Gauss--Manin connection.  We begin by recalling 
 the notation relevant in this chapter.
 
-\begin{notation} \label{not:01-05-main}
+\begin{notation} \label{not:01-04-main}
 We consider a non-singular hypersurface~$\mathfrak{X}$ in 
 $\mathbf{P}^n(K) \times \A^1(K)$, where $K$ is a field of characteristic 
 zero and $n \geq 2$, defined by a homogeneous polynomial 
@@ -218,12 +218,12 @@ further details on the matrix computations involved in the third subsection.
 % Subsection:  Reduction of poles  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Reduction of poles}
-\label{sec:01-05-reduction}
+\label{sec:01-04-reduction}
 
 This section is based on~\citep[Remark~3.2.5]{AbbottKedlayaRoe2006}, 
 describing a \emph{reduction of poles} procedure also referred to as the 
 Griffiths--Dwork method.  We continue with the same 
-Notation~\ref{not:01-05-main}, but since for large parts of the discussion 
+Notation~\ref{not:01-04-main}, but since for large parts of the discussion 
 it will not matter that $K(t)$ is a function field, we also define $L = K(t)$.
 
 From the description of $H_{dR}^n(\mathfrak{U}/\mathfrak{S})$ in the 
@@ -311,7 +311,7 @@ algorithm depends on a theorem of Macaulay~\citep[\S 4, (4.11)]{Griffiths1969}.
 % Subsection: Reduction of poles using linear algebra  %%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Reduction of poles using linear algebra}
-\label{sec:01-05-linalg}
+\label{sec:01-04-linalg}
 
 In this subsection, we specialise to the case of a smooth family of 
 projective hypersurfaces containing a diagonal fibre.  We exhibit a basis 
@@ -349,7 +349,7 @@ sets~$B_k$, for $k \in \N$, which as before induce a generating set
 $\cB_1 \cup \dotsb \cup \cB_n$ of $H_{dR}^n(\mathfrak{U}/\mathfrak{S})$ 
 as an $L$-vector space respecting the aforementioned filtration:
 
-\begin{defn} \label{defn:01-05-basis}
+\begin{defn} \label{defn:01-04-basis}
 For $k \in \N$, we define the following sets of monomials, 
 \begin{align*}
 F_k & = \{ x^i : i \in \mathbf{N}_{0}^{n+1}, \abs{i} = k d - (n+1) \}, \\
@@ -527,7 +527,7 @@ using the reduction of poles procedure.
 \begin{thm} \label{thm:Basis}
 Suppose that the family of projective hypersurfaces given by~$P$ contains 
 a diagonal fibre.  Then the set $\cB_1 \cup \dotsb \cup \cB_n$ as in 
-Definition~\ref{defn:01-05-basis} is a basis for the $L$-vector space 
+Definition~\ref{defn:01-04-basis} is a basis for the $L$-vector space 
 $H_{dR}^n(\mathfrak{U}/\mathfrak{S})$.
 \end{thm}
 
@@ -567,7 +567,7 @@ independent.
 % Subsection:  Sparse matrix techniques  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Sparse matrix techniques}
-\label{sec:01-05-sparse}
+\label{sec:01-04-sparse}
 
 In this section we present a technique for repeatedly solving a sparse 
 system of linear equations as in {\it Step II.} of 
@@ -683,8 +683,8 @@ We now describe the action of the Gauss--Manin connection~$\nabla_{GM}$ on
 basis elements of $H_{dR}^n(\mathfrak{U}/\mathfrak{S})$.  Suppose that we are 
 given a basis element $x^i \Omega / P^k \in \cB_k$, where for 
 $1 \leq k \leq n$ the set $\cB_k$ is defined as in 
-Definition~\ref{defn:01-05-basis}.  Following the description in 
-Section~\ref{sec:01-05-hypersurfaces}, the action of the connection 
+Definition~\ref{defn:01-04-basis}.  Following the description in 
+Section~\ref{sec:01-04-hypersurfaces}, the action of the connection 
 is given by exterior differentiation, that is, differentiation with respect 
 to~$t$.  We first compute 
 \begin{equation*}
@@ -722,8 +722,8 @@ We formalise this for later reference in Algorithm~\ref{alg:ConnectionMatrix}.
 \item Compute the auxiliary matrices $\Delta_k$, for 
       $k = \floor{n/d}+1, \dotsc, n+1$, and perform pre-processing on each 
       auxiliary matrix as described in 
-      Sections~\ref{sec:01-05-linalg} 
-      and~\ref{sec:01-05-sparse}.
+      Sections~\ref{sec:01-04-linalg} 
+      and~\ref{sec:01-04-sparse}.
 \item For all $(j, g) \in \bigcup_{k=1}^n B_k$, let $Q = -j g P_t$ and set 
       $\gamma_{1}, \dotsc, \gamma_n$ to the output of 
       {\sc Reduce($P, B_1, \dotsc, B_n, Q$)}.  
