@@ -40,10 +40,10 @@ the action of $p^{-1} F_p$ on $H_{rig}^n(U) \cong H_{dR}^n(\mathfrak{U})$
 to $p$-adic precision~$N$.
 
 We now describe an explicit formula for the $b = \dim H_{dR}^n(\mathfrak{U})$ 
-non-zero coefficients of~$F$ due to Dwork~\citep{Dwork64}, see e.g.\ 
-Lauder~\citep[\S 6.1]{Lau04}.   We work over the ramified extension 
-$\mathbf{Q}_p(\pi)$ where $\pi^{p-1} = -p$, where we normalise the valuation 
-such that $\ord_p(\pi) = (p-1)^{-1}$.
+non-zero coefficients of the matrix~$F$ due to Dwork~\citep{Dwork64}, see 
+e.g.\ Lauder~\citep[\S 6.1]{Lau04}.   We work over the ramified 
+extension~$\mathbf{Q}_p(\pi)$ where $\pi^{p-1} = -p$, where we normalise 
+the valuation such that \mbox{$\ord_p(\pi) = (p-1)^{-1}$}.
 
 Let $u = (u_0, \dotsc, u_n)$ and $v = (v_0, \dotsc, v_n)$ be tuples such 
 that $x^u, x^v \in B_1 \cup \dotsb \cup B_n$,  and let $u'$ and $v'$ 
@@ -262,7 +262,7 @@ modulo~$p^{\tilde{N}}$ via
 \end{equation*}
 using only one $p$-adic inversion.  We observe that the summands are 
 integers of size $\mathcal{O}(m \log m)$ bits, which allows us to 
-avoid performing intermediate reductions modulo $p^{\tilde{N}}$.
+avoid performing intermediate reductions modulo~$p^{\tilde{N}}$.
 \end{rem}
 
 \begin{thm} \label{thm:alpha2}
@@ -380,16 +380,16 @@ p^2 - 3p + 1 > 0
 which holds true provided that $p \geq 3$.
 \end{proof}
 
-\begin{rem}
+\begin{rem} \label{rem:01-03-mup}
 The expression $\mu_m$ can be computed efficiently 
 modulo~$p^{\tilde{N}}$ via
 \begin{equation*}
 \mu_m = \frac{p^{\floor{m/p}}}{m!} 
     \sum_{k=0}^{\floor{m/p}} \frac{m!}{p^k (m-pk)! k!}
 \end{equation*}
-using only $p$-adic inversion.  We observe that the summands are 
+using only one $p$-adic inversion.  We observe that the summands are 
 integers of size $\mathcal{O}(m \log m)$ bits, which allows us to 
-avoid performing intermediate reductions modulo $p^{\tilde{N}}$.
+avoid performing intermediate reductions modulo~$p^{\tilde{N}}$.
 \end{rem}
 
 \begin{thm} \label{thm:alphap}
@@ -515,6 +515,74 @@ entries of~$F$ modulo~$p^N$ in Algorithm~\ref{alg:01-03-diagfrob}.
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
+
+\begin{thm} \label{thm:01-dm-03-complexity}
+The time complexity of Algorithm~\ref{alg:01-03-diagfrob} is given 
+by 
+\begin{equation*}
+p \tilde{N}^2 M\bigl(p \tilde{N} \log (p \tilde{N})\bigr)
+    + d^n n \bigl( M(\log d) + (\tilde{N} + \log p) M(\tilde{N} \log p) \bigr)
+\end{equation*}
+where $M(-)$ denotes the complexity of integer multiplication and 
+$\tilde{N}$ is $\mathcal{O}(N + n \log_p n)$.
+\end{thm}
+
+\begin{proof}
+We consider each of the steps in Algorithm~\ref{alg:01-03-diagfrob}. 
+We can ignore the computational effort in {Step~(i)}, but observe 
+that $\tilde{N}$ is $\mathcal{O}(N + n \log_p n)$, $M$ is 
+$\mathcal{O}(p \tilde{N})$, and $R$ is $\mathcal{O}(\tilde{N})$.  
+
+In {Step~(ii)}, we compute $n+1$ Teichm\"uller lifts with an 
+overall complexity of $\mathcal{O}(n (\log p) M(\tilde{N} \log p))$. 
+The computation of the sequence $(d^{-r})_{r=0}^{R}$ requires 
+one reduction of $d$ modulo $p^{\tilde{N}}$, one $p$-adic inversion 
+and $R-1$~products to precision~$\tilde{N}$, yielding 
+$\mathcal{O}\bigl(M(\log d) + (\log \log p) M(\log p) + \tilde{N} M(\tilde{N} \log p)\bigr)$. 
+Finally, we carry out the computation of $(\mu_m)_{m=0}^{M}$ following 
+Remark~\ref{rem:01-03-mup}, which requires time 
+$\mathcal{O}\bigl(p \tilde{N}^2 M(p \tilde{N} \log(p \tilde{N}))\bigr)$.
+
+The following {Steps~(iii) through (vii)} are executed 
+$\dim H_{dR}^{n}(\mathfrak{U})$ times, where this dimension 
+is $\mathcal{O}(d^n)$.
+The time complexity of {Step~(iii)} is 
+$\mathcal{O}\bigl(n M(\log \max\{p,d\})\bigr)$.
+We observe that we can ignore {Step~(iv)}.
+Step~(v) involves an $(n+1)$-fold product of series 
+with~$\mathcal{O}(R)$ terms modulo~$p^{\tilde{N}}$, where each summand 
+requires an absolutely bounded number of products, as well as 
+$n+1$~exponentiations of Teichm\"uller lifts with exponents given 
+by $d^{-1} \bigl(p (u_i+1) - (v_i+1)\bigr) < p$.  Computing the 
+exponents has complexity $\mathcal{O}(M(\log \max\{p,d\}))$ and 
+we note that we may ignore the update of the term 
+\mbox{$\bigl((u_i+1)/d\bigr)_r$} throughout the summation 
+assuming we have computed the reduction of $d \bmod{p^{\tilde{N}}}$ 
+once and for all earlier.  Therefore, the complexity of each 
+invocation of {Step~(v)} is 
+$\mathcal{O}\bigl( n M(\log d) + n (R + \log p) M(\tilde{N} \log p)\bigr)$.  
+The $p$-adic inverse in {Step~(vi)} requires time 
+$\mathcal{O}\bigl((\log \log p) M(\log p) + M(\tilde{N} \log p)\bigr)$.
+Finally, we can ignore the product in {Step~(vii)}.  
+Thus, the aggregate time complexity of {Steps~(iii)} through {(vii)} 
+is given by 
+$\mathcal{O}\bigl(d^n n \bigl( M(\log d) + (\tilde{N} + \log p) M(\tilde{N} \log p) \bigr)\bigr)$.
+\end{proof}
+
+\begin{rem}
+Although the current implementation of Algorithm~\ref{alg:01-03-diagfrob} 
+performs very well in practical applications, its time complexity is 
+quasi-cubic in the $p$-adic precision~$N$.  Both of these aspects are 
+due to the use of the integer sequence $(\mu_m)_{m=0}^{M}$ instead of 
+the coefficients $(\lambda_m)_{m=0}^{M}$ defined over $\mathbf{Q}_p(\pi)$. 
+However, we can achieve a better time complexity by utilising fast 
+composition of power series as described in~\citep[\S 9.3]{Bernstein2008}. 
+This allows us to compute the composition $\exp \pi (z - z^p)$ 
+modulo~$z^{M+1}$ in a number of operations in~$\mathbf{Q}_p(\pi)$ which 
+is quasi-linear in~$M$.  As the bit complexity of an operation in this 
+ring is quasi-linear in~$N$, this shows that the sequence 
+$(\lambda_m)_{m=0}^{M}$ can be computed in time quasi-quadratic in~$N$.
+\end{rem}
 
 % Computational examples %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
