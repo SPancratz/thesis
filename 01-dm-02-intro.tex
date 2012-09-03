@@ -174,7 +174,7 @@ Further details regarding this can be found in \citep[\S 5]{Gerkmann2007}.
 
 We now provide an outline of the deformation method.  The list below 
 includes nearly full details of the computation, omitting only the 
-specific choice of precisions $N_0, \dotsc, N_4$, and $m, K$.  
+specific choice of precisions $N_0, \dotsc, N_4$, and $K_1, K_2$.  
 These are provided and justified in Chapter~\ref{ch:01-Main}.
 
 \begin{enumerate}
@@ -190,22 +190,22 @@ $\mathbf{Q}[t,r(t)^{-1}]$.
 Let $C$ denote the matrix over $\mathbf{Q}[[t]]$ for the local 
 expansion of the solution to the $p$-adic differential equation 
 $\bigl(\tfrac{d}{dt} + M\bigr) C = 0$.  We compute an approximation 
-modulo~$t^K$ to $p$-adic precision~$N_3$.  We also compute an 
-approximation for the matrix~$C(t^p)^{-1}$ modulo~$t^K$ to $p$-adic 
+modulo~$t^{K_2}$ to $p$-adic precision~$N_3$.  We also compute an 
+approximation for the matrix~$C(t^p)^{-1}$ modulo~$t^{K_2}$ to $p$-adic 
 precision~$N_3'$.
 \item[Step~$IV$.]
 Let $\Phi(t)$ denote the matrix for the action of $p^{-1} F_p$ on 
 $H_{dR}^{n}(\mathfrak{U}_t)$, which satisfies the equation 
 $\Phi(t) = C(t) \Phi_0 C(t^p)^{-1}$ and has entries in 
-$\mathbf{Q}_p[t,r(t)^{-1}]$.  We compute an approximation modulo~$t^K$ 
+$\mathbf{Q}_p[t,r(t)^{-1}]$.  We compute an approximation modulo~$t^{K_2}$ 
 to $p$-adic precision~$N_2$.
 \item[Step~$V$.]
 Let $\Phi_{t_1}$ denote the matrix for the action of $p^{-1} F_p$ 
 on $H_{dR}^{n}(\mathfrak{U}_{t_1})$, which has entries in $\mathbf{Q}_q$. 
-Firstly, we compute an approximation to $\Psi(t) = r(t)^m \Phi(t)$ 
-modulo~$t^K$ to $p$-adic precision~$N_2$.  We can then compute an 
+Firstly, we compute an approximation to $\Psi(t) = r(t)^{K_1} \Phi(t)$ 
+modulo~$t^{K_2}$ to $p$-adic precision~$N_2$.  We can then compute an 
 approximation for $\Phi_{t_1}$ to $p$-adic precision~$N_2$ as 
-$r(\hat{t}_1)^{-m} \Psi(\hat{t}_1)$.
+$r(\hat{t}_1)^{-K_1} \Psi(\hat{t}_1)$.
 \item[Step~$VI$.]
 Let $\Phi_1^{(q)}$ denote the matrix for the action of $q^{-1} F_q$ on 
 $H_{dR}^{n}(\mathfrak{U}_{t_1})$, which satisfies 

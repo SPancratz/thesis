@@ -60,10 +60,10 @@ where we recall from Notation~\ref{not:01-02-main} that by
 assumption $r_0 \neq 0 \pmod{p}$ and so, in particular, $r_0 \neq 0$.
 
 From a computational perspective, we are only interested in a power 
-series solution to some $p$-adic and $t$-adic precisions $N$ and $K$, 
+series solution to some $p$-adic and $t$-adic precisions $N$ and $K_2$, 
 respectively, as discussed in the next two sections.  As such we need 
 to understand the loss of $p$-adic precision involved in the computation 
-of $C_0, C_1, \dotsc, C_{K-1}$.  Specifically, let $D_0, D_1, \dotsc$ 
+of $C_0, C_1, \dotsc, C_{K_2-1}$.  Specifically, let $D_0, D_1, \dotsc$ 
 denote an approximation defined by $D_0 = I$ and 
 \begin{equation*}
 D_{i+1} = \frac{-1}{r_0 (i+1)} \biggl(
@@ -171,7 +171,7 @@ In practice, solving this equation for $C^{-1}$ is typically favourable
 compared to inverting the matrix~$C$.
 \end{rem}
 
-With $p$-adic approximations to the power series modulo $t^K$ available 
+With $p$-adic approximations to the power series modulo $t^{K_2}$ available 
 for $C$, $\Phi_0$, and $\sigma(C)^{-1}$, we are in a position to determine 
 the power series for $\Phi = C \Phi_0 \sigma(C)^{-1}$.  The final issue 
 to address in this section is the $p$-adic precision that we require for 
@@ -266,17 +266,17 @@ we have $\ord_p(A + B) \geq \min \{\ord_p(A), \ord_p(B)\}$.
 \end{proof}
 
 \begin{cor}
-Suppose that $K, N_2$ are positive integers such that $N_2$ is greater than 
-the sum of two or three of $\ord_p(\Phi_0)$, $\ord_p\bigl(C \bmod t^K\bigr)$, 
-and $\ord_p\bigl(C^{-1} \bmod{t^{\ceil{K/p}}}\bigr)$.
+Suppose that $K_2, N_2$ are positive integers such that $N_2$ is greater than 
+the sum of two or three of $\ord_p(\Phi_0)$, $\ord_p\bigl(C \bmod t^{K_2}\bigr)$, 
+and $\ord_p\bigl(C^{-1} \bmod{t^{\ceil{K_2/p}}}\bigr)$.
 In order to compute the power series expansion around the origin 
-of the matrix~$\Phi$ modulo~$t^K$ to $p$-adic precision~$N_2$, it 
+of the matrix~$\Phi$ modulo~$t^{K_2}$ to $p$-adic precision~$N_2$, it 
 suffices to compute the matrices $C$, $C^{-1}$ and $\Phi_0$ to 
 $p$-adic precision $N_3$, $N_3'$ and $N_4$, respectively, where 
 \begin{align*}
-N_3  & \geq N_2 + \bigl(2\delta+(n-1)\bigr) \ceil{\log_p \ceil{K/p}} + \delta, \\
-N_3' & \geq N_2 + \bigl(2\delta+(n-1)\bigr) \ceil{\log_p K} + \delta, \\
-N_4  & \geq N_2 + \bigl(2\delta+(n-1)\bigr) \bigl(\ceil{\log_p K} + \ceil{\log_p \ceil{K/p}}\bigr).
+N_3  & \geq N_2 + \bigl(2\delta+(n-1)\bigr) \ceil{\log_p \ceil{K_2/p}} + \delta, \\
+N_3' & \geq N_2 + \bigl(2\delta+(n-1)\bigr) \ceil{\log_p K_2} + \delta, \\
+N_4  & \geq N_2 + \bigl(2\delta+(n-1)\bigr) \bigl(\ceil{\log_p K_2} + \ceil{\log_p \ceil{K_2/p}}\bigr).
 \end{align*}
 \end{cor}
 
@@ -314,9 +314,9 @@ such that, for all $i_1, \dotsc, i_k \geq 0$,
 \end{defn}
 
 More precisely, given a desired $p$-adic precision~$N_2$, we would 
-like to determine integers~$m$ and~$K$ such that, modulo~$p^{N_2}$, 
+like to determine integers~$K_1$ and~$K_2$ such that, modulo~$p^{N_2}$, 
 the entries of the matrix $\Psi(t) = r(t)^m \Phi(t)$ truncated 
-modulo~$t^{K}$ allow us to compute the matrix $\Phi_{t_1}$ for 
+modulo~$t^{K_2}$ allow us to compute the matrix $\Phi_{t_1}$ for 
 the action of $p^{-1} F_p$ on $H_{dR}^{n}(\mathfrak{U}_{t_1})$ as 
 $r(\hat{t_1})^{-1} \Psi(\hat{t_1})$ modulo~$p^{N_2}$.
 
@@ -356,22 +356,22 @@ estimates provided by Gerkmann.
 The contribution of the terms $\max_i \lambda_i - p \min_i \lambda_i$ 
 in equation~\eqref{eq:KedlayaTuitman} typically is small compared to the 
 term~$p g(N_2)$. Therefore, in a heuristic implementation, one 
-could choose e.g.\ $m = 1.1 \times p N_2$ and $K = (\deg(r) + 1) m$.
+could choose e.g.\ $K_1 = 1.1 \times p N_2$ and $K_2 = (\deg(r) + 1) K_1$.
 \end{rem}
 
 Having obtained an expression for the action of~$p^{-1} F_p$ 
 on~$H_{dR}^{n}(\mathfrak{U}_{t_1})$ in terms of rational functions, 
-we conclude this section by describing the evaluation at $t = t_1$.  
-Modulo~$p^{N_2}$, the matrix $\Phi_1$ representing $p^{-1} F_p$ on 
-$H_{dR}^{n}(\mathfrak{U}_{t_1})$ is equal to 
+we conclude this section by describing the evaluation at the fibre 
+$t = t_1$.  Modulo~$p^{N_2}$, the matrix $\Phi_{t_1}$ representing 
+$p^{-1} F_p$ on $H_{dR}^{n}(\mathfrak{U}_{t_1})$ is equal to 
 \begin{equation}
-\Phi_1 = 
-    r(\hat{t}_1)^{-m} 
-    \Bigl( r(t)^m \Phi(t) \bmod{t^K} \Bigr) \Big\vert_{t=\hat{t}_1} \pmod{p^{N_2}}.
+\Phi_{t_1} = 
+    r(\hat{t}_1)^{-K_1} 
+    \Bigl( r(t)^{K_1} \Phi(t) \bmod{t^{K_2}} \Bigr) \Big\vert_{t=\hat{t}_1} \pmod{p^{N_2}}.
 \end{equation}
 Since, by assumption, $r(t_1)$ is a $p$-adic unit and hence so is 
-$r(\hat{t}_1)^{-m}$ we observe that it suffices to compute the 
-Teichm\"uller lift~$\hat{t}_1$ and the matrix~$r(t)^m \Phi(t)$ 
+$r(\hat{t}_1)^{-K_1}$ we observe that it suffices to compute the 
+Teichm\"uller lift~$\hat{t}_1$ and the matrix~$r(t)^{K_1} \Phi(t)$ 
 over~$\mathbf{Q}_p[t]$ to $p$-adic precision~$N_2$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

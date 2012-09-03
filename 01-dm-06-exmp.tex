@@ -61,7 +61,7 @@ determine the bottom half of the coefficients of the polynomial
 $p(T)$ directly.  In our computation we use the following choice of 
 $p$-adic precisions $N_0 = N_1 = N_2 = 127$, $N_3 = 134$, $N_3' = 135$, 
 $N_4 = 142$ and note that in the analytic continuation step we 
-take $m = 419$ and $K = 2514$.
+take $K_1 = 419$ and $K_2 = 2514$.
 
 We now compare the performance of our implementation with the 
 timings reported in~\citep[\S 7.4]{Gerkmann2007} where possible, 
@@ -70,10 +70,10 @@ Gauss--Manin connection is near instantaneous with our implementation.
 The computation of the Frobenius matrix on the diagonal fibre takes 
 $0.04$~seconds ($5.86$ minutes).  The local solution $C(t)$, its 
 inverse $C(t)^{-1}$ and the local expansion for $p^{-1}F_p$ on 
-$H_{dR}^n(\mathfrak{U})$ are computed in $0.38$, $0.11$ and $1.28$~seconds, 
-respectively, adding up to $1.77$~seconds ($83$ seconds).  The analytic 
-continuation and subsequent evaluation at a Teichm\"uller lift of~$t_1$ 
-take $0.05$ and $0.2$~seconds, and the computation of the $q$th-power 
+$H_{dR}^n(\mathfrak{U}/\mathfrak{S})$ are computed in $0.38$, $0.11$ 
+and $1.28$~seconds, respectively, adding up to $1.77$~seconds ($83$ seconds). 
+The analytic continuation and subsequent evaluation at a Teichm\"uller lift 
+of~$t_1$ take $0.05$ and $0.2$~seconds, and the computation of the $q$th-power 
 Frobenius requires another $7.33$~seconds ($101.4$ minutes).
 
 During the computation of the connection matrix over $\mathbf{Q}(t)$, 
@@ -96,7 +96,7 @@ functional equation is unknown.  However, we can use
 Remark~\ref{rem:N0Surfaces} and determine the polynomial 
 $3^{20} p\bigl(3^{-20} T\bigr) \in \mathbf{Z}[T]$ instead of $p(T)$. 
 Thus, we take $N_0 = 33$, $N_1 = N_2 = 53$, $N_3 = 65$, 
-$N_3' = 67$, $N_4 = 79$ as well as $m = 174$ and $K = 870$.
+$N_3' = 67$, $N_4 = 79$ as well as $K_1 = 174$ and $K_2 = 870$.
 
 The computation of the connection matrix is near instantaneous 
 again, although in this case this is largely due to the sparseness 
@@ -145,7 +145,7 @@ we can not employ Remark~\ref{rem:N0Surfaces}.  Moreover, the
 dimension~$n-1 = 2$ of the hypersurface $X_{t_1}$ is even and hence 
 the sign of the functional equation is a priori unknown.
 We choose the $p$-adic precisions $N_0 = 522$, $N_1 = 527$, $N_2 = 572$, 
-$N_3 = 721$, $N_3' = 890$, and $N_4 = 872$ and let $m = 1159$, $K = 6954$.
+$N_3 = 721$, $N_3' = 890$, and $N_4 = 872$ and let $K_1 = 1159$, $K_2 = 6954$.
 
 The computation of the connection matrix, which has density $98 / 52^2$ 
 or approximately~$0.036$, requires $0.07$~seconds ($40$~seconds).  
@@ -161,7 +161,7 @@ for this part of the computation.
 
 We note that Gerkmann observes that the family in this example does 
 not contain any singular fibres, which implies that a much lower value 
-of~$m$ would be sufficient.  This observation is important here as we 
+of~$K_1$ would be sufficient.  This observation is important here as we 
 cannot apply Theorem~\ref{thm:KedlayaTuitman} in this case.  
 We find the denominator of the connection matrix $r(t) = 20 t^5+15625$ 
 and compute the exponents $-3/2$ (with multiplicity $4$), 
@@ -182,8 +182,8 @@ Kedlaya~\citep[Example~1.6.1]{Kedlaya2011}.
 Our work demonstrates that examples like this one can be computed in an 
 automated fashion in short time.  As the dimension $n-1 = 3$ is odd, our 
 choice of $p$-adic precisions is $N_0 = N_1 = N_2 = 12$, $N_3 = 24$, 
-$N_3' = 27$, $N_4 = 39$ and we have heuristic $t$-adic parameters $m = 92$ 
-and $K = 5796$.
+$N_3' = 27$, $N_4 = 39$ and we have heuristic $t$-adic parameters $K_1 = 92$ 
+and $K_2 = 5796$.
 
 The Gauss--Manin connection matrix is a $10 \times 10$~matrix with 
 $50$~non-zero entries.  We find that the denominator $r(t)$ is a degree~$62$ 
@@ -221,7 +221,7 @@ We note that $n-1 = 1$ is odd, that the sign of the functional
 equation is positive and hence we only need to determine the 
 bottom half of the coefficients directly.  This allows us to 
 choose the $p$-adic precisions as $N_0 = N_1 = N_2 = 7$, 
-$N_3 = 10$, $N_3' = 11$, and $N_4 = 14$ and let $m = 84$, $K = 6636$.
+$N_3 = 10$, $N_3' = 11$, and $N_4 = 14$ and let $K_1 = 84$, $K_2 = 6636$.
 
 The computation of the connection matrix requires $6.55$~seconds, 
 yielding a dense matrix with denominator $r(t)$ a degree~$78$ 
@@ -262,7 +262,7 @@ In this example, we note that $n-1 = 1$ is odd and hence we only need
 to determine the bottom half of the coefficients of $p(T)$ directly.  
 The $p$-adic precisions we are led to use are $N_0 = N_1 = N_2 = 13$, 
 $N_3 = 18$, $N_3' = 19$, and $N_4 = 24$, and we take heuristic $t$-adic 
-parameters $m = 71, K = 8591$.
+parameters $K_1 = 71, K_2 = 8591$.
 
 The Gauss--Manin connection matrix, which is dense and has a degree~$120$ 
 denominator $r(t)$ in this example, is computed in $60.08$~seconds.  We 
@@ -289,11 +289,11 @@ with $35$~non-zero coefficients,
 \begin{equation*}
 \begin{split}
 w^4 + x^4 + y^4 + z^4 
-+ t \bigl( & -3 w^3 x + 2 w^3 y - 2 w x y z + w^3 z - w x^3 - 3 x^3 y + y^3 z 
-          + 2 x^3 z \\ & + w y^3 - 2 x y^3 - w z^3 + x z^3 + 3 y z^3 + w^2 x^2 
-          + 3 w^2 y^2 + w^2 z^2 \\ & + 2 x^2 y^2 - 2 x^2 z^2 + y^2 z^2 
-          + 2 w^2 x y + w^2 x z + 3 w^3 y z - w x^2 y \\ & + 2 w x^2 z 
-          + 3 x^2 y z - w x y^2 
++ t \bigl( & -3 w^3 x + 2 w^3 y - 2 w x y z + w^3 z - w x^3 - 3 x^3 y + y^3 z \\ &
+          + 2 x^3 z + w y^3 - 2 x y^3 - w z^3 + x z^3 + 3 y z^3 + w^2 x^2 \\ & 
+          + 3 w^2 y^2 + w^2 z^2 + 2 x^2 y^2 - 2 x^2 z^2 + y^2 z^2 
+          + 2 w^2 x y \\ & + w^2 x z + 3 w^3 y z - w x^2 y + 2 w x^2 z 
+          + 3 x^2 y z - w x y^2 \\ & 
           + 3 w y^2 z + x y^2 z + 2 w x z^2 + 2 w y z^2 + 2 x y z^2 \bigr)
 \end{split}
 \end{equation*}
@@ -303,16 +303,16 @@ This example is a surface and we have $p \geq n$, hence the matrix of Frobenius
 is automatically integral.  We aim to compute $5 p(T/5)$ instead of $p(T)$, 
 following Remark~\ref{rem:N0Surfaces}.  This allows us to take $N_0 = 10$, 
 $N_1 = N_2 = 11$, $N_3 = 21$, $N_3' = 23$, and $N_4 = 33$, together with 
-$m = 60$ and $K = 13740$.
+$K_1 = 60$ and $K_2 = 13740$.
 
 The Gauss--Manin connection matrix is computed in $323.55$~seconds and found 
 to have denominator $r(t)$ of degree~$228$, which explains the large value 
-of the $t$-adic parameter~$K$.  The matrix for $p^{-1} F_p$ on 
+of the $t$-adic parameter~$K_2$.  The matrix for $p^{-1} F_p$ on 
 $H_{dR}^{n}(\mathfrak{U}_0)$ is computed in $0.01$~seconds.  The local 
 solutions $C$ and $C^{-1}$ form the most time-consuming part in this example, 
 requiring $1909.3$ and $342.22$~seconds.  The matrix product to determine the 
-local expansion of $p^{-1} F_p$ on $H_{dR}^{n}(\mathfrak{U}_t)$ takes 
-$262.6$~seconds. Finally, the analytic continuation and evaluation steps 
+local expansion of $p^{-1} F_p$ on $H_{dR}^{n}(\mathfrak{U}/\mathfrak{S})$ 
+takes $262.6$~seconds. Finally, the analytic continuation and evaluation steps 
 require $4.53$ and $0.18$~seconds, respectively.
 
 \section{Another quartic surface}
@@ -332,7 +332,7 @@ we let $t_1$ be a generator of $\mathbf{F}_{3^2}^{\times}$.
 
 Once again, we can employ Remark~\ref{rem:N0Surfaces}, which here allows 
 us to take $p$-adic precisions $N_0 = 15$, $N_1 = N_2 = 17$, $N_3 = 33$, 
-$N_3' = 35$, $N_51$, and $t$-adic parameters $m = 56$ and $K = 9632$.
+$N_3' = 35$, $N_51$, and $t$-adic parameters $K_1 = 56$ and $K_2 = 9632$.
 
 The computation of the Gauss--Manin connection matrix requires $36.6$~seconds, 
 which also shows that the denominator $r(t)$ is a degree~$168$ polynomial.
@@ -362,7 +362,7 @@ we aim to compute $p(T/5)$, using Remark~\ref{rem:N0Surfaces}.
 This also shows that it is sufficient to take $N_0 = 3$ as 
 in~\citep{AbbottKedlayaRoe2006}.  We are led to 
 take $N_1 = N_2 = 4$, $N_3 = 10$, $N_3' = 12$, $N_4 = 18$, and 
-$m = 22$, $K = 616$.
+$K_1 = 22$, $K_2 = 616$.
 
 Using our implementation, the connection matrix is computed 
 in $0.16$~seconds, the computation of the action of Frobenius 
