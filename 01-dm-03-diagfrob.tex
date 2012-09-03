@@ -572,8 +572,9 @@ $\mathcal{O}\bigl(d^n n \bigl( M(\log d) + (\tilde{N} + \log p) M(\tilde{N} \log
 \begin{rem}
 Although the current implementation of Algorithm~\ref{alg:01-03-diagfrob} 
 performs very well in practical applications, its time complexity is 
-quasi-cubic in the $p$-adic precision~$N$.  Both of these aspects are 
-due to the use of the integer sequence $(\mu_m)_{m=0}^{M}$ instead of 
+quasi-cubic in the $p$-adic precision~$N$, which is \emph{not} optimal.  
+Both of these aspects are due to the use of the sequence $(\mu_m)_{m=0}^{M}$ 
+defined over $\mathbf{Z}_p$ instead of 
 the coefficients $(\lambda_m)_{m=0}^{M}$ defined over $\mathbf{Q}_p(\pi)$. 
 However, we can achieve a better time complexity by utilising fast 
 composition of power series as described in~\citep[\S 9.3]{Bernstein2008}. 
