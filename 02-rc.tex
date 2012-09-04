@@ -6,7 +6,7 @@
 
 In this part of the thesis, we describe various strategies to solve the 
 problem of polynomial radix conversion.  Two approaches, the naive 
-repeated division by the radix and the divide and conquer strategy, are 
+repeated division by the radix and the divide and conquer strategies, are 
 well known, see e.g.~\citep[\S 9.2]{GathenGerhard2003}.  We present a 
 practical improvement to the latter approach based on the use of 
 precomputed power series inverses.  A number theoretical application is 
@@ -37,7 +37,7 @@ follows easily from the properties of Euclidean division;  an explicit algorithm
 presented in Section~\ref{sec:EuclideanDivision}.
 
 To motivate the work in this context, we point out that Lauder's 
-fibration algorithm for counting point on smooth projective varieties 
+fibration algorithm for counting points on smooth projective varieties 
 in practice heavily benefits from a fast implementation for this problem 
 of radix conversions, see Lauder~\citep[\S 6.5.2]{Lauder2006} or 
 Walker~\citep[\S 3.2.2]{Walker2009}.  In both these cases, the authors 
@@ -78,7 +78,7 @@ and we also note that the leading coefficient of $g$
 is a unit in $\mathbf{Z}_p$.
 In order to solve Problem~\ref{prob:padic}, we first solve the above 
 for the polynomials $g$ and $s$ over $\mathbf{Z}_p$, obtaining a 
-sequence of polynomials $c_0, \dotsc, c_m$ in $\mathbf{Z}_p[X]$ 
+sequence of polynomials $c_0, \dotsc, c_{\ell}$ in $\mathbf{Z}_p[X]$ 
 such that 
 \begin{equation}
 g = c_0 + c_1 s + \dotsb + c_{\ell} s^{\ell}.
@@ -94,25 +94,16 @@ over the whole sequence of polynomials, we see that we need
 to determine the polynomials $c_0, \dotsc, c_{\ell}$ modulo 
 $p^{N + \eta}$ where
 \begin{equation}
-\eta = \begin{cases}
-       - \ord_p(f) + \ell \ord_p(r) & \text{if $\ord_p(r) \geq 0$,} \\
-       - \ord_p(f)                  & \text{otherwise}.
-       \end{cases}
+\eta = - \ord_p(f) + \max\{\ell \ord_p(r), 0\}.
 \end{equation}
 Thus, we require that the polynomial $f \in \mathbf{Q}_p[X]$ 
 is provided to precision 
 \begin{equation}
-N + \eta + \ord_p(f) = \begin{cases}
-                       N + \ell \ord_p(r) & \text{if $\ord_p(r) \geq 0$}, \\
-                       N                  & \text{otherwise},
-                       \end{cases}
+N + \eta + \ord_p(f) = N + \max\{\ell \ord_p(r), 0\}.
 \end{equation}
 and that $r \in \mathbf{Q}_p[X]$ is provided to precision 
 \begin{equation}
-N + \eta + \ord_p(r) = \begin{cases}
-                       N - \ord_p(f) + (\ell+1) \ord_p(r) & \text{if $\ord_p(r) \geq 0$}, \\
-                       N - \ord_p(f) + \ord_p(r)          & \text{otherwise}.
-                       \end{cases}
+N + \eta + \ord_p(r) = N - \ord_p(f) + \ord_p(r) + \max\{\ell \ord_p(r), 0\}.
 \end{equation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -143,7 +134,7 @@ coefficient is required in the division process.
 
 \begin{prop} \label{prop:mul}
 There exists an algorithm returning the degree~$2n$ product 
-of two polynomials of degree~$n$ with in $\Theta(n \log n)$ 
+of two polynomials of degree~$n$ in $\mathcal{O}(n \log n)$ 
 ring operations.
 \end{prop}
 
@@ -153,7 +144,7 @@ techniques, see for example~\citep[\S 8]{GathenGerhard2003}.
 \begin{prop} \label{prop:div1}
 There exists an algorithm returning the degree~$n$ quotient 
 in a Euclidean division with a dividend of degree~$2n$ 
-and a divisor of degree~$n$ in $\Theta(n \log n)$ 
+and a divisor of degree~$n$ in $\mathcal{O}(n \log n)$ 
 ring operations.
 \end{prop}
 
@@ -165,7 +156,7 @@ multiplication, see for example~\citep[\S 11]{GathenGerhard2003}.
 In the unbalanced case for a dividend of degree~$n$ and 
 a divisor of degree~$m$, where $m \leq n$, there exists an 
 algorithm that returns the degree~\mbox{$n-m$} quotient in 
-$\Theta(n \log m)$ ring operations.
+$\mathcal{O}(n \log m)$ ring operations.
 \end{prop}
 
 This can be achieved by splitting the dividend into parts of degree~$2m$ 
@@ -200,7 +191,7 @@ this approach can be formalised as follows:
 We can repeatedly apply the previous result on the complexity 
 of unbalanced divisions, Proposition~\ref{prop:div2}, with 
 fixed divisor~$r$.  The conclusion is that the complexity 
-of this algorithm is $\Theta \bigl( n^2 m^{-1} \log m \bigr)$.
+of this algorithm is $\mathcal{O} \bigl( n^2 m^{-1} \log m \bigr)$.
 
 % Divide and conquer  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -261,37 +252,37 @@ not smooth, featuring jumps as $n$ changes from
 $2^k m - 1$ to $2^k m$.  Although this does not 
 affect the asymptotic behaviour, it is undesirable in 
 practice.  However, it is possible to combine the two 
-approaches by following Algorithm~\ref{alg:DivConquer} in the 
-first level and only zero-padding as necessary in the lower 
-levels.
+approaches, for example, by following Algorithm~\ref{alg:DivConquer} 
+at the first level and only pad the lengths to powers of~$2$ 
+as necessary at the subsequent levels.
 \end{rem}
 
 In order to determine the complexity of Algorithm~\ref{alg:DivConquer} 
 we count the number of multiplications as well as the number of 
 Euclidean divisions of each size.
 
-First, we note that we can precompute $R^{2^i}$ for $i = 1, \dotsc, k-1$ 
+First, we note that we can precompute $r^{2^i}$ for $i = 1, \dotsc, k-1$ 
 before proceeding with the Euclidean divisions, by computing $k-1$ squares 
 involving input polynomials of length $2^{i} m + 1$ for 
 $i = 0, \dotsc, k-2$.  This part of the algorithm has complexity 
 \begin{equation*}
-\Theta \biggl( \sum_{i=0}^{k-2} \bigl(2^{i} m\bigr) \log \bigl(2^{i} m\bigr) \biggr)
+\mathcal{O} \biggl( \sum_{i=0}^{k-2} \bigl(2^{i} m\bigr) \log \bigl(2^{i} m\bigr) \biggr)
 \end{equation*}
 which can be simplified to 
-$\Theta\bigl(2^{k-1} m \log \bigl(2^{k-1} m\bigr) \bigr)$ 
-or $\Theta(n \log n)$.
+$\mathcal{O}\bigl(2^{k-1} m \log \bigl(2^{k-1} m\bigr) \bigr)$ 
+or $\mathcal{O}(n \log n)$.
 
 By inspection, there are $2^i$ divisions with dividend of length 
 $2^{k-i} m$ and divisor of length $2^{k-1-i} m + 1$
 for $i = 0, \dotsc, k-1$.  Thus, the complexity is 
 \begin{equation*}
-\Theta \biggl( \sum_{i=0}^{k-1} \bigl(2^{k-1-i} m + 1\bigr) 
+\mathcal{O} \biggl( \sum_{i=0}^{k-1} \bigl(2^{k-1-i} m + 1\bigr) 
     \log \bigl(2^{k-1-i} m + 1\bigr) \biggr)
 \end{equation*}
-which can be simplified to $\Theta \bigl( n \log n \bigr)$.
+which can be simplified to $\mathcal{O} \bigl( n \log n \bigr)$.
 
 Thus, the overall complexity of Algorithm~\ref{alg:DivConquer} is 
-$\Theta(n \log n)$.
+$\mathcal{O}(n \log n)$.
 
 % Euclidean division with precomputed inverses  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -299,7 +290,7 @@ $\Theta(n \log n)$.
 
 Since the first part of the divide and conquer algorithm, the 
 precomputation of the powers of the radix, already forces a 
-time complexity of at least $\Theta (n \log n)$ ring operations 
+time complexity of at least $\mathcal{O} (n \log n)$ ring operations 
 we cannot hope for an asymptotic improvement.
 
 However, by precomputing further data the cost of the repeated 
@@ -346,8 +337,8 @@ the power series inverse of~$f$ modulo~$X^n$.
 \end{algorithm}
 
 \begin{rem}
-The properties of Euclidean division imply that $r = 0$ or 
-$\deg(r) < \deg(b)$, which in turn implies that the top 
+The properties of Euclidean division imply that $\deg(r) < \deg(b)$, 
+whenever $r$ is non-zero, which in turn implies that the top 
 $\deg(a) - \deg(b) + 1$ coefficients of $a$ and $q b$ 
 coincide.  Thus, in order to compute $r$ we do \emph{not} 
 need to compute the full product $q b$.  It suffices to 
@@ -363,51 +354,52 @@ $a$ upon $b$.
 \begin{proof}
 Let $v_0$ and $v_{\infty}$ denote the valuations on $R(X)$ at 
 $0$ and $\infty$, respectively.  Note that, for $f \in R[X]$, 
-\begin{equation}
+\begin{equation*}
 v_{\infty}(f) = - \deg(f).
-\end{equation}
+\end{equation*}
 We observe that $q, r \in R[X]$ such that $a = qb + r$ are 
 the output of the Euclidean division if and only if 
-\begin{equation}
+\begin{equation*}
 v_{\infty} (a - qb) > v_{\infty} (b).
-\end{equation}
-Let $\widetilde{b^{-1}}$ denote an approximation to $b^{-1}$ 
-for $v_{\infty}$ and set $q = a \widetilde{b^{-1}}$.  Then 
-\begin{equation}
-a - qb = ab \bigl(b^{-1} - \widetilde{b^{-1}}\bigr),
-\end{equation}
+\end{equation*}
+Let $\tilde{b}^{-1}$ denote an approximation to $b^{-1}$ 
+for $v_{\infty}$ and set $q = a \tilde{b}^{-1}$.  Then 
+\begin{equation*}
+a - qb = ab \bigl(b^{-1} - \tilde{b}^{-1}\bigr),
+\end{equation*}
 and it suffices to have an approximation such that 
-\mbox{$v_{\infty} \bigl( b^{-1} - \widetilde{b^{-1}} \bigr) > - v_{\infty}(a)$}.
+\mbox{$v_{\infty} \bigl( b^{-1} - \tilde{b}^{-1} \bigr) > - v_{\infty}(a)$}.
 
 We now relate this to the reverse polynomials.  Under the map 
 $X \mapsto X^{-1}$ we have that $v_{\infty}$ maps to $v_0$, 
 and $b$ maps to $X^{v_{\infty}(b)} b_r$, where $b_r$ denotes 
 the reverse polynomial to $b$.  Thus, in order to compute 
-$\widetilde{b^{-1}}$ such that 
-\mbox{$v_{\infty} \bigl( b^{-1} - \widetilde{b^{-1}} \bigr) > - v_{\infty}(a)$} 
-we have to compute an approximation $\widetilde{b_r^{-1}}$ to 
+$\tilde{b}^{-1}$ such that 
+\mbox{$v_{\infty} \bigl( b^{-1} - \tilde{b}^{-1} \bigr) > - v_{\infty}(a)$} 
+we have to compute an approximation $\tilde{b}_r^{-1}$ to 
 $b_r^{-1}$ for $v_0$ such that 
-\begin{gather}
-v_0 \bigl( X^{-v_{\infty}(b)} \bigl(b_r^{-1} - \widetilde{b_r^{-1}} \bigr) \bigr) > - v_{\infty} (a) \\
+\begin{gather*}
+v_0 \bigl( X^{-v_{\infty}(b)} \bigl(b_r^{-1} - \tilde{b}_r^{-1} \bigr) \bigr) > - v_{\infty} (a) \\
 \intertext{or, equivalently, }
-v_0 \bigl(b_r^{-1} - \widetilde{b_r^{-1}}\bigr) > v_{\infty}(b) - v_{\infty}(a) = \deg(a) - \deg(b), 
-\end{gather}
+v_0 \bigl(b_r^{-1} - \tilde{b}_r^{-1}\bigr) > v_{\infty}(b) - v_{\infty}(a) = \deg(a) - \deg(b), 
+\end{gather*}
 as required.
 \end{proof}
 
 \begin{rem}
 In the notation of Algorithm~\ref{alg:NewtonDivision}, we observe 
 that if the power series inverse~$b_r^{-1}$ is part of the input, 
-the procedure reduces to Euclidean division to two short products, 
+the procedure reduces the Euclidean division to two short products, 
 one subtraction, and one reversal.
 \end{rem}
 
 \begin{rem}
 In Algorithm~\ref{alg:DivConquer}, all short products involve either 
-a power~$R^{2^i}$ of $R$, where $i = 0, \dotsc, k-1$ or the power series 
+a power~$r^{2^i}$ of $r$, where $i = 0, \dotsc, k-1$ or the power series 
 inverse of such a power.  Thus, a further practical improvement might 
 be possible if the underlying arithmetic software packages of an 
-implementation allow re-using data relevant to only one of the factors.
+implementation allow for re-using data relevant to only one of the 
+factors in a polynomial multiplication.
 \end{rem}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -420,47 +412,40 @@ We have implemented a routine for radix conversion as described
 in the previous chapter in the C~language as part of the open-source 
 library FLINT~\citep{FLINT}.  Specifically, the routine is contained 
 in the module for polynomial arithmetic over $\mathbf{Z}/n\mathbf{Z}$ 
-as the method {\tt{fmpz\_mod\_poly\_radix()}}.
+as the function {\tt{fmpz\_mod\_poly\_radix()}}.  The timings that we 
+present for our routines were obtained on the departmental machine 
+{\tt{wolverine.maths.ox.ac.uk}}, featuring \mbox{Intel Xeon} processors 
+running at~2.93GHz.
 
-The first example that we consider is due to 
-Lauder~\citep[Example~9.1]{Lauder2006}.  Specifically, we consider 
-the toric compactification of the smooth surface given by 
+We consider an example due to Lauder~\citep[Example~9.1]{Lauder2006}.  
+Specifically, we consider the toric compactification of the smooth 
+surface given by 
 \begin{equation*}
 y^2 = x^3 + (4 t^4 + 5 t^3) x + 
     (t^{13} + 6 t^{12} + 5 t^{10} + 
     8 t^9 + 8 t^8 + 5 t^5 + t^4 + 5 t^3 + t^2 + 1)
 \end{equation*}
-over $\mathbf{F}_{11}$.  Lauder reports an overall runtime 
+over $\mathbf{F}_{17}$.  Lauder reports an overall runtime 
 of $23$~hours and $13$~minutes, pointing out that over half the 
 time was spent in the radix conversion routine.
 
-[[TODO:  Include the radix, and the dimensions of the matrix, 
-and the maximum degree of the entries, and the bitsizes of the 
-coefficients.  Then run my own computation.]]
+In the notation used by Lauder, we reestablish the parameters used 
+in the computation as $g = 1$, $N_3 = 18$, $x_{fin} = 476$ and 
+$N_{2,fin} = 26$.  Moreover, writing the equation defining the surface 
+as $y^2 = x^3 + A(t) x + B(t)$ we compute the resultant as 
+$4 A(t)^3 + 27 B(t)^2$, which is a polynomial of degree~$26$.  As the 
+$r(t)$-adic precision is given by $x_{fin}$, we find that the $t$-adic 
+precision is~$12,376$.
 
-We now consider an example due to Walker~\citep[\S 7.5.1]{Walker2009}, 
-namely the elliptic surface over $\mathbf{F}_{11}$ given by the 
-equation 
-\begin{equation*}
-y^2 + x^3 + A(t) x + B(t) = 0
-\end{equation*}
-where
-\begin{align*}
-A(t) & = 5 t^{20} + 8 t^{19} + 9 t^{18} + 3 t^{16} + 8 t^{15} + 5 t^{14} + t^{13} + t^{12} + 8 t^{11} \\
-     & \quad + 9 t^{10} + 10 t^{8} + 5 t^{7} + 2 t^{6} + 10 t^{5} + 4 t^{4} + 6 t^{3} + t^{2} + 8 t, \\
-B(t) & = 10 t^{30} + 7 t^{29} + 4 t^{28} + t^{27} + 8 t^{26} + 3 t^{25} + 3 t^{24} + 3 t^{23} + 8 t^{22} + 3 t^{21} \\
-     & \quad + 5 t^{20} + t^{19} + 2 t^{18} + 2 t^{17} + 9 t^{16} + 4 t^{15} + 6 t^{14} + 5 t^{13} + 2 t^{12} + t^{11} \\
-     & \quad + 5 t^{10} + t^{9} + t^{8} + 5 t^{7} + 5 t^{6} + 3 t^{5} + 4 t^{4} + 7 t + 2.
-\end{align*}
-Walker reports an overall runtime of $70$~minutes for the computation 
-of the zeta function of this elliptic surface. 
-
-[[TODO:  Include the radix, and the dimensions of the matrix, 
-and the maximum degree of the entries, and the bitsizes of the 
-coefficients.  Then run my own computation.]]
-
-[[TODO:  Argue geometrically that the radix polynomial is small in 
-this case.  So take on of the above.  Then fix a sensible bitsize 
-for the coefficients and include a graph for varying degrees of 
-the polynomials f to highlight the softly linear growth.]]
+In order to establish a comparison of Lauder's computation with the 
+routine we implemented, we perform a radix reduction of a random, 
+dense polynomial of degree~$12,376$ with coefficients 
+in~$\mathbf{Z}/17^{26} \mathbf{Z}$.  The precomputation step of our 
+routine, which computes powers of $r(t)$ and their power series 
+inverses, requires $0.06$~seconds.  The actual conversion step for a 
+single polynomial requires $0.14$~seconds.  As the relative Frobenius 
+matrix in Lauder's example is a $2 \times 2$~matrix of power series, 
+the relevant figure amounts to $0.06 + 4 \times 0.14 = 0.62$ seconds. 
+This is an improvement over the timings reported by Lauder by a 
+factor of at least~$67,403$.
 
