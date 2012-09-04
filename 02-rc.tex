@@ -23,9 +23,9 @@ Suppose that $r \in R[X]$ is another polynomial, called the \emph{radix},
 such that $m = \deg(r) \geq 1$ and the leading coefficient of $r$ is invertible 
 in $R$.  Compute polynomials $b_0, \dotsc, b_{\ell} \in R[X]$ in terms of 
 the monomial basis such that 
-\begin{equation}
+\begin{equation*}
 f = b_0 + b_1 r + \dotsb b_{\ell} r^{\ell}
-\end{equation}
+\end{equation*}
 where necessarily $\ell = \floor{n / m}$.
 \end{prob}
 
@@ -57,9 +57,9 @@ Given two polynomials $f, r \in \mathbf{Q}_p[X]$ such that
 $r \neq 0$ and the valuation of the leading coefficient of 
 $r$ is equal to $\ord_p(r)$, find a representation of $f$ 
 in the form
-\begin{equation}
+\begin{equation*}
 f = b_0 + b_1 r + \dotsb + b_{\ell} r^{\ell}.
-\end{equation}
+\end{equation*}
 \end{prob}
 
 In the remaining part of this section, we describe how to 
@@ -71,40 +71,40 @@ Write $f = p^{\ord_p(f)} g$ and $r = p^{\ord_p(r)} s$
 with two polynomials $g$ and $s$ in $\mathbf{Z}_p[X]$ 
 each containing at least one coefficient which is a unit 
 in $\mathbf{Z}_p$.  The above equation then becomes
-\begin{equation}
+\begin{equation*}
 g = p^{-\ord_p(f)} b_0 + p^{-\ord_p(f) + \ord_p(r)} b_1 s + \dotsb + p^{-\ord_p(f) + \ell \ord_p(r)} b_{\ell} s^{\ell}
-\end{equation}
+\end{equation*}
 and we also note that the leading coefficient of $g$ 
 is a unit in $\mathbf{Z}_p$.
 In order to solve Problem~\ref{prob:padic}, we first solve the above 
 for the polynomials $g$ and $s$ over $\mathbf{Z}_p$, obtaining a 
 sequence of polynomials $c_0, \dotsc, c_{\ell}$ in $\mathbf{Z}_p[X]$ 
 such that 
-\begin{equation}
+\begin{equation*}
 g = c_0 + c_1 s + \dotsb + c_{\ell} s^{\ell}.
-\end{equation}
+\end{equation*}
 We can then recover the sequence $b_0, \dotsc, b_{\ell}$ via 
-\begin{equation}
+\begin{equation*}
 b_i = p^{\ord_p(f) - i \ord_p(r)} c_i.
-\end{equation}
+\end{equation*}
 We observe that, in order to determine the polynomial $b_i$ 
 modulo $p^N$ we need to determine the polynomial $c_i$ 
 modulo $p^{N + i \ord_p(r) - \ord_p(f)}$.  Maximising this 
 over the whole sequence of polynomials, we see that we need 
 to determine the polynomials $c_0, \dotsc, c_{\ell}$ modulo 
 $p^{N + \eta}$ where
-\begin{equation}
+\begin{equation*}
 \eta = - \ord_p(f) + \max\{\ell \ord_p(r), 0\}.
-\end{equation}
+\end{equation*}
 Thus, we require that the polynomial $f \in \mathbf{Q}_p[X]$ 
 is provided to precision 
-\begin{equation}
+\begin{equation*}
 N + \eta + \ord_p(f) = N + \max\{\ell \ord_p(r), 0\}.
-\end{equation}
+\end{equation*}
 and that $r \in \mathbf{Q}_p[X]$ is provided to precision 
-\begin{equation}
+\begin{equation*}
 N + \eta + \ord_p(r) = N - \ord_p(f) + \ord_p(r) + \max\{\ell \ord_p(r), 0\}.
-\end{equation}
+\end{equation*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Algorithms                                                                  %
