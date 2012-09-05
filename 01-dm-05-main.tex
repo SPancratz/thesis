@@ -290,19 +290,19 @@ the bound $\ord_p(\Phi_0) \geq - \delta$ from Lemma~\ref{lem:01-FrobBound}.
 \section{Analytic continuation and evaluation}
 \label{sec:01-dm-06-continuation}
 
-In the previous section we described how to compute the matrix~$\Phi$ as 
-a local power series expansion around $t = 0$.  In order to evaluate it 
+In the previous section we described how to compute the matrix~$\Phi$ 
+for the action of $p^{-1} F_p$ on $H_{dR}^{n}(\mathfrak{U}/\mathfrak{S})$ 
+as a local power series expansion around $t = 0$.  In order to evaluate it 
 at a second point $t = t_1$, we wish to $p$-adically approximate it 
 using rational functions with denominators a power of $r(t)$, which 
-is possible as the entries of the matrix for the action of $p^{-1} F_p$ 
-on $H_{dR}^{n}(\mathfrak{U}/\mathfrak{S})$ are \emph{overconvergent 
-functions}.  [[TODO:  Add a reference for this statement.]]
+is possible as the entries of the matrix~$\Phi$ are \emph{overconvergent 
+functions} as described e.g.\ by Lauder~\citep[\S 3.5]{Lauder2006}.  For 
+convenience, we include the definition here:
 
 \begin{defn} \label{defn:Overconvergence}
-We now define the ring over \emph{overconvergent power series} 
-over $\mathbf{Q}_q$.  Given indeterminates $z_1, \dotsc, z_k$, 
-the ring $\mathbf{Q}_q \langle z_1, \dotsc, z_k \rangle^{\dagger}$ 
-consists of power series of the form 
+Given indeterminates $z_1, \dotsc, z_k$, 
+the ring $\mathbf{Q}_q \langle z_1, \dotsc, z_k \rangle^{\dagger}$ of 
+\emph{overconvergent} power series consists of power series of the form 
 \begin{equation*}
 \sum_{i_1,\dotsc,i_k \geq 0} a_{i_1,\dotsc,i_k} z_1^{i_1} \dotsm z_k^{i_k}
 \end{equation*}
@@ -313,17 +313,21 @@ such that, for all $i_1, \dotsc, i_k \geq 0$,
 \end{equation*}
 \end{defn}
 
-More precisely, given a desired $p$-adic precision~$N_2$, we would 
-like to determine integers~$K_1$ and~$K_2$ such that, modulo~$p^{N_2}$, 
-the entries of the matrix $\Psi(t) = r(t)^m \Phi(t)$ truncated 
-modulo~$t^{K_2}$ allow us to compute the matrix $\Phi_{t_1}$ for 
+This step, the analytic continuation of the local expansion, is described 
+by Lauder in~\citep[\S 5.2]{Lauder2006} and the computational details are 
+explained in~\citep[\S 8.1]{Lau04a}.  Combining this step with the subsequent 
+evaluation, our specific problem is the following.  Given a desired $p$-adic 
+precision~$N_2$, we would like to determine integers~$K_1$ and~$K_2$ such 
+that, modulo~$p^{N_2}$, the entries of the matrix $\Psi(t) = r(t)^m \Phi(t)$ 
+truncated modulo~$t^{K_2}$ allow us to compute the matrix $\Phi_{t_1}$ for 
 the action of $p^{-1} F_p$ on $H_{dR}^{n}(\mathfrak{U}_{t_1})$ as 
 $r(\hat{t_1})^{-1} \Psi(\hat{t_1})$ modulo~$p^{N_2}$.
 
-Gerkmann described suitable results in~\citep[\S 6]{Gerkmann2007}, 
-however the estimates are not sharp in practice.  There has been recent 
-progress by Kedlaya and Tuitman~\citep[Theorem~2.1]{KedlayaTuitman2012}, 
-which we present in a slightly simplified form:
+Besides the work of Lauder~\citep[\S 8.1]{Lau04a}, Gerkmann also described 
+suitable results in~\citep[\S 6]{Gerkmann2007}, however the estimates are 
+not sharp in practice.  There has been recent progress by Kedlaya and 
+Tuitman~\citep[Theorem~2.1]{KedlayaTuitman2012}, which we present in a 
+slightly simplified form:
 
 \begin{thm} \label{thm:KedlayaTuitman}
 Suppose that the poles of the connection matrix~$M$ have distinct 
@@ -404,11 +408,12 @@ the $p$th-power Frobenius.  Secondly, we compute its reverse characteristic
 polynomial to suitable $p$-adic precision in order to recover the zeta 
 function.
 
-\subsection{Computing the action of $q^{-1} F_q$ on $H(\mathfrak{U}_{t_1})$}
+\subsection{Computing the action of $q^{-1} F_q$ on $H_{dR}^{n}(\mathfrak{U}_{t_1})$}
 
 Let $\Phi_{t_1}$ and $\Phi_{t_1}^{(q)}$ denote the matrices representing the 
-actions of $p^{-1} F_p$ and $q^{-1} F_q$ on $H_{dR}^{n}(\mathfrak{U}_{t_1})$, 
-respectively.  Then 
+actions of $p^{-1} F_p$ and $q^{-1} F_q$ on~$H_{dR}^{n}(\mathfrak{U}_{t_1})$, 
+respectively.  As the action of $p^{-1} F_p$ is $\sigma$-semilinear, we have 
+that 
 \begin{equation*}
 \Phi_{t_1}^{(q)} = 
     \Phi_{t_1} \sigma(\Phi_{t_1}) \dotsm \sigma^{a-1}(\Phi_{t_1}),
