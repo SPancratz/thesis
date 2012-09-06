@@ -4,8 +4,8 @@
 
 \section{Varieties over finite fields and zeta functions}
 
-Let $X$ denote an algebraic variety over $\mathbf{F}_q$, the finite 
-field with $q = p^a$ elements.  In particular, $X$ is also defined 
+Let $X$ denote an algebraic variety over the finite field~$\mathbf{F}_q$ 
+with $q = p^a$ elements.  In particular, $X$ is also defined 
 over every algebraic extension $\mathbf{F}_{q^i}$, for $i \geq 0$, 
 and we can let $N_i = \abs{ X(\mathbf{F}_{q^i}) }$ denote the number 
 of points of $X$ over $\mathbf{F}_{q^i}$.  The \emph{zeta function} 
@@ -24,13 +24,13 @@ Then the zeta function $Z(X, T)$ is a quotient of two polynomials with
 integer coefficients.
 \end{thm}
 
-Moreover, further details include explicit estimates for the 
-degrees of the numerator and denominator polynomials for the 
-rational function~$Z(X, T)$.  Dwork's theorem is included 
-in a group of results known as the \emph{Weil conjectures}, statements 
-conjectured by Weil~\citep{Weil1949} in~1949 which have subsequently 
-been proved.  We follow Kedlaya~\citep[Theorem~1.2.1]{Kedlaya2011} in 
-the statement of the Weil conjectures:
+Moreover, Bombieri~\citep{Bombieri1978} provided an explicit bound 
+for the total degree of the rational function representing $Z(X, T)$.
+Dwork's theorem is included in a group of results known as the 
+\emph{Weil conjectures}, statements conjectured by Weil~\citep{Weil1949} 
+in~1949 which have subsequently been proved.  We follow 
+Kedlaya~\citep[Theorem~1.2.1]{Kedlaya2011} in the statement of the Weil 
+conjectures:
 
 \begin{thm} \label{thm:01-Zetafunctions}
 Let $X$ be a separated scheme of finite type over the finite 
@@ -85,9 +85,24 @@ representing $Z(X, T)$.
 
 \section{Point counting algorithms}
 
-Computational routines addressing Problem~\ref{prob:dm-pointcounting} 
-are known as \emph{point counting} algorithms.
+Computational routines addressing Problem~\ref{prob:dm-pointcounting} are 
+known as \emph{point counting} algorithms.  Perhaps the most naive approach 
+is to explicitly exhibit the points of~$X$ over~$\mathbf{F}_{q^i}$ by an 
+exhaustive search for sufficiently many $i \geq 0$, determining $Z(X, T)$.  
+For example, in the case of an elliptic curve~$E$ over a finite 
+field~$\mathbf{F}_{q}$, the zeta function is given by 
+\begin{equation*}
+Z(E, T) = \frac{1 - a_q T + q T^2}{(1 - T)(1 - q T)}
+\end{equation*}
+where $a_q = q + 1 - \abs{E(\mathbf{F}_{q})}$.  However, this 
+approach is only feasible for the smallest of instances of 
+Problem~\ref{prob:dm-pointcounting}.  
 
-[[TODO:  Write this chapter, following Jan's thesis.  Currently, 
-this only contains a statement of the Weil conjectures from 
-Kedlaya.]]
+More sophisticated algorithms have been developed.  In the following, we 
+only mention a few different approaches and refer the reader to a survey 
+by Chambert-Loir~\citep{ChambertLoir2008}.
+
+[[TODO:  Briefly mention $l$-adic algorithmic, canonical lift algorithms, 
+and $p$-adic algorithms.  Provide some more detail of Lauder's deformation 
+method, provide references for Walker, Hubrechts, and Tuitman.]]
+
