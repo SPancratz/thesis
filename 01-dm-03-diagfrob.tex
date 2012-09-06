@@ -3,14 +3,17 @@
 In this chapter we discuss the action of Frobenius on the diagonal fibre. 
 We first describe the general method based on an explicit formula by 
 Dwork~\citep[\S 4]{Dwork64}, following the expositions in the work of 
-Lauder~\citep[\S 6]{Lau04} and Gerkmann~\citep[\S 4.4]{Gerkmann2007}.  Then, 
-we present a new improvement in Theorem~\ref{thm:alpha}, showing that a 
-certain expression is defined already over $\mathbf{Q}_p$ instead of a ramified
-extension as observed by Gerkmann.  Furthermore, Theorems~\ref{thm:alpha2} 
-and~\ref{thm:alphap} state the expression lies in~$\mathbf{Z}_p$ and 
-provide computationally suitable reformulations.  To conclude this chapter, 
-we illustrate the practical relevance of these improvements with three example 
-computations.
+Lauder~\citep[\S 6]{Lau04} and Gerkmann~\citep[\S 4.4]{Gerkmann2007}.  
+Then, we present a new improvement in Theorem~\ref{thm:alpha}, showing 
+that a certain expression is defined already over $\mathbf{Q}_p$ instead 
+of a ramifiedextension as observed by Gerkmann.  Furthermore, 
+Theorems~\ref{thm:alpha2} and~\ref{thm:alphap} state the expression lies 
+in~$\mathbf{Z}_p$ and provide computationally suitable reformulations.  
+Our presentation of an explicit algorithm for the computation of the 
+action of Frobenius is followed by Theorems~\ref{thm:dm-diagfrob-complexity1} 
+and~\ref{thm:dm-diagfrob-complexity2} providing a complexity analysis.
+To conclude this chapter, we illustrate the practical relevance of these 
+improvements with three example computations.
 
 % Introduction %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -60,9 +63,9 @@ for $v'$.  Finally, for $m \geq 0$, let $\lambda_m$ denote the coefficient
 of $z^m$ in the expansion of $\exp \pi (z - z^p)$ and define products 
 $(w)_r = \prod_{j=0}^{r-1} (w + j)$ for $w \in \mathbf{Q}$ and $r \geq 0$. 
 We introduce terms~$\alpha_{u,v}$, 
-\begin{equation*}
+\begin{equation} \label{eq:alpha}
 \alpha_{u,v} = \pi^{v' - u'} \prod_{i = 0}^n \sum_{m, r} \lambda_m (u_i / d)_r (-1)^r \pi^{-r} {\hat{a}_i}^{m-r}
-\end{equation*}
+\end{equation}
 where $\hat{a}_i$ is the Teichm\"uller lift of $a_i \in \mathbf{F}_p$ 
 to $\mathbf{Q}_p$ and the summation indices $m, r \geq 0$ satisfy 
 $p u_i - v_i = d (m - pr)$.
@@ -462,7 +465,7 @@ M = \floor{ p^2 \biggl( \frac{\tilde{N}}{p-1}
 \end{prop}
 
 \begin{proof}
-This follows from~\citep[Section~6.2]{Lau04} and Lemma~\ref{lem:log}.
+This follows from~\citep[\S 6.2]{Lau04} and Lemma~\ref{lem:log}.
 \end{proof}
 
 Finally, we describe how to compute the matrix~$\Phi$ representing 
@@ -490,7 +493,8 @@ hence $v' \leq n$, the result follows.
 \end{proof}
 
 This allows us to formalise the procedure for computing the 
-entries of~$\Phi$ modulo~$p^N$ in Algorithm~\ref{alg:01-03-diagfrob}.
+entries of~$\Phi$ modulo~$p^N$ in Algorithm~\ref{alg:01-03-diagfrob} 
+below.
 
 \begin{algorithm}
 \caption{Compute the matrix for $p^{-1} F_p$ on $H_{dR}^n(\mathfrak{U})$}
@@ -525,7 +529,7 @@ entries of~$\Phi$ modulo~$p^N$ in Algorithm~\ref{alg:01-03-diagfrob}.
 \end{algorithmic}
 \end{algorithm}
 
-\begin{thm} \label{thm:01-dm-03-complexity}
+\begin{thm} \label{thm:dm-diagfrob-complexity1}
 The time complexity of Algorithm~\ref{alg:01-03-diagfrob} is given 
 by 
 \begin{equation*}
@@ -539,8 +543,8 @@ $\tilde{N}$ is $\mathcal{O}(N + n \log_p n)$.
 \begin{proof}
 We consider each of the steps in Algorithm~\ref{alg:01-03-diagfrob}. 
 We can ignore the computational effort in {Step~(i)}, but observe 
-that $\tilde{N}$ is $\mathcal{O}(N + n \log_p n)$, $M$ is 
-$\mathcal{O}(p \tilde{N})$, and $R$ is $\mathcal{O}(\tilde{N})$.  
+that $\tilde{N} \in \mathcal{O}(N + n \log_p n)$, 
+$M \in \mathcal{O}(p \tilde{N})$, and $R \in \mathcal{O}(\tilde{N})$.  
 
 In {Step~(ii)}, we compute $n+1$ Teichm\"uller lifts with an 
 overall complexity of $\mathcal{O}(n (\log p) M(\tilde{N} \log p))$. 
@@ -578,7 +582,6 @@ is given by
 $\mathcal{O}\bigl(d^n n \bigl( M(\log d) + (\tilde{N} + \log p) M(\tilde{N} \log p) \bigr)\bigr)$.
 \end{proof}
 
-\begin{rem}
 Although the current implementation of Algorithm~\ref{alg:01-03-diagfrob} 
 performs very well in practical applications, its time complexity is 
 quasi-cubic in the $p$-adic precision~$N$, which is \emph{not} optimal.  
@@ -586,13 +589,52 @@ Both of these aspects are due to the use of the sequence $(\mu_m)_{m=0}^{M}$
 defined over $\mathbf{Z}_p$ instead of 
 the coefficients $(\lambda_m)_{m=0}^{M}$ defined over $\mathbf{Q}_p(\pi)$. 
 However, we can achieve a better time complexity by utilising fast 
-composition of power series as described in~\citep[\S 9.3]{Bernstein2008}. 
-This allows us to compute the composition $\exp \pi (z - z^p)$ 
-modulo~$z^{M+1}$ in a number of operations in~$\mathbf{Q}_p(\pi)$ which 
-is quasi-linear in~$M$.  As the bit complexity of an operation in this 
-ring is quasi-linear in~$N$, this shows that the sequence 
-$(\lambda_m)_{m=0}^{M}$ can be computed in time quasi-quadratic in~$N$.
-\end{rem}
+exponentials of power series:
+
+\begin{thm} \label{thm:dm-diagfrob-complexity2}
+There is exists an algorithm for computing the matrix for the 
+action of $p^{-1} F_p$ on $H_{dR}^{n}(\mathfrak{U})$ in time 
+complexity 
+\begin{equation*}
+(M \log M \log \log M) (p \log p) M(\tilde{N} \log p) 
++ d^n n \bigl( M(\log d) 
+              + \tilde{N} (p \log p) M(\tilde{N} \log p) \bigr)
+\end{equation*}
+where $M(-)$ denotes the complexity of integer multiplication 
+and $\tilde{N} \in \mathcal{O}(N + n \log_p n)$, 
+$M \in \mathcal{O}(n \tilde{N})$.
+\end{thm}
+
+\begin{proof}
+The key idea is to slightly modify Algorithm~\ref{alg:01-03-diagfrob} 
+and use equation~\eqref{eq:alpha}, working directly with the sequence 
+$(\lambda_m)_{m=0}^{M}$.  As we will be using operations in the 
+totally ramified extension~$\mathbf{Q}_p(\pi)$ to 
+$p$-adic precision~$\tilde{N}$, we remark that the cost of 
+an arithmetic operation in this ring is 
+$\mathcal{O}\bigl((p \log p) M(\tilde{N} \log p)\bigr)$, 
+achieved by polynomial multiplication based on the fast Fourier 
+transform.
+
+We first observe that the valuation of the summands in 
+equation~\eqref{eq:alpha} can be bounded by 
+$\ord_p \bigl(\lambda_m (u_i / d)_r (-1)^r \pi^{-r} {\hat{a}_i}^{m-r} \bigr) \geq - 1/2$.
+As the only term with negative valuation is $\pi^{-r}$ and 
+$R \in \mathcal{O}(\tilde{N})$, it suffices to precompute 
+the sequences $(\lambda_m)_{m=0}^{M}$ and $(d^{-r})_{r=0}^{R}$ 
+to $p$-adic precision $\tilde{N}$.  While the computation 
+of the latter remains unchanged, the computation of the former 
+can be improved significantly using fast exponentials of 
+power series in $\mathbf{Q}_p(\pi)[[z]]$ as described by 
+Bernstein~\citep[\S 9.3]{Bernstein2008}.  This allows for 
+computing the sequence $(\lambda_m)_{m=0}^{M}$ in 
+$\mathcal{O}\bigl( (M \log M \log \log M) \bigr)$ operations 
+in~$\mathbf{Q}_p(\pi)$ to precision~$\tilde{N}$.  The only 
+remaining change to our analysis of Algorithm~\ref{alg:01-03-diagfrob} 
+occurs in {Step~(v)}, where for each matrix entry we have to consider 
+$\mathcal{O}(n R)$ multiplications in~$\mathbf{Q}_p(\pi)$ instead 
+of~$\mathbf{Z}_p$.
+\end{proof}
 
 % Examples %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -615,7 +657,7 @@ We find that we need to compute the expression $\alpha_{u+1,v+1}$ to
 precision $\tilde{N} = 377$ and are led to compute the terms $\mu_m$ for 
 $m \leq 1768$.
 
-In~\citep[Section~7.4]{Gerkmann2007}, Gerkmann considers this example 
+In~\citep[\S 7.4]{Gerkmann2007}, Gerkmann considers this example 
 and reports a runtime of $45.26$~minutes.  In contrast, we are able 
 to compute this matrix in $0.55$~seconds, of which $0.39$~seconds are 
 spent in the precomputation of the sequence~$(\mu_m)$, an improvement 
@@ -629,7 +671,7 @@ and we aim to compute the matrix~$\Phi$ to precision~$N = 355$.  This
 leads us to compute $\alpha_{u+1,v+1}$ to precision~$\tilde{N} = 370$, 
 which requires us to compute $\mu_{m}$ up to $M = 1528$.
 
-Gerkmann~\citep[Section~7.6]{Gerkmann2007} reports a runtime of 
+Gerkmann~\citep[\S 7.6]{Gerkmann2007} reports a runtime of 
 $64.13$~minutes.  In contrast, we are able to compute this matrix 
 in $0.32$~seconds, of which $0.27$~seconds are spent in the precomputation 
 of the sequence~$(\mu_m)$, an improvement by a factor of over~$12,000$.
