@@ -592,7 +592,7 @@ However, we can achieve a better time complexity by utilising fast
 exponentials of power series:
 
 \begin{thm} \label{thm:dm-diagfrob-complexity2}
-There is exists an algorithm for computing the matrix for the 
+There exists an algorithm for computing the matrix for the 
 action of $p^{-1} F_p$ on $H_{dR}^{n}(\mathfrak{U})$ in time 
 complexity 
 \begin{equation*}
@@ -602,7 +602,7 @@ complexity
 \end{equation*}
 where $M(-)$ denotes the complexity of integer multiplication 
 and $\tilde{N} \in \mathcal{O}(N + n \log_p n)$, 
-$M \in \mathcal{O}(n \tilde{N})$.
+$M \in \mathcal{O}(p \tilde{N})$.
 \end{thm}
 
 \begin{proof}
@@ -635,6 +635,11 @@ occurs in {Step~(v)}, where for each matrix entry we have to consider
 $\mathcal{O}(n R)$ multiplications in~$\mathbf{Q}_p(\pi)$ instead 
 of~$\mathbf{Z}_p$.
 \end{proof}
+
+\begin{rem}
+The complexity estimate in Theorem~\ref{thm:dm-diagfrob-complexity2} 
+is an improvement over that presented by Lauder~\citep[\S 10]{Lau04a}.
+\end{rem}
 
 % Examples %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
