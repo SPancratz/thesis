@@ -1,12 +1,36 @@
 % Chapter:  Introduction to point counting  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-[[TODO:  Write this chapter, following Jan's thesis.  Currently, 
-this only contains a statement of the Weil conjectures from 
-Kedlaya.]]
+% Varieties over finite fields and zeta functions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Zeta functions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Varieties over finite fields and zeta functions}
 
-\section{Zeta functions}
+Let $X$ denote an algebraic variety over $\mathbf{F}_q$, the finite 
+field with $q = p^a$ elements.  In particular, $X$ is also defined 
+over every algebraic extension $\mathbf{F}_{q^i}$, for $i \geq 0$, 
+and we can let $N_i = \abs{ X(\mathbf{F}_{q^i}) }$ denote the number 
+of points of $X$ over $\mathbf{F}_{q^i}$.  The \emph{zeta function} 
+of $X$ is then defined as the formal power series in $\mathbf{Q}[[T]]$,
+\begin{equation*}
+Z(X, T) = \exp \Bigl( \sum_{i=0}^{\infty} \frac{N_i T^i}{i} \Bigr).
+\end{equation*}
+In the above form, the power series~$Z(X, T)$ is represented by an 
+infinite series and it is unclear whether this can be explicitly 
+computed by an algorithm viz.\ a \emph{finite} routine.  This issue 
+was resolved by Dwork~\citep{Dwork1960} in 1960:
+
+\begin{thm}
+Let $X$ be an algebraic variety over the finite field~$\mathbf{F}_q$.  
+Then the zeta function $Z(X, T)$ is a quotient of two polynomials with 
+integer coefficients.
+\end{thm}
+
+Moreover, further details include explicit estimates for the 
+degrees of the numerator and denominator polynomials for the 
+rational function~$Z(X, T)$.  Dwork's theorem is included 
+in a group of results known as the \emph{Weil conjectures}, statements 
+conjectured by Weil~\citep{Weil1949} in~1949 which have subsequently 
+been proved.  We follow Kedlaya~\citep[Theorem~1.2.1]{Kedlaya2011} in 
+the statement of the Weil conjectures:
 
 \begin{thm} \label{thm:01-Zetafunctions}
 Let $X$ be a separated scheme of finite type over the finite 
@@ -14,7 +38,7 @@ field~$\mathbf{F}_q$.  Then the zeta function of~$X$ is the power series
 representation of a rational functions~$T$.  Moreover, if $X$ is smooth 
 and proper over~$\mathbf{F}_q$, then there is a unique way to write 
 \begin{equation}
-\zeta_{X}(T) = \prod_{i=0}^{2 \dim(X)} P_i(T)^{(-1)^{i+1}}
+Z(X, T) = \prod_{i=0}^{2 \dim(X)} P_i(T)^{(-1)^{i+1}}
 \end{equation}
 for some polynomials $P_i(T) \in \mathbf{Z}[T]$ with $P_i(0) = 1$, 
 satisfying the following conditions.
@@ -40,4 +64,30 @@ $\mathfrak{X} \times_{R} \mathbf{C}$.
 \end{enumerate}
 \end{thm}
 
+A discussion of the proof of this theorem is significantly 
+beyond the scope of this thesis.  As a starting point for 
+further details, we refer the reader to 
+Hartshorne~\citep[Appendix~C]{Har77} and Osserman~\citep{Osserman2008}.
 
+Dwork's theorem on the rationality of the zeta function implies 
+that $Z(X, T)$ is already defined by a finite initial segment of 
+the sequence~$(N_i)_{i \geq 0}$.  In particular, the problem of 
+computing the zeta function can be formulated as follows:
+
+\begin{prob} \label{prob:dm-pointcounting}
+Given an algebraic variety~$X$ defined by a finite list of 
+multivariate polynomials in~$\mathbf{F}_{q}[x_0, \dotsc, x_n]$, 
+efficiently compute a rational function in~$\mathbf{Q}(T)$ 
+representing $Z(X, T)$.
+\end{prob}
+
+% Point counting algorithms %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Point counting algorithms}
+
+Computational routines addressing Problem~\ref{prob:dm-pointcounting} 
+are known as \emph{point counting} algorithms.
+
+[[TODO:  Write this chapter, following Jan's thesis.  Currently, 
+this only contains a statement of the Weil conjectures from 
+Kedlaya.]]
