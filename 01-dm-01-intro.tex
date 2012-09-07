@@ -96,13 +96,62 @@ Z(E, T) = \frac{1 - a_q T + q T^2}{(1 - T)(1 - q T)}
 \end{equation*}
 where $a_q = q + 1 - \abs{E(\mathbf{F}_{q})}$.  However, this 
 approach is only feasible for the smallest of instances of 
-Problem~\ref{prob:dm-pointcounting}.  
+Problem~\ref{prob:dm-pointcounting}.  More sophisticated algorithms 
+have been developed, and we refer the reader to a survey by 
+Chambert-Loir~\citep{ChambertLoir2008} on point counting algorithms 
+in general  and a survey by Kedlaya~\citep{Kedlaya2004} on $p$-adic 
+methods in particular.  In the following, we only mention a few 
+different approaches.
 
-More sophisticated algorithms have been developed.  In the following, we 
-only mention a few different approaches and refer the reader to a survey 
-by Chambert-Loir~\citep{ChambertLoir2008}.
+In~1985, Schoof~\citep{Schoof1985} proposed an $\ell$-adic algorithm for 
+computing the zeta function of an elliptic curve~$E$.  The main idea behind 
+this approach is to compute the trace~$a_q \bmod{\ell}$ of the Frobenius 
+endomorphism on $H_{\text{\'et}}^{1}(E, \mathbf{F}_{\ell})$ for sufficiently 
+many primes~$\ell$ and then determine the integer~$a_q$ using the Chinese 
+remainder theorem.  Schoof's algorithm has subsequently been improved by 
+Atkin~\citep{Atkin1988,Atkin1992} and Elkies~\citep{Elkies1991,Elkies1998}, 
+leading to a practical algorithm with runtime polynomial in $\log q$.  
+It has also been generalised, for example to higher genus curves by 
+Pila~\citep{Pila1990}, however, the runtime remains exponential in the genus.
 
-[[TODO:  Briefly mention $l$-adic algorithmic, canonical lift algorithms, 
-and $p$-adic algorithms.  Provide some more detail of Lauder's deformation 
-method, provide references for Walker, Hubrechts, and Tuitman.]]
+Another group of algorithms applicable primarily for elliptic curves 
+is based on the \emph{canonical lift} of a curve from~$\mathbf{F}_{q}$ 
+to the ring~$\mathbf{Z}_{q}$, which is the ring of integers of the 
+unique unramified extension of $\mathbf{Q}_{p}$ with residue field 
+$\mathbf{F}_{q}$.  The first of these algorithms is Satoh's 
+method~\citep{Satoh2000} presented in~2000, which has runtime 
+polynomial in the extension degree~$\log_{p} q$ but linear in the prime~$p$.
+
+Finally, there is a class of so called $p$-adic algorithms based on 
+Kedlaya's algorithm~\citep{Kedlaya2001}, which directly computes a 
+$p$-adic approximation to the action of Frobenius on the rigid cohomology 
+spaces associated to hyperelliptic curves in odd characteristic.  
+For a fixed prime~$p$, the runtime of Kedlaya's original algorithm 
+is polynomial in the extension degree~$\log_{p} q$ and the genus~$g$.  
+However, there have been a number of improvements.  Harvey~\citep{Harvey2007} 
+improved the roughly linear dependence on the prime from~$p$ to $\sqrt{p}$.  
+Denef and Vercauteren~\citep{DenVer2006} included the case $p = 2$, and 
+Castryck, Denef and Vercauteren~\citep{CasDenVer2006} extended the algorithm 
+to so called nondegenerate curves.
+
+Lauder's \emph{deformation method} presented in~\citep{Lau04a} 
+applies to smooth projective hypersurfaces, additionally making use 
+of the theory of deformation due to Dwork~\citep{Dwork62b}.  The 
+runtime of this algorithm is polynomial in the prime~$p$, the 
+extension degree~$\log_{p} q$, and the genus~$g$.  Subsequently, 
+Gerkmann~\citep{Gerkmann2007} improved a number of $p$-adic bounds 
+and developed a better implementation.  Moreover, the practicality 
+of the deformation method has also been demonstrated for various 
+classes of curves.  Hubrechts~\citep{Hubrechts2007, Hubrechts2008} 
+considered hyperelliptic curves, Castryck, Hubrechts and 
+Vercauteren~\citep{CasHubVer2008} considered a slightly 
+more general class of $C_{a,b}$-curves, and Tuitman~\citep{Tuitman2011} 
+considered nondegenerate curves.  These results provide the context 
+for this thesis, in which we demonstrate the practicality for surfaces 
+and higher-dimensional hypersurfaces.
+
+Finally, we mention Lauder's \emph{fibration method} introduced 
+in~\citep{Lauder2006}, which proceeds recursively on the dimension 
+of a hypersurface.  This approach has been developed further 
+by Walker~\citep{Walker2009}.
 
