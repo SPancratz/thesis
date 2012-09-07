@@ -143,15 +143,65 @@ Gerkmann~\citep{Gerkmann2007} improved a number of $p$-adic bounds
 and developed a better implementation.  Moreover, the practicality 
 of the deformation method has also been demonstrated for various 
 classes of curves.  Hubrechts~\citep{Hubrechts2007, Hubrechts2008} 
-considered hyperelliptic curves, Castryck, Hubrechts and 
-Vercauteren~\citep{CasHubVer2008} considered a slightly 
-more general class of $C_{a,b}$-curves, and Tuitman~\citep{Tuitman2011} 
-considered nondegenerate curves.  These results provide the context 
-for this thesis, in which we demonstrate the practicality for surfaces 
-and higher-dimensional hypersurfaces.
+used this algorithm to compute the zeta function of hyperelliptic curves, 
+Castryck, Hubrechts and Vercauteren~\citep{CasHubVer2008} considered 
+a slightly more general class of $C_{a,b}$-curves, and 
+Tuitman~\citep{Tuitman2011} extended this work to nondegenerate curves. 
 
 Finally, we mention Lauder's \emph{fibration method} introduced 
 in~\citep{Lauder2006}, which proceeds recursively on the dimension 
 of a hypersurface.  This approach has been developed further 
 by Walker~\citep{Walker2009}.
+
+% This thesis %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{This thesis}
+
+We present our results pertaining to the main goal of this thesis in 
+Part~{I}, which is to demonstrate the practicality of Lauder's deformation 
+method for a wide class smooth projective hypersurfaces.  We build on 
+the work of Lauder~\citep{Lau04a} and Gerkmann~\citep{Gerkmann2007}, 
+resolving bottlenecks in previous computations employing both theoretical 
+advances as well as improved implementation details.  
+In Chapter~\ref{ch:01-DMIntro}, we provide an overview of the deformation 
+method and briefly revisit some of the underlying theoretical machinery 
+and results.  As there are no original contributions in this chapter we 
+omit many technical details and do not include any proofs.  
+The deformation method relies on the efficient computation of the 
+action of Frobenius on an easy fibre in the family of hypersurface 
+and we address this issue in Chapter~\ref{ch:01-DiagFrob}.  We present 
+a novel algorithmic approach in the case of diagonal hypersurfaces, 
+which is vastly superior to previous computations in practice, together 
+with complementing theoretical results and a complexity analysis.
+In Chapter~\ref{ch:GMConnection}, we consider another major step in the 
+deformation method, namely the computation of the Gauss--Manin connection 
+matrix.  Existing implementations~\citep{Lau04a,Gerkmann2007,Kedlaya2011} 
+make use of Gr\"obner base computations for rational functions in order 
+to carry out effective computations in de~Rham cohomology spaces, which 
+leads to poor practical performance and limits the deformation method to 
+hypersurfaces defined by very sparse polynomials.  We reduce the impact 
+of this step by treating it as an explicit finite-dimensional linear 
+algebra problem.  We collect the remaining steps of the deformation 
+method in Chapter~\ref{ch:01-Main}  as we do not present any original 
+theoretical contributions.  Our practical improvements are due to 
+theoretical advances by Kedlaya and Tuitman~\citep{KedlayaTuitman2012} 
+and improved implementation details.  Finally, we present a number of 
+examples in Chapter~\ref{ch:01-Exmp}, hoping to convince the reader of 
+the practical relevance of this work.
+
+In Part~{II}, we present a constant factor improvement to the 
+radix conversion of polynomials, which is a key step and the 
+main bottleneck in current implementations~\citep{Lauder2006,Walker2009} 
+of Lauder's fibration method.  Our brief review of the problem 
+in Chapter~\ref{ch:02-Intro} is followed by a presentation suitable 
+algorithms in Chapter~\ref{ch:02-Algorithms}.  We observe a vast 
+practical improvement when reconsidering an example due to Lauder 
+in Chapter~\ref{ch:02-Exmp}.
+
+The practical improvements that we have observed in the first part of 
+this thesis rely on an efficient implementation of the underlying 
+$p$-adic arithmetic, which we address in Part~{III}.  In fact, we 
+go beyond treating merely the functions utilised in the deformation 
+method and develop a complete module for unramified $p$-adic arithmetic, 
+which we have implemented in the C library {\sc FLINT}~\citep{FLINT}.
 
