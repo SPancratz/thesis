@@ -735,10 +735,249 @@ We formalise this for later reference in Algorithm~\ref{alg:ConnectionMatrix}.
 \end{algorithmic}
 \end{algorithm}
 
-\section{Computational examples}
+% Examples %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-[[TODO:  Include a few examples, compare with Alan's code and 
-Gerkmann's timings where possible.]]
+\section{Examples}
+
+In this section, we present a few numerical examples.  In each 
+case, we include a comparison of the runtime and memory usage of 
+a previously existing {\sc Magma} routines\footnotemark by Lauder 
+and our new implementation in~C.  Lauder's routine was executed 
+using {\sc Magma} version {2.15-12} on a departmental machine 
+comprising eight Dual Core AMD Opteron processors running at 2.2GHz 
+as well as 32GB of memory.  The author's new implementation was 
+run on a personal laptop with two Intel Core~2 Duo processors at 
+2.26GHz and 2GB of memory.  We also note that, for the smallest 
+examples, the comparison of the memory requirements is not fair 
+in the sense that, even without executing user specific code, the 
+{\sc Magma} set-up required about 9.53MB of memory and therefore 
+only the excess of this should be attributed to Lauder's routines.
+
+\footnotetext{Specifically, we used the routines {\tt GriffithsRed-v1.4.m} 
+and {\tt ConnMatrix-v1.4.m}.}
+
+To begin with, the following Table~\ref{tab:01-04-Dimensions} illustrates the 
+numerical size of the problems we need to consider even for relatively small 
+dimensions and degrees.
+
+\begin{table}[h!]
+\begin{center}
+\caption{Dimensions of the graded parts of $\HdR^n(\mathfrak{U}/\mathfrak{S})$}
+\label{tab:01-04-Dimensions}
+\vspace{2mm}
+\begin{tabular}{@{}cccccccccccccc@{}} \toprule
+\multirow{2}{*}{$d$} &                & \multicolumn{12}{c}{$n$} \\ \cmidrule(r){3-14}
+                     &                & \multicolumn{3}{c}{2} & \multicolumn{4}{c}{3} & \multicolumn{5}{c}{4} \\ \midrule
+\multirow{3}{*}{3}   & $k$            & 1 & 2 & 3             & 1 & 2 & 3 & 4         & 1 & 2 & 3 & 4 & 5 \\
+                     & $\card{\cB_k}$ & 1 & 1 & 0             & 0 & 6 & 0 & 0         & 0 & 5 & 5 & 0 & 0 \\
+                     & $\rank \cF_k$  & 1 & 10 & 28           & 0 & 10 & 56 & 165     & 0 & 5 & 70 & 330 & 1001 \\ \midrule
+\multirow{3}{*}{4}   & $k$            & 1 & 2 & 3             & 1 & 2 & 3 & 4         & 1 & 2 & 3 & 4 & 5 \\
+                     & $\card{\cB_k}$ & 3 & 3 & 0             & 1 & 19 & 1 & 0        & 0 & 30 & 30 & 0 & 0 \\
+                     & $\rank \cF_k$  & 3 & 21 & 55           & 1 & 35 & 165 & 455    & 0 & 35 & 330 & 1365 & 3876 \\ \midrule
+\multirow{3}{*}{5}   & $k$            & 1 & 2 & 3             & 1 & 2 & 3 & 4         & 1 & 2 & 3 & 4 & 5 \\
+                     & $\card{\cB_k}$ & 6 & 6 & 0             & 4 & 44 & 4 & 0        & 1 & 101 & 101 & 1 & 0 \\
+                     & $\rank \cF_k$  & 6 & 36 & 91           & 4 & 84 & 364 & 969    & 1 & 126 & 1001 & 3876 & 10626 \\ \bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsection{A toy example}
+
+We begin by giving many details of the computation in the case of the toy 
+example given by $P(X,Y,Z) = X^3 + Y^3 + Z^3 + t XYZ$, containing the 
+diagonal and only one varying cross-term, which is symmetric in all 
+variables.
+
+After computing the derivatives, we find that $\ell = 1$ and $u = 2$, and 
+hence compute the basis sets $B_1 = \{1\}$ and $B_2 = \{XYZ\}$.
+
+The auxiliary matrix $\Delta_2$ is computed as 
+\begin{equation*}
+\renewcommand{\arraystretch}{0.68}
+\begin{pmatrix}
+3 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+0 & 3 & 0 & 0 & 0 & 0 & t & 0 & 0 \\
+0 & 0 & 0 & 3 & 0 & 0 & 0 & t & 0 \\
+0 & 0 & 0 & 0 & 3 & 0 & 0 & 0 & 0 \\
+0 & 0 & 3 & t & 0 & 0 & 0 & 0 & 0 \\
+0 & t & 0 & 0 & 0 & 3 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 & t & 3 & 0 & 0 \\
+0 & 0 & t & 0 & 0 & 0 & 0 & 3 & 0 \\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 3
+\end{pmatrix}
+\end{equation*}
+but in this initial form it still has three zero entries on the diagonal.  
+The permutation~$P_0$ such that $P_0 A$ has a zero-free diagonal is given 
+by the cycle $(3~5~4)$.  The subsequent permutation to block-triangular 
+form is given by $(2~6~4)(3~7)(5~8)$.  Together they transform $\Delta_2$ 
+to $Q_0 P_0 \Delta_2 Q_0^t$ which is 
+\begin{equation*}
+\renewcommand{\arraystretch}{0.68}
+\begin{pmatrix}
+3 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+0 & 3 & 0 & t & 0 & 0 & 0 & 0 & 0 \\
+0 & t & 3 & 0 & 0 & 0 & 0 & 0 & 0 \\
+0 & 0 & t & 3 & 0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 3 & 0 & t & 0 & 0 \\
+0 & 0 & 0 & 0 & t & 3 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 & t & 3 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 3 & 0 \\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 3
+\end{pmatrix}.
+\end{equation*}
+The above matrix is block-triangular with block sizes $1, 3, 3, 1, 1$. 
+The following $LUP$ decomposition performed on the two $3 \times 3$ 
+submatrices yields the matrix
+\begin{equation*}
+\renewcommand{\arraystretch}{0.68}
+\begin{pmatrix}
+3 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+0 & 3 & 0 & t & 0 & 0 & 0 & 0 & 0 \\
+0 & t/3 & 3 & -t^2/3 & 0 & 0 & 0 & 0 & 0 \\
+0 & 0 & t/3 & (t^3+27)/9 & 0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 3 & 0 & t & 0 & 0 \\
+0 & 0 & 0 & 0 & t/3 & 3 & -t^2/3 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 & t/3 & (t^3+27)/9 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 3 & 0 \\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 3
+\end{pmatrix}.
+\end{equation*}
+
+We do not include full details for the computation of $\Delta_3$, which is a 
+$28 \times 28$ matrix.  However, in order to illustrate the usefulness of 
+applying sparse rather then dense matrix techniques, we point out that the 
+corresponding block sizes partition $28$ as $19 \times 1 + 3 \times 3$.
+
+In order to compute the Gauss--Manin connection matrix with respect to our 
+choice of basis, we need to reduce the two elements $- XYZ \Omega / P^2$ and 
+$-2 X^2 Y^2 Z^2 \Omega / P^3$ corresponding to the basis elements $\Omega / P$ 
+and $XYZ \Omega / P^2$, respectively.  This gives 
+\begin{align*}
+\nabla \Bigl( \frac{\Omega}{P} \Bigr) & = \frac{- XYZ \Omega}{P}, \\
+\nabla \Bigl( \frac{XYZ \Omega}{P^2} \Bigr) & = \frac{-2 X^2 Y^2 Z^2 \Omega}{P^3} \equiv \frac{t/(t^3+27) \Omega}{P} + \frac{-3t^2/(t^3+27) \Omega}{P^2}.
+\end{align*}
+
+Finally, the runtime and memory requirements of the {\sc Magma} routines 
+and the new C implementation are given by 0.0035s and 0.00032s as well as 
+7.32MB and 136KB, respectively.
+
+\subsection{Quartic surfaces}
+
+We now consider a sequence of quartic surfaces with an increasing number of 
+cross-terms.  This highlights the practical limitations of the previous 
+{\sc Magma} code and demonstrates the usefulness of the approach investigated 
+in this thesis.
+
+From Table~\ref{tab:01-04-Dimensions} we see that $\card{B_1} = 1$, 
+$\card{B_2} = 19$, $\card{B_3} = 1$ and $\card{\cR_2} = 16$, 
+$\card{\cR_3} = 164$, $\card{\cR_4} = 455$.  We are particularly interested in 
+how these last three cardinalities are partitioned by the 
+block-triangularisation since this provides a measure of the usefulness of the 
+sparse matrix techniques employed here.  For a partition of the matrix 
+$\Delta_k$ into $N_k$ diagonal blocks of size $n_1, \dotsc, n_{N_k}$, we 
+include the two quantities 
+$\alpha_k = \card{\cR_k}^2 / (n_1^2 + \dotsb + n_{N_k}^2)$ and 
+$\beta_k = \card{\cR_k}^3 / (n_1^3 + \dotsb + n_{N_k}^3)$, rounded to the 
+nearest integer.  These two quantities give an indication of the improvement 
+in runtime gained by employing sparse matrix techniques instead of standard 
+dense matrix techniques.  The former value pertains to the quadratic time 
+routines, which in particular includes the solving of linear systems as part 
+of the reduction process, whereas the latter is relevant for the $LUP$ 
+decomposition, which in the current implementation requires cubic time.
+
+\subsubsection{A quartic surface with one cross-term}
+
+We consider the family of surfaces given by 
+\begin{equation*}
+W^4 + X^4 + Y^4 + Z^4 + t W X Y Z.
+\end{equation*}
+The partitions we obtain are $16 = 16 \times 1$, 
+$164 = 104 \times 1 + 15 \times 4$ and $455 = 391 \times 1 + 16 \times 4$, 
+which yield values $\alpha = (\alpha_k)_{k=1}^3 = (16,78,319)$ and 
+$\beta = (\beta_k)_{k=1}^3 = (256,4145,66570)$.
+
+As expected from the small number of terms and high level of symmetry, both 
+Lauder's {\sc Magma} routine and the new implementation compute this quickly 
+in 0.045s and 0.0138s, requiring 7.71MB and 1.35MB of memory, respectively.
+
+We also note that Gerkmann~\citep[\S 7.5]{Gerkmann2007} mentions a runtime of 
+about 7s in this case.
+
+\subsubsection{A quartic surface with three cross-terms}
+
+We consider the family of surfaces given by 
+\begin{equation*}
+W^4 + X^4 + Y^4 + Z^4 + t (W^3 X + W Y Z^2 + X Z^3).
+\end{equation*}
+The block sizes give rise to partitions $16 = 16 \times 1$, 
+$164 = 70 \times 1 + 8 \times 4 + 1 \times 62$ and 
+$455 = 253 \times 1 + 33 \times 4 + 1 \times 70$, from which we find 
+$\alpha = (16,6,36)$ and $\beta = (256,18,273)$.
+
+The time and space requirements for the two routines are 27.88s, 2.013s and 
+18.84MB, 5.29MB.  In particular, the new routine is about 14~times faster.
+
+\subsubsection{A quartic surface with four cross-terms}
+
+We consider the family of surfaces given by 
+\begin{equation*}
+W^4 + X^4 + Y^4 + Z^4 + t (W^3 X + W Y Z^2 + X Z^3 + W X Y Z).
+\end{equation*}
+The partitions we obtain are $16 = 16 \times 1$, 
+$164 = 53 \times 1 + 4 \times 4 + 1 \times 95$ and 
+$455 = 231 \times 1 + 29 \times 4 + 1 \times 108$.  This gives 
+$\alpha = (16,3,17)$ and $\beta = (256,5,75)$.
+
+The time and space requirements for the two routines are 4190.610s, 24.97s and 
+238.38MB, 16.62MB.  At this point, the new implementation is already more 
+than 165~times faster.
+
+\subsubsection{A quartic surface with six cross-terms}
+
+We consider the family of surfaces given by
+\begin{equation*}
+W^4 + X^4 + Y^4 + Z^4 + t (2 W^3 X + 7 W^2 X Y - 11 W X^2 Y + 13 X^2 Y Z + 17 X^2 Z^2 - W X Y Z).
+\end{equation*}
+The block-triangularisations result in the following partitions of the ranks 
+of the auxiliary matrices:  $16 = 14 \times 1 + 1 \times 2$, 
+$164 = 38 \times 1 + 4 \times 2 + 4 \times 4 + 1 \times 102$ and 
+$455 = 181 \times 1 + 18 \times 2 + 22 \times 4 + 7 \times 5 + 1 \times 115$. 
+We hence find that $\alpha = (14,3,15)$ and $\beta = (186,4,62)$.
+
+For this example, Lauder's {\sc Magma} routine takes 4.52 days and requires 
+3.57GB of memory.  The new implementation completes the computation in 
+277.02s and uses 66.7MB.  That is, the new implementation is more than 
+1,400~times faster.
+
+\subsubsection{A quartic surface with seven cross-terms}
+
+We consider the family of surfaces given by
+\begin{multline*}
+W^4 + X^4 + Y^4 + Z^4 + t (-3 W^3 X + 5 W^3 Y + 7 W^2 X Y \\ - 23 W X^2 Y - 29 X^2 Y Z + 31 Y^2 Z^2 - 37 W X Y Z)
+\end{multline*}
+In this case, we obtain the partitions $16 = 14 \times 1 + 1 \times 2$, 
+$164 = 32 \times 1 + 1 \times 4 + 1 \times 128$ and 
+$455 = 152 \times 1 + 15 \times 4 + 3 \times 28 + 1 \times 159$ and 
+values $\alpha = (14,2,7)$ and $\beta = (186,2,23)$.
+
+The previous {\sc Magma} routine solved this example in 34.04 days using 
+12.5GB of memory.  In contrast to this, the runtime of the new C 
+implementation has only doubled when compared to the previous example and is 
+527.28s, with a memory requirement of 126.5MB.
+
+\subsection{A quintic surface}
+
+We finally give an example which begins to show limitations of the approach 
+discussed in this work:
+\begin{equation*}
+(1-t) (W^5 + X^5 + Y^5 + Z^5) + t \bigl((W X Z + Y^3) (W^2 + X Y + Z^2)\bigr).
+\end{equation*}
+For this example, the new implementation requires about 190 minutes and 
+979.5MB.  The author did not obtain the corresponding data from Lauder's 
+{\sc Magma} routine since it was terminated after running for over 34 days and 
+using nearly 5GB of memory.
+
+% Further remarks %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Further remarks}
 
