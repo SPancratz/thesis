@@ -33,7 +33,7 @@ verifying the correctness of a computation that has been carried out
 with intermediate $p$-adic precisions too low to be provably correct. 
 The methods investigated and implemented are crucially based on the 
 fact that the polynomial 
-\mbox{$\det\bigl(1 - T q^{-1} F_q | H_{dR}^{n}(\mathfrak{U}_{t_1})\bigr)$} 
+\mbox{$\det\bigl(1 - T q^{-1} F_q | \HdR^{n}(\mathfrak{U}_{t_1})\bigr)$} 
 is the reverse of a Weil polynomial, and in particular that its 
 roots all have absolute value~$q^{(1-n)/2}$ and that the bottom 
 coefficients can be obtained correctly even with low $p$-adic precision, 
@@ -70,7 +70,7 @@ Gauss--Manin connection is near instantaneous with our implementation.
 The computation of the Frobenius matrix on the diagonal fibre takes 
 $0.04$~seconds ($5.86$ minutes).  The local solution $C(t)$, its 
 inverse $C(t)^{-1}$ and the local expansion for $p^{-1}F_p$ on 
-$H_{dR}^n(\mathfrak{U}/\mathfrak{S})$ are computed in $0.38$, $0.11$ 
+$\HdR^n(\mathfrak{U}/\mathfrak{S})$ are computed in $0.38$, $0.11$ 
 and $1.28$~seconds, respectively, adding up to $1.77$~seconds ($83$ seconds). 
 The analytic continuation and subsequent evaluation at a Teichm\"uller lift 
 of~$t_1$ take $0.05$ and $0.2$~seconds, and the computation of the $q$th-power 
@@ -308,10 +308,10 @@ $K_1 = 60$ and $K_2 = 13740$.
 The Gauss--Manin connection matrix is computed in $323.55$~seconds and found 
 to have denominator $r(t)$ of degree~$228$, which explains the large value 
 of the $t$-adic parameter~$K_2$.  The matrix for $p^{-1} F_p$ on 
-$H_{dR}^{n}(\mathfrak{U}_0)$ is computed in $0.01$~seconds.  The local 
+$\HdR^{n}(\mathfrak{U}_0)$ is computed in $0.01$~seconds.  The local 
 solutions $C$ and $C^{-1}$ form the most time-consuming part in this example, 
 requiring $1909.3$ and $342.22$~seconds.  The matrix product to determine the 
-local expansion of $p^{-1} F_p$ on $H_{dR}^{n}(\mathfrak{U}/\mathfrak{S})$ 
+local expansion of $p^{-1} F_p$ on $\HdR^{n}(\mathfrak{U}/\mathfrak{S})$ 
 takes $262.6$~seconds. Finally, the analytic continuation and evaluation steps 
 require $4.53$ and $0.18$~seconds, respectively.
 

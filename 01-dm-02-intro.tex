@@ -15,7 +15,7 @@ hypersurface, which in hindsight we call $X_{t_1}$, in projective
 $n$-space over a finite field of characteristic~$p$.  This is 
 facilitated by computing 
 the action of the Frobenius morphism on the associated rigid cohomology 
-spaces $H_{rig}^{\bullet}(X_{t_1})$.  The main idea is to embed this 
+spaces $\Hrig^{\bullet}(X_{t_1})$.  The main idea is to embed this 
 hypersurface in a family of smooth projective hypersurfaces~$X/S$ 
 defined over a finite field~$k$, where $S \subset \mathbf{A}_k^1(t)$, 
 containing a fibre~$X_{t_0}$ for which it is easier to compute the Frobenius 
@@ -25,12 +25,12 @@ equation involving the Frobenius matrix and the algebraic Gauss--Manin
 connection.  Moreover, due to a comparison theorem of Baldassarri and 
 Chiarellotto~\citep{BalChi94}, in this 
 part of the algorithm we can work with the algebraic de~Rham cohomology 
-spaces~$H_{dR}^{\bullet}(\mathfrak{X}/\mathfrak{S})$ of the generic 
+spaces~$\HdR^{\bullet}(\mathfrak{X}/\mathfrak{S})$ of the generic 
 fibres, which are computationally more accessible.  Solving this differential 
 equation and using the Frobenius action 
-on~$H_{dR}^{\bullet}(\mathfrak{X}_{t_0})$ as the initial 
+on~$\HdR^{\bullet}(\mathfrak{X}_{t_0})$ as the initial 
 condition, by an appropriate evaluation we can compute the Frobenius matrix 
-for~$H_{dR}^{\bullet}(\mathfrak{X}_{t_1})$ and hence recover the 
+for~$\HdR^{\bullet}(\mathfrak{X}_{t_1})$ and hence recover the 
 zeta function of the fibre~$X_{t_1}$.
 
 % Families of smooth, projective hypersurfaces %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -78,7 +78,7 @@ diagonal, and that $t_1 \in S$ is a non-zero point.
 
 \begin{notation}
 Furthermore, as an artefact of our particular choice of basis for 
-$H_{dR}^n(\mathfrak{U}/\mathfrak{S})$ in Definition~\ref{defn:01-04-basis}, 
+$\HdR^n(\mathfrak{U}/\mathfrak{S})$ in Definition~\ref{defn:01-04-basis}, 
 we assume that $d \geq 2$ whenever $n$ is odd and $d \geq 3$ whenever $n$ 
 is even.
 \end{notation}
@@ -94,17 +94,17 @@ assumptions imply $p \nmid d$.
 \section{Gauss--Manin connection and Frobenius structures}
 
 We will now briefly describe the actions of the Gauss--Manin connection 
-and Frobenius on the vector space $H_{dR}^{n}(\mathfrak{U}/\mathfrak{S})$, 
+and Frobenius on the vector space $\HdR^{n}(\mathfrak{U}/\mathfrak{S})$, 
 following Tuitman~\citep[\S 3.4.2, \S 3.6.1]{Tuitman2011} and 
 Walker~\citep[\S 3.2.2.2]{Walker2009}.
 
 Suppose that $(v_1,\dotsc,v_b)$ is a basis for the finite-dimensional 
-vector space $H_{dR}^{n}(\mathfrak{U}/\mathfrak{S})$ over 
+vector space $\HdR^{n}(\mathfrak{U}/\mathfrak{S})$ over 
 $\mathbf{Q}_q[t,r(t)^{-1}]$.  The Gauss--Manin connection is a map 
 \begin{equation*}
-\nabla \colon H_{dR}^{n}(\mathfrak{U}/\mathfrak{S}) 
+\nabla \colon \HdR^{n}(\mathfrak{U}/\mathfrak{S}) 
     \to \Omega_{\mathfrak{S}}^{1}
-    \otimes_{\mathbf{Q}_q[t,r(t)^{-1}]} H_{dR}^{n}(\mathfrak{U}/\mathfrak{S})
+    \otimes_{\mathbf{Q}_q[t,r(t)^{-1}]} \HdR^{n}(\mathfrak{U}/\mathfrak{S})
 \end{equation*}
 and its Leibniz-linear action is represented by a matrix~$M$ over 
 $\mathbf{Q}_q[t,r(t)^{-1}]$ with 
@@ -125,8 +125,8 @@ is extended to $\mathbf{Q}_q[t]$ by sending $t$ to $t^p$.  Here, $\sigma$
 is the unique lift of the $p$-th power Frobenius map to $\mathbf{Q}_q$.  
 The map 
 \begin{equation*}
-p^{-1} F_p \colon (p^{-1} F_p)^{*} H_{dR}^{n}(\mathfrak{U}/\mathfrak{S}) 
-    \to H_{dR}^{n}(\mathfrak{U}/\mathfrak{S})
+p^{-1} F_p \colon (p^{-1} F_p)^{*} \HdR^{n}(\mathfrak{U}/\mathfrak{S}) 
+    \to \HdR^{n}(\mathfrak{U}/\mathfrak{S})
 \end{equation*}
 can be represented by a matrix~$\Phi$ such that 
 \begin{equation*}
@@ -156,10 +156,10 @@ Frobenius satisfy the following commutative diagram,
 \begin{equation*}
 \def\labelstyle{\textstyle}
 \xymatrix@C=6.8em@R=4em{
-H_{dR}^{n}(\mathfrak{U}/\mathfrak{S}) \ar[d]_{q^{-1} F_q} \ar[r]^{\nabla} & 
-\Omega_{\mathfrak{S}}^{1} \otimes H_{dR}^{n}(\mathfrak{U}/\mathfrak{S}) \ar[d]^{q^{-1} F_q} \\
-H_{dR}^{n}(\mathfrak{U}/\mathfrak{S}) \ar[r]^{\nabla} & 
-\Omega_{\mathfrak{S}}^{1} \otimes H_{dR}^{n}(\mathfrak{U}/\mathfrak{S}) 
+\HdR^{n}(\mathfrak{U}/\mathfrak{S}) \ar[d]_{q^{-1} F_q} \ar[r]^{\nabla} & 
+\Omega_{\mathfrak{S}}^{1} \otimes \HdR^{n}(\mathfrak{U}/\mathfrak{S}) \ar[d]^{q^{-1} F_q} \\
+\HdR^{n}(\mathfrak{U}/\mathfrak{S}) \ar[r]^{\nabla} & 
+\Omega_{\mathfrak{S}}^{1} \otimes \HdR^{n}(\mathfrak{U}/\mathfrak{S}) 
 }
 \end{equation*}
 This implies that the matrices~$\Phi$ and~$M$ satisfy the $p$-adic 
@@ -181,11 +181,11 @@ These are provided and justified in Chapter~\ref{ch:01-Main}.
 \begin{enumerate}
 \item[Step~$I$.]
 Let $\Phi_0$ denote the matrix for the action of $p^{-1} F_p$ on 
-$H_{dR}^{n}(\mathfrak{U}_0)$, which has entries in $\mathbf{Q}_p$.  
+$\HdR^{n}(\mathfrak{U}_0)$, which has entries in $\mathbf{Q}_p$.  
 We compute an approximation to $p$-adic precision~$N_4$.
 \item[Step~$II$.]
 We compute the matrix~$M$, which denotes the connection matrix 
-on $H_{dR}^{n}(\mathfrak{U}/\mathfrak{S})$ and has entries in 
+on $\HdR^{n}(\mathfrak{U}/\mathfrak{S})$ and has entries in 
 $\mathbf{Q}[t,r(t)^{-1}]$.
 \item[Step~$III$.]
 Let $C$ denote the matrix over $\mathbf{Q}[[t]]$ for the local 
@@ -196,25 +196,25 @@ approximation for the matrix~$C(t^p)^{-1}$ modulo~$t^{K_2}$ to $p$-adic
 precision~$N_3'$.
 \item[Step~$IV$.]
 Let $\Phi(t)$ denote the matrix for the action of $p^{-1} F_p$ on 
-$H_{dR}^{n}(\mathfrak{U}_t)$, which satisfies the equation 
+$\HdR^{n}(\mathfrak{U}_t)$, which satisfies the equation 
 $\Phi(t) = C(t) \Phi_0 C(t^p)^{-1}$ and has entries in 
 $\mathbf{Q}_p[t,r(t)^{-1}]$.  We compute an approximation modulo~$t^{K_2}$ 
 to $p$-adic precision~$N_2$.
 \item[Step~$V$.]
 Let $\Phi_{t_1}$ denote the matrix for the action of $p^{-1} F_p$ 
-on $H_{dR}^{n}(\mathfrak{U}_{t_1})$, which has entries in $\mathbf{Q}_q$. 
+on $\HdR^{n}(\mathfrak{U}_{t_1})$, which has entries in $\mathbf{Q}_q$. 
 Firstly, we compute an approximation to $\Psi(t) = r(t)^{K_1} \Phi(t)$ 
 modulo~$t^{K_2}$ to $p$-adic precision~$N_2$.  We can then compute an 
 approximation for $\Phi_{t_1}$ to $p$-adic precision~$N_2$ as 
 $r(\hat{t}_1)^{-K_1} \Psi(\hat{t}_1)$.
 \item[Step~$VI$.]
 Let $\Phi_1^{(q)}$ denote the matrix for the action of $q^{-1} F_q$ on 
-$H_{dR}^{n}(\mathfrak{U}_{t_1})$, which satisfies 
+$\HdR^{n}(\mathfrak{U}_{t_1})$, which satisfies 
 $\Phi_{t_1}^{(q)} = \Phi_{t_1} \sigma(\Phi_{t_1}) \dotsm \sigma^{a-1}(\Phi_{t_1})$ 
 and has entries in $\mathbf{Q}_q$.  We compute an approximation to this 
 matrix with $p$-adic precision~$N_1$.
 \item[Step~$VII$.]
-Let $p(T) = \det\bigl(1 - T q^{-1} F_q | H_{dR}^n(\mathfrak{U}_{t_1})\bigr)$, 
+Let $p(T) = \det\bigl(1 - T q^{-1} F_q | \HdR^n(\mathfrak{U}_{t_1})\bigr)$, 
 which is an integer polynomial.  We recover this exactly 
 by computing an approximation to the reverse characteristic polynomial 
 of $\Phi_{t_1}^{(q)}$ to $p$-adic precision~$N_0$.

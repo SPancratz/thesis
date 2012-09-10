@@ -21,7 +21,7 @@ We let $\Phi$ denote the matrix for the $\sigma$-semilinear action
 of~$p^{-1} F_p$, where $\sigma$ is the standard lift of the $p$th-power 
 Frobenius to~$\mathbf{Q}_q$ and~$\mathbf{Q}_q(t)$ sending $t \mapsto t^p$, 
 and $M$ the matrix for the Leibniz-linear connection on 
-$H_{dR}^n(\mathfrak{U}/\mathfrak{S})$.
+$\HdR^n(\mathfrak{U}/\mathfrak{S})$.
 As described for example by Gerkmann~\citep[\S 5]{Gerkmann2007}, these 
 matrices satisfy the following differential system,
 \begin{equation*}
@@ -30,7 +30,7 @@ matrices satisfy the following differential system,
 Our first goal, discussed in this section, is the computation of 
 a power series expansion of~$\Phi$ around the origin, satisfying 
 the above differential equation and the initial condition that~$\Phi_0$ 
-be the matrix for the action of $p^{-1} F_p$ on $H_{dR}^n(\mathfrak{U}_0)$.
+be the matrix for the action of $p^{-1} F_p$ on $\HdR^n(\mathfrak{U}_0)$.
 We begin by observing that, upon setting 
 \begin{equation*}
 \Phi = C \Phi_0 \sigma(C)^{-1},
@@ -80,10 +80,10 @@ valuation of $C_0, C_1, \dotsc$ by Kedlaya~\citep{Kedlaya2010}.
 
 \begin{lem} \label{lem:01-FrobBound}
 Recall that the matrix~$\Phi$ for the action of $p^{-1} F_p$ 
-on $H_{dR}^{n}(\mathfrak{U}/\mathfrak{S})$ has entries in 
+on $\HdR^{n}(\mathfrak{U}/\mathfrak{S})$ has entries in 
 $\mathbf{Q}_p\langle t, r(t)^{-1}\rangle^{\dagger}$, 
 and let $\Phi_t$ denote the matrix for the action of $p^{-1} F_p$ 
-on $H_{dR}^{n}(\mathfrak{U}_t)$ with entries in $\mathbf{Q}_p$.
+on $\HdR^{n}(\mathfrak{U}_t)$ with entries in $\mathbf{Q}_p$.
 Let us set 
 \begin{align*}
 r & = \ord_p((n-1)!), \\
@@ -291,7 +291,7 @@ the bound $\ord_p(\Phi_0) \geq - \delta$ from Lemma~\ref{lem:01-FrobBound}.
 \label{sec:01-dm-06-continuation}
 
 In the previous section we described how to compute the matrix~$\Phi$ 
-for the action of $p^{-1} F_p$ on $H_{dR}^{n}(\mathfrak{U}/\mathfrak{S})$ 
+for the action of $p^{-1} F_p$ on $\HdR^{n}(\mathfrak{U}/\mathfrak{S})$ 
 as a local power series expansion around $t = 0$.  In order to evaluate it 
 at a second point $t = t_1$, we wish to $p$-adically approximate it 
 using rational functions with denominators a power of $r(t)$, which 
@@ -320,7 +320,7 @@ evaluation, our specific problem is the following.  Given a desired $p$-adic
 precision~$N_2$, we would like to determine integers~$K_1$ and~$K_2$ such 
 that, modulo~$p^{N_2}$, the entries of the matrix $\Psi(t) = r(t)^m \Phi(t)$ 
 truncated modulo~$t^{K_2}$ allow us to compute the matrix $\Phi_{t_1}$ for 
-the action of $p^{-1} F_p$ on $H_{dR}^{n}(\mathfrak{U}_{t_1})$ as 
+the action of $p^{-1} F_p$ on $\HdR^{n}(\mathfrak{U}_{t_1})$ as 
 $r(\hat{t_1})^{-1} \Psi(\hat{t_1})$ modulo~$p^{N_2}$.
 
 Besides the work of Lauder~\citep[\S 8.1]{Lau04a}, Gerkmann also described 
@@ -364,10 +364,10 @@ could choose e.g.\ $K_1 = 1.1 \times p N_2$ and $K_2 = (\deg(r) + 1) K_1$.
 \end{rem}
 
 Having obtained an expression for the action of~$p^{-1} F_p$ 
-on~$H_{dR}^{n}(\mathfrak{U}_{t_1})$ in terms of rational functions, 
+on~$\HdR^{n}(\mathfrak{U}_{t_1})$ in terms of rational functions, 
 we conclude this section by describing the evaluation at the fibre 
 $t = t_1$.  Modulo~$p^{N_2}$, the matrix $\Phi_{t_1}$ representing 
-$p^{-1} F_p$ on $H_{dR}^{n}(\mathfrak{U}_{t_1})$ is equal to 
+$p^{-1} F_p$ on $\HdR^{n}(\mathfrak{U}_{t_1})$ is equal to 
 \begin{equation}
 \Phi_{t_1} = 
     r(\hat{t}_1)^{-K_1} 
@@ -408,10 +408,10 @@ the $p$th-power Frobenius.  Secondly, we compute its reverse characteristic
 polynomial to suitable $p$-adic precision in order to recover the zeta 
 function.
 
-\subsection{Computing the action of $q^{-1} F_q$ on $H_{dR}^{n}(\mathfrak{U}_{t_1})$}
+\subsection{Computing the action of $q^{-1} F_q$ on $\HdR^{n}(\mathfrak{U}_{t_1})$}
 
 Let $\Phi_{t_1}$ and $\Phi_{t_1}^{(q)}$ denote the matrices representing the 
-actions of $p^{-1} F_p$ and $q^{-1} F_q$ on~$H_{dR}^{n}(\mathfrak{U}_{t_1})$, 
+actions of $p^{-1} F_p$ and $q^{-1} F_q$ on~$\HdR^{n}(\mathfrak{U}_{t_1})$, 
 respectively.  As the action of $p^{-1} F_p$ is $\sigma$-semilinear, we have 
 that 
 \begin{equation*}
@@ -438,7 +438,7 @@ In general, from the definition of the determinant function and
 Proposition~\ref{prop:productval}, it appears that the precision 
 loss could be as great as $(b-1) \ord_p(A)$.  However, in the case 
 of matrices representing the action of Frobenius 
-on $H_{dR}^n(\mathfrak{U}_{t_1})$, much better bounds are available.
+on $\HdR^n(\mathfrak{U}_{t_1})$, much better bounds are available.
 
 \begin{lem} \label{lem:charpoly}
 Define $\delta = \delta(n,p)$ as in Lemma~\ref{lem:01-FrobBound} and 
@@ -524,7 +524,7 @@ N_1 & = N_0 + a,
 \end{align*}
 where $N_0$ here refers to the required precision for $q^{h_{0,2}} p(T/q)$ 
 and $N_1$ as before refers to the precision required for the matrix 
-representing $q^{-1} F_q$ on $H_{dR}^{n}(\mathfrak{U}_{t_1})$.
+representing $q^{-1} F_q$ on $\HdR^{n}(\mathfrak{U}_{t_1})$.
 For further details, we refer the reader to 
 Lauder~\citep[\S 9.3.2, Proposition~9.6]{Lauder2006}.
 \end{rem}

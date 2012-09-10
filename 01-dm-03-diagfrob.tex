@@ -33,7 +33,7 @@ We also define the generic fibre~$\mathfrak{X}$  as well as affine
 complements~$\mathcal{U}$, $U$ and $\mathfrak{U}$ of $\mathcal{X}$, $X$ 
 and $\mathfrak{X}$, respectively.  We choose the following basis of 
 monomials $\mathcal{B}_1 \cup \dotsb \cup \mathcal{B}_n$ for 
-$H_{dR}^n(\mathfrak{U})$ where, for $k = 1, \dotsc, n$, 
+$\HdR^n(\mathfrak{U})$ where, for $k = 1, \dotsc, n$, 
 \begin{align*}
 B_k & = \{ x^i : \text{$\abs{i} = kd - (n+1)$ and $0 \leq i_j < d-1$, for all $j$} \}, \\
 \mathcal{B}_k & = \{x^i \Omega / P^k : x^i \in B_k \}, 
@@ -47,10 +47,10 @@ Section~\ref{sec:01-04-hypersurfaces}.
 Finally, we recall the condition that $d \geq 2$ whenever 
 $n$ is odd and $d \geq 3$ whenever $n$ is even.  
 Our goal is to compute the matrix~$\Phi$ representing 
-the action of $p^{-1} F_p$ on $H_{rig}^n(U) \cong H_{dR}^n(\mathfrak{U})$ 
+the action of $p^{-1} F_p$ on $\Hrig^n(U) \cong \HdR^n(\mathfrak{U})$ 
 to $p$-adic precision~$N$.
 
-We now describe an explicit formula for the $b = \dim H_{dR}^n(\mathfrak{U})$ 
+We now describe an explicit formula for the $b = \dim \HdR^n(\mathfrak{U})$ 
 non-zero coefficients of the matrix~$\Phi$ due to Dwork~\citep{Dwork64}, see 
 e.g.\ Lauder~\citep[\S 6.1]{Lau04}.   We work over the ramified 
 extension~$\mathbf{Q}_p(\pi)$ where $\pi^{p-1} = -p$, where we normalise 
@@ -497,13 +497,13 @@ entries of~$\Phi$ modulo~$p^N$ in Algorithm~\ref{alg:01-03-diagfrob}
 below.
 
 \begin{algorithm}
-\caption{Compute the matrix for $p^{-1} F_p$ on $H_{dR}^n(\mathfrak{U})$}
+\caption{Compute the matrix for $p^{-1} F_p$ on $\HdR^n(\mathfrak{U})$}
 \label{alg:01-03-diagfrob}
 \begin{algorithmic}
 \vspace{1mm}
 \Require Polynomial $a_0 x_0^d + \dotsb + a_n x_n^d$, 
          prime~$p$, precision~$N \geq 0$.
-\Ensure  Matrix for $p^{-1} F_p$ on $H_{dR}^n(\mathfrak{U})$ modulo $p^N$.
+\Ensure  Matrix for $p^{-1} F_p$ on $\HdR^n(\mathfrak{U})$ modulo $p^N$.
 \Procedure{DiagFrob}{$n, d, p, N, a_0, \dotsc, a_n$}
 \begin{enumerate}
 \item Determine the numbers 
@@ -557,7 +557,7 @@ Remark~\ref{rem:01-03-mup}, which requires time
 $\mathcal{O}\bigl(p \tilde{N}^2 M(p \tilde{N} \log(p \tilde{N}))\bigr)$.
 
 The following {Steps~(iii) through (vii)} are executed 
-$\dim H_{dR}^{n}(\mathfrak{U})$ times, where this dimension 
+$\dim \HdR^{n}(\mathfrak{U})$ times, where this dimension 
 is $\mathcal{O}(d^n)$.
 The time complexity of {Step~(iii)} is 
 $\mathcal{O}\bigl(n M(\log \max\{p,d\})\bigr)$.
@@ -593,7 +593,7 @@ exponentials of power series:
 
 \begin{thm} \label{thm:dm-diagfrob-complexity2}
 There exists an algorithm for computing the matrix for the 
-action of $p^{-1} F_p$ on $H_{dR}^{n}(\mathfrak{U})$ in time 
+action of $p^{-1} F_p$ on $\HdR^{n}(\mathfrak{U})$ in time 
 complexity 
 \begin{equation*}
 (M \log M \log \log M) (p \log p) M(\tilde{N} \log p) 
@@ -688,7 +688,7 @@ x_0^6 + 2 x_1^6 + 3 x_2^6 + 4 x_3^6 + 5 x_4^6
 \end{equation*}
 and compute the matrix~$\Phi$ to precision~$N = 500$.  This leads to the 
 other parameters $\tilde{N} = 504$ and $M = 87033$.  We also observe 
-that $\dim H_{dR}^{n}(\mathfrak{U}) = 520$.  The precomputation requires 
+that $\dim \HdR^{n}(\mathfrak{U}) = 520$.  The precomputation requires 
 $0.01$~seconds for the sequence $d^{-r}$ and $9.67$~hours for the 
 sequence~$\mu_m$.  After this, we can determine the entries of the 
 Frobenius matrix in another $30.86$~seconds.
