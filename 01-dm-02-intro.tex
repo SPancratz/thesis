@@ -4,8 +4,8 @@
 
 \section{Introduction}
 
-In this section we present the problem that we are concerned 
-with in this part of the thesis and carefully set up the notation 
+In this section we present the problem that we are concerned with in 
+the first part of this thesis and carefully set up the notation 
 that we are using throughout.  We begin by giving a brief overview.
 
 The aim of the deformation method as introduced by 
@@ -49,7 +49,7 @@ let $\mathbf{Q}_q$ denote the unique unramified extension of $\mathbf{Q}_p$
 with residue field $\mathbf{F}_q$, and let $\mathbf{Z}_q$ denote its 
 ring of integers.
 
-We let $P \in \mathbf{Z}[t][x_0,\dotsc,x_n]$ be a homogenous polynomial 
+We let $P \in \mathbf{Z}[t][x_0,\dotsc,x_n]$ be a homogeneous polynomial 
 of degree~$d$ with $n, d \geq 1$.  We define $r(t) \in \mathbf{Z}[t]$ as 
 the \emph{Macaulay resultant} of the partial derivatives of~$P$ as 
 in~\citep[Page~7, Chapter~I.6]{Macaulay1994}.  We can now define two 
@@ -77,10 +77,10 @@ diagonal, and that $t_1 \in S$ is a non-zero point.
 \end{notation}
 
 \begin{notation}
-Furthermore, as an artefact of our particular choice of basis for 
-$\HdR^n(\mathfrak{U}/\mathfrak{S})$ in Definition~\ref{defn:01-04-basis}, 
-we assume that $d \geq 2$ whenever $n$ is odd and $d \geq 3$ whenever $n$ 
-is even.
+Furthermore, as an artefact of our particular choice of basis 
+for the cohomology space $\HdR^n(\mathfrak{U}/\mathfrak{S})$ 
+in Definition~\ref{defn:01-04-basis}, we assume that $d \geq 2$ 
+whenever $n$ is odd and $d \geq 3$ whenever $n$ is even.
 \end{notation}
 
 \begin{rem}
@@ -134,11 +134,25 @@ p^{-1} F_p (v_j) = \sum_{i=1}^{b} \Phi_{ij} v_i.
 \end{equation*}
 It can be shown that the entries of~$\Phi$ are in fact overconvergent 
 power series, that is, they lie in the ring 
-$\mathbf{Q}_q\langle t, r(t)^{-1}\rangle^{\dagger}$ as defined in 
-Definition~\ref{defn:Overconvergence}.  This is explained further 
-e.g.\ by Lauder~\citep[\S 3.5]{Lauder2006}.  This means that the 
-matrix~$\Phi$ converges on $\mathbf{P}^{1}(\mathbf{Q}_q)$ with disks 
-of radius strictly less than~$1$ removed around the roots of $r(t)$ 
+$\mathbf{Q}_q\langle t, r(t)^{-1}\rangle^{\dagger}$ defined as follows:
+
+\begin{defn} \label{defn:Overconvergence}
+Given indeterminates $z_1, \dotsc, z_k$, 
+the ring $\mathbf{Q}_q \langle z_1, \dotsc, z_k \rangle^{\dagger}$ of 
+\emph{overconvergent} power series consists of power series of the form 
+\begin{equation*}
+\sum_{i_1,\dotsc,i_k \geq 0} a_{i_1,\dotsc,i_k} z_1^{i_1} \dotsm z_k^{i_k}
+\end{equation*}
+such that there exist real numbers $\epsilon > 0$ and $\nu$ 
+such that, for all $i_1, \dotsc, i_k \geq 0$, 
+\begin{equation*}
+\ord_p (a_{i_1,\dotsc,i_k}) \geq \epsilon(i_1 + \dotsb + i_k) + \nu.
+\end{equation*}
+\end{defn}
+
+This is explained further e.g.\ by Lauder~\citep[\S 3.5]{Lauder2006}.  
+It means that the matrix~$\Phi$ converges on $\mathbf{P}^{1}(\mathbf{Q}_q)$ 
+with disks of radius strictly less than~$1$ removed around the roots of~$r(t)$ 
 and~$\infty$.  Thus, the entries of~$\Phi$ can be approximated modulo 
 any given power of~$p$ by rational functions with denominators some 
 power of~$r(t)$.  We provide explicit estimates for this convergence 

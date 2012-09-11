@@ -21,7 +21,7 @@ can be stated as follows:
 Let $R$ be a ring\footnotemark and suppose that a polynomial $f \in R[X]$ is 
 presented in the usual monomial basis as $f(X) = \sum_{i=0}^{n} a_i X^i$.
 Suppose that $r \in R[X]$ is another polynomial, called the \emph{radix}, 
-such that $m = \deg(r) \geq 1$ and the leading coefficient of $r$ is invertible 
+such that $m = \deg(r) \geq 1$ and the leading coefficient of~$r$ is invertible 
 in $R$.  Compute polynomials $b_0, \dotsc, b_{\ell} \in R[X]$ in terms of 
 the monomial basis such that 
 \begin{equation*}
@@ -135,31 +135,32 @@ applies upon observing that only the inverse of the leading
 coefficient is required in the division process.
 
 \begin{prop} \label{prop:mul}
-There exists an algorithm returning the degree~$2n$ product 
-of two polynomials of degree~$n$ in $\mathcal{O}(n \log n)$ 
+There exists an algorithm returning the degree~$2n$ product of two 
+polynomials of degree~$n$ in $\mathcal{O}(n \log n \log \log n)$ 
 ring operations.
 \end{prop}
 
 Such an algorithm can be constructed based on Fast Fourier Transformation 
-techniques, see for example~\citep[\S 8]{GathenGerhard2003}.
+techniques, see for example~\citep[\S Theorem~8.23]{GathenGerhard2003} or 
+\citep[\S 4]{Bernstein2008}.
 
 \begin{prop} \label{prop:div1}
 There exists an algorithm returning the degree~$n$ quotient 
 in a Euclidean division with a dividend of degree~$2n$ 
-and a divisor of degree~$n$ in $\mathcal{O}(n \log n)$ 
+and a divisor of degree~$n$ in $\mathcal{O}(n \log n \log \log n)$ 
 ring operations.
 \end{prop}
 
 This result can be derived from the previous one by exhibiting an algorithm 
 for Euclidean division with the same asymptotic time requirements as 
-multiplication, see for example~\citep[\S 11]{GathenGerhard2003}.
+multiplication, see for example~\citep[\S 17]{Bernstein2008}.
 
-\begin{prop} \label{prop:div2}
+\begin{cor} \label{cor:div2}
 In the unbalanced case for a dividend of degree~$n$ and 
 a divisor of degree~$m$, where $m \leq n$, there exists an 
 algorithm that returns the degree~\mbox{$n-m$} quotient in 
-$\mathcal{O}(n \log m)$ ring operations.
-\end{prop}
+$\mathcal{O}(n \log m \log \log m)$ ring operations.
+\end{cor}
 
 This can be achieved by splitting the dividend into parts of degree~$2m$ 
 and applying the previous algorithm in these balanced divisions, carefully 
@@ -172,7 +173,7 @@ combining the results.
 The naive solution to the radix conversion problem consists of 
 obtaining the sequence of polynomials $b_0, \dotsc, b_{\ell}$ 
 by performing $\ell$ Euclidean divisions with remainder.  Letting 
-{\sc DivRem()} denote a routine that performs Euclidean division, 
+{\sc DivRem} denote a routine that performs Euclidean division, 
 this approach can be formalised as follows:
 
 \begin{algorithm}[H]
@@ -191,9 +192,9 @@ this approach can be formalised as follows:
 \end{algorithm}
 
 We can repeatedly apply the previous result on the complexity 
-of unbalanced divisions, Proposition~\ref{prop:div2}, with 
-fixed divisor~$r$.  The conclusion is that the complexity 
-of this algorithm is $\mathcal{O} \bigl( n^2 m^{-1} \log m \bigr)$.
+of unbalanced divisions, Corollary~\ref{cor:div2}, with fixed 
+divisor~$r$.  The conclusion is that the complexity of this 
+algorithm is $\mathcal{O} \bigl( n^2 m^{-1} \log m \log \log m \bigr)$.
 
 % Divide and conquer  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -268,23 +269,22 @@ before proceeding with the Euclidean divisions, by computing $k-1$ squares
 involving input polynomials of length $2^{i} m + 1$ for 
 $i = 0, \dotsc, k-2$.  This part of the algorithm has complexity 
 \begin{equation*}
-\mathcal{O} \biggl( \sum_{i=0}^{k-2} \bigl(2^{i} m\bigr) \log \bigl(2^{i} m\bigr) \biggr)
+\mathcal{O} \biggl( \sum_{i=0}^{k-2} \bigl(2^{i} m\bigr) 
+    \log \bigl(2^{i} m\bigr) \log \log \bigl(2^{i} m\bigr) \biggr)
 \end{equation*}
-which can be simplified to 
-$\mathcal{O}\bigl(2^{k-1} m \log \bigl(2^{k-1} m\bigr) \bigr)$ 
-or $\mathcal{O}(n \log n)$.
-
+which can be simplified to $\mathcal{O}(n \log n \log \log n)$.
 By inspection, there are $2^i$ divisions with dividend of length 
 $2^{k-i} m$ and divisor of length $2^{k-1-i} m + 1$
 for $i = 0, \dotsc, k-1$.  Thus, the complexity is 
 \begin{equation*}
 \mathcal{O} \biggl( \sum_{i=0}^{k-1} \bigl(2^{k-1-i} m + 1\bigr) 
-    \log \bigl(2^{k-1-i} m + 1\bigr) \biggr)
+    \log \bigl(2^{k-1-i} m + 1\bigr) 
+    \log \log \bigl(2^{k-1-i} m + 1\bigr) \biggr)
 \end{equation*}
-which can be simplified to $\mathcal{O} \bigl( n \log n \bigr)$.
+which can be simplified to $\mathcal{O} \bigl( n \log n \log \log n \bigr)$.
 
 Thus, the overall complexity of Algorithm~\ref{alg:DivConquer} is 
-$\mathcal{O}(n \log n)$.
+$\mathcal{O}(n \log n \log \log n)$.
 
 % Euclidean division with precomputed inverses  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -292,8 +292,8 @@ $\mathcal{O}(n \log n)$.
 
 Since the first part of the divide and conquer algorithm, the 
 precomputation of the powers of the radix, already forces a 
-time complexity of at least $\mathcal{O} (n \log n)$ ring operations 
-we cannot hope for an asymptotic improvement.
+time complexity of at least $\mathcal{O} (n \log n \log \log n)$ 
+ring operations we cannot hope for an asymptotic improvement.
 
 However, by precomputing further data the cost of the repeated 
 Euclidean divisions can be reduced significantly.  This is 

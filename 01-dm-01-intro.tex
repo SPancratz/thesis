@@ -97,11 +97,10 @@ Z(E, T) = \frac{1 - a_q T + q T^2}{(1 - T)(1 - q T)}
 where $a_q = q + 1 - \abs{E(\mathbf{F}_{q})}$.  However, this 
 approach is only feasible for the smallest of instances of 
 Problem~\ref{prob:dm-pointcounting}.  More sophisticated algorithms 
-have been developed, and we refer the reader to a survey by 
+have been developed, and we refer the reader to surveys by 
 Chambert-Loir~\citep{ChambertLoir2008} on point counting algorithms 
-in general  and a survey by Kedlaya~\citep{Kedlaya2004} on $p$-adic 
-methods in particular.  In the following, we only mention a few 
-different approaches.
+in general and Kedlaya~\citep{Kedlaya2004} on $p$-adic methods in 
+particular.  In the following, we only mention a few different approaches.
 
 In~1985, Schoof~\citep{Schoof1985} proposed an $\ell$-adic algorithm for 
 computing the zeta function of an elliptic curve~$E$.  The main idea behind 
@@ -112,9 +111,10 @@ remainder theorem.  Schoof's algorithm has subsequently been improved by
 Atkin~\citep{Atkin1988,Atkin1992} and Elkies~\citep{Elkies1991,Elkies1998}, 
 leading to a practical algorithm with runtime polynomial in $\log q$.  
 It has also been generalised, for example to higher genus curves by 
-Pila~\citep{Pila1990}, however, the runtime remains exponential in the genus.
+Pila~\citep{Pila1990}, however, the runtime of these algorithms remains 
+exponential in the genus.
 
-Another group of algorithms applicable primarily for elliptic curves 
+Another group of algorithms applicable primarily to elliptic curves 
 is based on the \emph{canonical lift} of a curve from~$\mathbf{F}_{q}$ 
 to the ring~$\mathbf{Z}_{q}$, which is the ring of integers of the 
 unique unramified extension of $\mathbf{Q}_{p}$ with residue field 
@@ -161,7 +161,7 @@ We present our results pertaining to the main goal of this thesis in
 Part~{I}, which is to demonstrate the practicality of Lauder's deformation 
 method for a wide class smooth projective hypersurfaces.  We build on 
 the work of Lauder~\citep{Lau04a} and Gerkmann~\citep{Gerkmann2007}, 
-resolving bottlenecks in previous computations employing both theoretical 
+resolving bottlenecks in previous computations by employing both theoretical 
 advances as well as improved implementation details.  
 In Chapter~\ref{ch:01-DMIntro}, we provide an overview of the deformation 
 method and briefly revisit some of the underlying theoretical machinery 
@@ -179,7 +179,7 @@ matrix.  Existing implementations~\citep{Lau04a,Gerkmann2007,Kedlaya2011}
 make use of Gr\"obner base computations for rational functions in order 
 to carry out effective computations in de~Rham cohomology spaces, which 
 leads to poor practical performance and limits the deformation method to 
-hypersurfaces defined by very sparse polynomials.  We reduce the impact 
+hypersurfaces defined by sparse polynomials.  We reduce the impact 
 of this step by treating it as an explicit finite-dimensional linear 
 algebra problem.  We collect the remaining steps of the deformation 
 method in Chapter~\ref{ch:01-Main}  as we do not present any original 

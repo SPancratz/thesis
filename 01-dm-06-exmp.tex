@@ -4,32 +4,30 @@ In this chapter we present a small selection of computational examples,
 demonstrating the employability of the deformation method for point counting 
 in practice.
 
-We point out that the runtimes that we include in our presentation 
-do not include the computation of the exponents of the connection 
+
+
+We point out that our computations are not a priori provably 
+correct as we are using the heuristic $t$-adic bounds from 
+Remark~\ref{rem:KedlayaTuitman}.  In some cases, we explicitly 
+verify the output by computing the exponents of the connection 
 matrix occurring in Theorem~\ref{thm:KedlayaTuitman}.  However, 
-this computation is not time-consuming when compared to the remaining 
-parts of the deformation method.  The omission is a consequence of 
-our implementation\footnotemark in the C~language on top of 
-FLINT~\citep{FLINT}, lacking the required functionality of root finding 
-algorithms and number field arithmetic that is necessary for the 
-computation of the exponents.
+this computation is not time-consuming when compared to the 
+remaining parts of the deformation method.  The omission is 
+a consequence of our implementation\footnotemark in the C~language 
+on top of FLINT~\citep{FLINT}, lacking the required functionality 
+of root finding algorithms and number field arithmetic that is 
+necessary for the computation of the exponents.  
 
 \footnotetext{The source code is available in a git repository at 
 \url{https://github.com/SPancratz/deformation}.}
 
-In some cases, we compute the bounds derived from 
-Theorem~\ref{thm:KedlayaTuitman} by hand in order to arrive at 
-provably correct results.  But in other cases we use the heuristic 
-bounds from Remark~\ref{rem:KedlayaTuitman}.  For practical purposes, 
-this does not present a problem at all:  we know that the correct 
-output~$p(T)$ is the reverse of a Weil polynomial, that is, 
-it is a polynomial with constant term one and all its roots have 
+For practical purposes, this does not present a problem at all:  we know 
+that the correct output~$p(T)$ is the reverse of a Weil polynomial, that 
+is, it is a polynomial with constant term one and all its roots have 
 the same absolute value.  This property allows us to at least 
 heuristically verify the output, even when computed with insufficient 
-precision.
-
-Further work has been carried out by Kedlaya~\citep{Kedlaya2008} on 
-verifying the correctness of a computation that has been carried out 
+precision.  Further work has been carried out by Kedlaya~\citep{Kedlaya2008} 
+on verifying the correctness of a computation that has been carried out 
 with intermediate $p$-adic precisions too low to be provably correct. 
 The methods investigated and implemented are crucially based on the 
 fact that the polynomial 
@@ -47,15 +45,15 @@ we describe some runtimes as \emph{near instantaneous}, by which we mean
 that the resolution provided by the C~language command {\tt{clock()}} is 
 insufficient.
 
-\section{A genus~$6$ curve}
+\section{A genus six curve}
 
-We consider the family of genus~$6$ curves given by 
-\begin{equation}
-P = x^5 + y^5 + z^5 + t x y z^3 \in \mathbf{F}_3[t][x,y,z]
-\end{equation}
+We consider the family of genus six curves given by 
+\begin{equation*}
+x^5 + y^5 + z^5 + t x y z^3 \in \mathbf{F}_3[t][x,y,z]
+\end{equation*}
 which Gerkmann considers in~\citep[\S 7.4]{Gerkmann2007} with 
 $a = [\mathbf{F}_q : \mathbf{F}_p] = 40$ and $t_1$ a 
-generator for $\mathbf{F}_{3^{40}}^{\times}$.  As the dimension 
+generator for~$\mathbf{F}_{3^{40}}^{\times}$.  As the dimension 
 $n - 1$ of the hypersurface $X_{t_1}$ is odd, we only need to 
 determine the bottom half of the coefficients of the polynomial 
 $p(T)$ directly.  In our computation we use the following choice of 
@@ -68,7 +66,7 @@ timings reported in~\citep[\S 7.4]{Gerkmann2007} where possible,
 providing Gerkmann's timings in parentheses.  The computation of the 
 Gauss--Manin connection is near instantaneous with our implementation.  
 The computation of the Frobenius matrix on the diagonal fibre takes 
-$0.04$~seconds ($5.86$ minutes).  The local solution $C(t)$, its 
+$0.04$~seconds ($5.86$~minutes).  The local solution $C(t)$, its 
 inverse $C(t)^{-1}$ and the local expansion for $p^{-1}F_p$ on 
 $\HdR^n(\mathfrak{U}/\mathfrak{S})$ are computed in $0.38$, $0.11$ 
 and $1.28$~seconds, respectively, adding up to $1.77$~seconds ($83$ seconds). 
@@ -86,9 +84,9 @@ of precisions using Theorem~\ref{thm:KedlayaTuitman}.
 
 We consider another example that allows for comparison with 
 Gerkmann~\citep[\S 7.5]{Gerkmann2007},
-\begin{equation}
+\begin{equation*}
 x_0^4 + x_1^4 + x_2^4 + x_3^4 + t x_0 x_1 x_2 x_3 \in \mathbf{F}_3[t][x_0,x_1,x_2,x_3].
-\end{equation}
+\end{equation*}
 Here, we choose $a = 20$ and $t_1 = \alpha^{2345}$ where 
 $\alpha$ is a generator for $\mathbf{F}_{3^{20}}^{\times}$. 
 As the dimension $n - 1 = 2$ is even, a priori the sign of the 
@@ -135,12 +133,12 @@ parameters were sufficient.
 The final example from Gerkmann~\citep[\S 7.6]{Gerkmann2007}, 
 containing a diagonal fibre and hence being suitable for comparison, 
 is given by 
-\begin{equation}
+\begin{equation*}
 x_0^5 + x_1^5 + x_2^5 + x_3^5 + t x_0^2 x_1 x_2 x_3 \in \mathbf{F}_2[t][x_0,x_1,x_2,x_3],
-\end{equation}
+\end{equation*}
 with the point $t_1$ chosen as a generator of $\mathbf{F}_{2^{10}}^{\times}$. 
 Note that here we do \emph{not} have $p \geq n$ so the Frobenius matrix is not 
-automatically integral;  specifically, we find that $r = 1$, $s = 4$.  Thus, 
+automatically integral;  specifically, we find that $\delta = 5$.  Thus, 
 we can not employ Remark~\ref{rem:N0Surfaces}.  Moreover, the 
 dimension~$n-1 = 2$ of the hypersurface $X_{t_1}$ is even and hence 
 the sign of the functional equation is a priori unknown.
@@ -171,10 +169,10 @@ only to observe that some of them have negative $2$-adic valuation.
 \section{A cyclic cubic threefold}
 
 We now consider the family of threefolds given by 
-\begin{equation}
+\begin{equation*}
 -x_0^3 + x_1^3 + x_2^3 + x_3^3 + x_4^3 
 + t\bigl((x_1+x_2)(x_1+2x_3)(x_1+3x_4) + 3 x_2 x_3 (x_1 + x_2 + x_4)\bigr) 
-\end{equation}
+\end{equation*}
 defined over $\mathbf{F}_{7}$.  With the final fibre defined by $t_1 = 1$, 
 this is an example that is extensively discussed by 
 Kedlaya~\citep[Example~1.6.1]{Kedlaya2011}.  
@@ -205,7 +203,7 @@ agrees with Kedlaya's work~\citep[p.~20]{Kedlaya2011}.
 
 \section{A generic quintic curve}
 
-A family of quintic curves is given by a homogenous polynomial 
+A family of quintic curves is given by a homogeneous polynomial 
 in three variables of degree~$5$, which generically has 
 $\binom{3+5-1}{5} = 21$ non-zero coefficients.  We choose 
 \begin{equation*}
@@ -244,7 +242,7 @@ have absolute value $11^{-1/2}$ as required.
 
 \section{A generic sextic curve}
 
-A family of sextic curves is given by a homogenous polynomial 
+A family of sextic curves is given by a homogeneous polynomial 
 in three variables of degree~$6$, which generically has 
 $\binom{3+6-1}{6} = 28$ non-zero coefficients.  We choose 
 \begin{equation*}
@@ -284,7 +282,7 @@ find that the absolute value of its complex roots is~$5^{-1/2}$.
 
 \section{A generic quartic surface}
 
-We consider a generic quartic surface, defined by a homogenous equation 
+We consider a generic quartic surface, defined by a homogeneous equation 
 with $35$~non-zero coefficients,
 \begin{equation*}
 \begin{split}

@@ -35,7 +35,7 @@ We begin by observing that, upon setting
 \begin{equation*}
 \Phi = C \Phi_0 \sigma(C)^{-1},
 \end{equation*}
-the above differential system is equivalent to the homogenous system 
+the above differential system is equivalent to the homogeneous system 
 \begin{equation} \label{eq:01-GMDE-Homogenous}
 \Bigl(\frac{d}{dt} + M\Bigr) C = 0
 \end{equation}
@@ -122,8 +122,8 @@ Kedlaya~\citep[Remark~18.3.4]{Kedlaya2010} also includes another bound,
 \ord_p(C_i) \geq (b - 1) \ord_p(M) 
             - \bigl(2 \delta + (n - 1)\bigr) \floor{\log_p i},
 \end{equation*}
-which sometimes is better than the estimate used in the previous 
-theorem.
+which is better than the estimate used in the previous theorem whenever 
+$\ord_p(M)$ is positive.
 \end{rem}
 
 \begin{thm}
@@ -296,22 +296,8 @@ as a local power series expansion around $t = 0$.  In order to evaluate it
 at a second point $t = t_1$, we wish to $p$-adically approximate it 
 using rational functions with denominators a power of $r(t)$, which 
 is possible as the entries of the matrix~$\Phi$ are \emph{overconvergent 
-functions} as described e.g.\ by Lauder~\citep[\S 3.5]{Lauder2006}.  For 
-convenience, we include the definition here:
-
-\begin{defn} \label{defn:Overconvergence}
-Given indeterminates $z_1, \dotsc, z_k$, 
-the ring $\mathbf{Q}_q \langle z_1, \dotsc, z_k \rangle^{\dagger}$ of 
-\emph{overconvergent} power series consists of power series of the form 
-\begin{equation*}
-\sum_{i_1,\dotsc,i_k \geq 0} a_{i_1,\dotsc,i_k} z_1^{i_1} \dotsm z_k^{i_k}
-\end{equation*}
-such that there exist real numbers $\epsilon > 0$ and $\nu$ 
-such that, for all $i_1, \dotsc, i_k \geq 0$, 
-\begin{equation*}
-\ord_p (a_{i_1,\dotsc,i_k}) \geq \epsilon(i_1 + \dotsb + i_k) + \nu.
-\end{equation*}
-\end{defn}
+functions} as defined in Definition~\ref{defn:Overconvergence} and 
+described e.g.\ by Lauder~\citep[\S 3.5]{Lauder2006}.
 
 This step, the analytic continuation of the local expansion, is described 
 by Lauder in~\citep[\S 5.2]{Lauder2006} and the computational details are 
@@ -327,16 +313,21 @@ Besides the work of Lauder~\citep[\S 8.1]{Lau04a}, Gerkmann also described
 suitable results in~\citep[\S 6]{Gerkmann2007}, however the estimates are 
 not sharp in practice.  There has been recent progress by Kedlaya and 
 Tuitman~\citep[Theorem~2.1]{KedlayaTuitman2012}, which we present in a 
-slightly simplified form:
+slightly simplified and weakened form:
 
 \begin{thm} \label{thm:KedlayaTuitman}
-Suppose that the poles of the connection matrix~$M$ have distinct 
-reductions modulo~$p$, that its poles are simple, and that at each 
-pole~$z$ the \emph{exponents} of the connection $\lambda_1, \dotsc, \lambda_b$,
-which are defined as the eigenvalues of $(t-z) M \vert_{t=z}$ and known to be 
-rational numbers, have non-negative $p$-adic valuation.  Then, modulo $p^N$, 
-the matrix $\Phi(t)$ for the action of $p^{-1} F_p$ has a pole at $z$ of order 
-at most 
+Let $\mathfrak{Z}$ denote the complement of the open dense 
+subscheme $\mathfrak{S}$ of $\mathbf{P}^{1}(\mathbf{Q}_q)$ 
+and let $z$ be an unramified geometric point of $\mathfrak{Z}$ 
+such that $\mathfrak{Z}$ does not contain any other points 
+with the same reduction modulo~$p$.  For a fixed a basis for 
+$\HdR^n(\mathfrak{U}/\mathfrak{S})$, suppose that the matrix 
+for the connection~$\nabla$ has at most a simple pole at~$z$ 
+and that the exponents $\lambda_1, \dotsc, \lambda_{b}$, 
+which are defined as the eigenvalues of $(t - z) M \vert_{t=z}$ 
+and known to be rational numbers, have non-negative $p$-adic 
+valuation.  Then the matrix~$\Phi$ for the action of $p^{-1} F_p$ 
+has a pole at $z$ of order at most 
 \begin{equation} \label{eq:KedlayaTuitman}
 \max_{i} \lambda_i - p \min_{i} \lambda_i + p g(N)
 \end{equation}
@@ -405,7 +396,7 @@ and Chiarellotto~\citep{BalChi94}.
 Thus, the remaining two steps in the deformation method are as follows.  
 Firstly, we obtain the matrix of the $q$th-power Frobenius from the matrix of 
 the $p$th-power Frobenius.  Secondly, we compute its reverse characteristic 
-polynomial to suitable $p$-adic precision in order to recover the zeta 
+polynomial to suitable \mbox{$p$-adic} precision in order to recover the zeta 
 function.
 
 \subsection{Computing the action of $q^{-1} F_q$ on $\HdR^{n}(\mathfrak{U}_{t_1})$}
@@ -424,9 +415,9 @@ $\Phi_{t_1}, \Phi_{t_1}^{\sigma}, \dotsc, \Phi_{t_1}^{\sigma^{a-1}}$
 are at least $-\delta$ by Lemma~\ref{lem:01-FrobBound}.
 
 It now follows from Proposition~\ref{prop:matrixproductval} that 
-it suffices to compute the matrix~$\Phi_{t_1}$ to $p$-adic precision~$N_2$ 
-at least \mbox{$N_1 + (a-1) \delta$} in order to determine $\Phi_{t_1}^{(q)}$ 
-to $p$-adic precision~$N_1$.
+it suffices to compute the matrix~$\Phi_{t_1}$ to \mbox{$p$-adic} 
+precision~$N_2$ at least \mbox{$N_1 + (a-1) \delta$} in order to 
+determine $\Phi_{t_1}^{(q)}$ to \mbox{$p$-adic} precision~$N_1$.
 
 \subsection{Computing characteristic polynomials}
 
@@ -444,7 +435,7 @@ on $\HdR^n(\mathfrak{U}_{t_1})$, much better bounds are available.
 Define $\delta = \delta(n,p)$ as in Lemma~\ref{lem:01-FrobBound} and 
 suppose that $\tilde{\Phi}_{t_1}^{(q)}$ is an approximation to 
 $\Phi_{t_1}^{(q)}$ with 
-$\ord_p(\Phi_{t_1}^{(q)}-\tilde{\Phi}_{t_1}^{(q)}) \geq N + \delta$.  
+$\ord_p\bigl(\Phi_{t_1}^{(q)}-\tilde{\Phi}_{t_1}^{(q)}\bigr) \geq N + \delta$.
 Then 
 \begin{equation*}
 \ord_p \Bigl( \det\bigl(1 - t \Phi_{t_1}^{(q)}\bigr) 
@@ -456,9 +447,8 @@ Then
 See Gerkmann~\citep[Lemma~3.3, Lemma~3.4]{Gerkmann2007}.
 \end{proof}
 
-The previous lemma allows us to take 
-$N_1 = N_0 + r + s$ in our description of the deformation 
-algorithm.
+The previous lemma allows us to take $N_1 = N_0 + \delta$ in our 
+description of the deformation algorithm.
 
 \subsection{Computing Weil polynomials}
 
@@ -489,7 +479,8 @@ which follows readily from its proof.
 
 \begin{rem}
 We observe that the sign $\epsilon = \sgn(\det(q^{-1} F_q)) = 1$ 
-whenever $n$ is even.
+whenever $n$ is even.  This can be seen from the statement of the 
+Weil conjectures in Theorem~\ref{thm:01-Zetafunctions}.
 \end{rem}
 
 \begin{rem}
