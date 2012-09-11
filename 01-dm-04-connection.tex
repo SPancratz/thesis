@@ -953,7 +953,8 @@ For this example, Lauder's {\sc Magma} routine takes 4.52 days and requires
 
 We consider the family of surfaces given by
 \begin{multline*}
-W^4 + X^4 + Y^4 + Z^4 + t (-3 W^3 X + 5 W^3 Y + 7 W^2 X Y \\ - 23 W X^2 Y - 29 X^2 Y Z + 31 Y^2 Z^2 - 37 W X Y Z)
+W^4 + X^4 + Y^4 + Z^4 + t (-3 W^3 X + 5 W^3 Y + 7 W^2 X Y \\ 
+                           - 23 W X^2 Y - 29 X^2 Y Z + 31 Y^2 Z^2 - 37 W X Y Z)
 \end{multline*}
 In this case, we obtain the partitions $16 = 14 \times 1 + 1 \times 2$, 
 $164 = 32 \times 1 + 1 \times 4 + 1 \times 128$ and 
@@ -981,12 +982,16 @@ using nearly 5GB of memory.
 
 \section{Further remarks}
 
-[[TODO:  Point out that we restrict ourselves to families defined 
-over Fp at this point so that we can assume the lift is defined 
-over Z and hence the connection matrix is over Q(t).  We are lazy 
-and compute exactly over Q(t) as this is seemingly fast enough 
-already at this point.  Could do better still by clearing denominators 
-as a power of r(t) up front (note r(0) is a unit) and then working 
-over Zp[t] to some precision.  Also point out that in general this 
-means computing over a number field or Qq.]]
+We remark that we have restricted our computations to families~$X$ 
+defined over the prime field~$\mathbf{F}_p$, with lifts~$\mathcal{X}$ 
+defined by a polynomial $P \in \mathbf{Z}[t][x_0,\dotsc,x_n]$ over 
+the integers.  Thus, the computation of the connection takes place 
+over the field of rational functions~$\mathbf{Q}(t)$.  We note that 
+our implementation using exact arithmetic demonstrates a significant 
+improvement over previous work already.  However, as part of the 
+deformation method, we only require a $p$-adic approximation of the 
+connection matrix.  Further practical improvements should be possible 
+by developing an implementation that precomputes the Macaulay resultant 
+$r(t) \in \mathbf{Z}[t]$ and then performs arithmetic operations 
+in~$\mathbf{Q}_p[t, r(t)^{-1}]$ to finite $p$-adic precision.
 
