@@ -27,11 +27,10 @@ Chiarellotto~\citep{BalChi94}, in this
 part of the algorithm we can work with the algebraic de~Rham cohomology 
 spaces~$\HdR^{\bullet}(\mathfrak{X}/\mathfrak{S})$ of the generic 
 fibres, which are computationally more accessible.  Solving this differential 
-equation and using the Frobenius action 
-on~$\HdR^{\bullet}(\mathfrak{X}_{t_0})$ as the initial 
-condition, by an appropriate evaluation we can compute the Frobenius matrix 
-for~$\HdR^{\bullet}(\mathfrak{X}_{t_1})$ and hence recover the 
-zeta function of the fibre~$X_{t_1}$.
+equation and using the Frobenius action on~$\Hrig^{\bullet}(X_{t_0})$ 
+as the initial condition, by an appropriate evaluation we can compute 
+the Frobenius matrix for~$\Hrig^{\bullet}(X_{t_1})$ and hence recover 
+the zeta function of the fibre~$X_{t_1}$.
 
 % Families of smooth, projective hypersurfaces %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -65,8 +64,8 @@ $\mathfrak{X}$ and $\mathfrak{S}$ of $\mathcal{X}$ and $\mathcal{S}$ as
 \mathfrak{X} & = \Spec\bigl( \mathbf{Q}_q[t,r(t)^{-1}][x_0,\dotsc,x_n] / (P)\bigr), \\
 \mathfrak{S} & = \Spec\bigl( \mathbf{Q}_q[t,r(t)^{-1}] \bigr),
 \end{align*}
-respectively.  Moreover, we let $X$ and $S$ denote the projections 
-of $\mathcal{X}$ and $\mathcal{S}$ to characteristic~$p$. 
+respectively.  Moreover, we let $X$ and $S$ denote the reductions 
+of $\mathcal{X}$ and $\mathcal{S}$ modulo the prime~$p$. 
 Finally, we define complements $\mathcal{U}$, $\mathfrak{U}$, and $U$ 
 of $\mathcal{X}$, $\mathfrak{X}$, and $X$, respectively, in the 
 ambient projective $n$-space.
@@ -77,8 +76,8 @@ diagonal, and that $t_1 \in S$ is a non-zero point.
 \end{notation}
 
 \begin{notation}
-Furthermore, as an artefact of our particular choice of basis 
-for the cohomology space $\HdR^n(\mathfrak{U}/\mathfrak{S})$ 
+Furthermore, as an artefact of our particular choice of $\mathbf{Q}(t)$-vector 
+space basis for the cohomology space $\HdR^n(\mathfrak{U}/\mathfrak{S})$ 
 in Definition~\ref{defn:01-04-basis}, we assume that $d \geq 2$ 
 whenever $n$ is odd and $d \geq 3$ whenever $n$ is even.
 \end{notation}
@@ -89,52 +88,11 @@ projective hypersurface over $\mathbf{F}_p$, we see that our
 assumptions imply $p \nmid d$.
 \end{rem}
 
-% Gauss--Manin connection and Frobenius structure %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Gauss--Manin connection and Frobenius structures}
-
 We will now briefly describe the actions of the Gauss--Manin connection 
-and Frobenius on the vector space $\HdR^{n}(\mathfrak{U}/\mathfrak{S})$, 
-following Tuitman~\citep[\S 3.4.2, \S 3.6.1]{Tuitman2011} and 
-Walker~\citep[\S 3.2.2.2]{Walker2009}.
-
-Suppose that $(v_1,\dotsc,v_b)$ is a basis for the finite-dimensional 
-vector space $\HdR^{n}(\mathfrak{U}/\mathfrak{S})$ over 
-$\mathbf{Q}_q[t,r(t)^{-1}]$.  The Gauss--Manin connection is a map 
-\begin{equation*}
-\nabla \colon \HdR^{n}(\mathfrak{U}/\mathfrak{S}) 
-    \to \Omega_{\mathfrak{S}}^{1}
-    \otimes_{\mathbf{Q}_q[t,r(t)^{-1}]} \HdR^{n}(\mathfrak{U}/\mathfrak{S})
-\end{equation*}
-and its Leibniz-linear action is represented by a matrix~$M$ over 
-$\mathbf{Q}_q[t,r(t)^{-1}]$ with 
-\begin{equation*}
-\nabla(v_j) = dt \otimes \sum_{i=1}^{b} M_{ij} v_i
-\end{equation*}
-As the polynomial~$P$ is a polynomial over the integers and 
-as our family~$X$ is defined over base field~$\mathbf{F}_p$ 
-already, the entries of~$M$ actually lie in~$\mathbf{Q}[t,r(t)^{-1}]$. 
-We present further details of this construction and give an explicit 
-computational routine for the computation of the matrix~$M$ in 
-Chapter~\ref{ch:GMConnection}.
-
-Now let $F_p$ denote the standard lift of the $p$-th power Frobenius 
-from $\mathbf{F}_q$ to $\mathbf{Q}_q[t]$, which is equal to 
-$\sigma \in \Gal(\mathbf{Q}_q/\mathbf{Q}_p)$ on $\mathbf{Q}_q$ and 
-is extended to $\mathbf{Q}_q[t]$ by sending $t$ to $t^p$.  Here, $\sigma$ 
-is the unique lift of the $p$-th power Frobenius map to $\mathbf{Q}_q$.  
-The map 
-\begin{equation*}
-p^{-1} F_p \colon (p^{-1} F_p)^{*} \HdR^{n}(\mathfrak{U}/\mathfrak{S}) 
-    \to \HdR^{n}(\mathfrak{U}/\mathfrak{S})
-\end{equation*}
-can be represented by a matrix~$\Phi$ such that 
-\begin{equation*}
-p^{-1} F_p (v_j) = \sum_{i=1}^{b} \Phi_{ij} v_i.
-\end{equation*}
-It can be shown that the entries of~$\Phi$ are in fact overconvergent 
-power series, that is, they lie in the ring 
-$\mathbf{Q}_q\langle t, r(t)^{-1}\rangle^{\dagger}$ defined as follows:
+and Frobenius on the vector spaces $\HdR^{n}(\mathfrak{U}/\mathfrak{S})$ 
+and $\Hrig^{n}(U/S)$, following Tuitman~\citep[\S 3.4.2, \S 3.6.1]{Tuitman2011}
+and Walker~\citep[\S 3.2.2.2]{Walker2009}.  As we will need this later, 
+we begin by defining the notion of \emph{overconvergent} power series:
 
 \begin{defn} \label{defn:Overconvergence}
 Given indeterminates $z_1, \dotsc, z_k$, 
@@ -150,6 +108,50 @@ such that, for all $i_1, \dotsc, i_k \geq 0$,
 \end{equation*}
 \end{defn}
 
+Now suppose that $(v_1,\dotsc,v_b)$ is a basis for the finite-dimensional 
+module $\HdR^{n}(\mathfrak{U}/\mathfrak{S})$ over 
+$\mathbf{Q}_q[t,r(t)^{-1}]$.  Moreover, we suppose this is also a basis 
+for the module $\Hrig^{n}(U/S)$ over 
+$\mathbf{Q}_q\langle t, r(t)^{-1} \rangle^{\dagger}$, slightly abusing 
+notation by relying on a comparison theorem due to Baldassarri and 
+Chiarellotto~\citep{BalChi94}.  The Gauss--Manin connection is a map 
+\begin{equation*}
+\nabla \colon \HdR^{n}(\mathfrak{U}/\mathfrak{S}) 
+    \to \Omega_{\mathfrak{S}}^{1}
+    \otimes_{\mathbf{Q}_q[t,r(t)^{-1}]} \HdR^{n}(\mathfrak{U}/\mathfrak{S})
+\end{equation*}
+and its Leibniz-linear action is represented by a matrix~$M$ over 
+$\mathbf{Q}_q[t,r(t)^{-1}]$ with 
+\begin{equation*}
+\nabla(v_j) = dt \otimes \sum_{i=1}^{b} M_{ij} v_i.
+\end{equation*}
+As the connection~$\nabla$ can be defined solely in algebraic terms, 
+it also induces an action on $\Hrig^{n}(U/S)$.
+
+We note that in the examples we consider the polynomial~$P$ is a polynomial 
+over the integers and the family~$X$ is defined over base field~$\mathbf{F}_p$ 
+already, and hence that the entries of~$M$ can be chosen to lie 
+in~$\mathbf{Q}[t,r(t)^{-1}]$.  We present further details of this construction 
+and give an explicit computational routine for the computation of the 
+matrix~$M$ in Chapter~\ref{ch:GMConnection}.
+
+Now let $F_p$ denote the standard lift of the $p$-th power Frobenius 
+from $\mathbf{F}_q$ to $\mathbf{Q}_q[t]$, which is equal to 
+$\sigma \in \Gal(\mathbf{Q}_q/\mathbf{Q}_p)$ on $\mathbf{Q}_q$ and 
+is extended to $\mathbf{Q}_q[t]$ by sending $t$ to $t^p$, where $\sigma$ 
+is the unique lift of the $p$-th power Frobenius map to $\mathbf{Q}_q$.  
+The canonical Frobenius map~$\Frob_p$ on $\Hrig^{n}(U/S)$,
+\begin{equation*}
+\Frob_p \colon F_p^{*} \Hrig^{n}(U/S) \to \Hrig^{n}(U/S)
+\end{equation*}
+can be represented by a matrix~$\Phi$ such that 
+\begin{equation*}
+\Frob_p (v_j) = \sum_{i=1}^{b} \Phi_{ij} v_i,
+\end{equation*}
+where the entries of~$\Phi$ are in fact overconvergent power series, 
+that is, they lie in the ring $\mathbf{Q}_q\langle t, r(t)^{-1}\rangle^{\dagger}$ 
+defined as $\mathbf{Q}_q \langle t, z \rangle^{\dagger} / (1 - z r(t)^{-1})$.
+
 This is explained further e.g.\ by Lauder~\citep[\S 3.5]{Lauder2006}.  
 It means that the matrix~$\Phi$ converges on $\mathbf{P}^{1}(\mathbf{Q}_q)$ 
 with disks of radius strictly less than~$1$ removed around the roots of~$r(t)$ 
@@ -162,26 +164,39 @@ As we do not present any original, theoretic improvements to this part of
 the deformation method, that is, the computation of the action of Frobenius 
 on the generic fibre, we provide fewer details.
 
-[[TODO:  Mention that we omit lots of details of rigid cohomology etc, 
-give some appropriate references.]]
-
 Finally, we note that the Gauss--Manin connection and the action of 
 Frobenius satisfy the following commutative diagram,
 \begin{equation*}
 \def\labelstyle{\textstyle}
 \xymatrix@C=6.8em@R=4em{
-\HdR^{n}(\mathfrak{U}/\mathfrak{S}) \ar[d]_{q^{-1} F_q} \ar[r]^{\nabla} & 
-\Omega_{\mathfrak{S}}^{1} \otimes \HdR^{n}(\mathfrak{U}/\mathfrak{S}) \ar[d]^{q^{-1} F_q} \\
-\HdR^{n}(\mathfrak{U}/\mathfrak{S}) \ar[r]^{\nabla} & 
-\Omega_{\mathfrak{S}}^{1} \otimes \HdR^{n}(\mathfrak{U}/\mathfrak{S}) 
+\Hrig^{n}(U/S) \ar[d]_{\Frob_p} \ar[r]^{\nabla} & 
+\Omega_{S}^{1} \otimes \Hrig^{n}(U/S) \ar[d]^{d F_p \otimes \Frob_p} \\
+\Hrig^{n}(U/S) \ar[r]^{\nabla} & 
+\Omega_{S}^{1} \otimes \Hrig^{n}(U/S) 
 }
 \end{equation*}
-This implies that the matrices~$\Phi$ and~$M$ satisfy the $p$-adic 
-differential equation given by 
+where $d F_p (dt) = d(t^p) = p t^{p-1} dt$.  This implies that the 
+matrices~$M$ and~$\Phi$ satisfy the $p$-adic differential equation given by 
 \begin{equation*}
 \Bigl( \frac{d}{dt} + M \Bigr) \Phi = p t^{p-1} \Phi \sigma(M).
 \end{equation*}
 Further details regarding this can be found in \citep[\S 5]{Gerkmann2007}.
+
+Finally, we will be able to compute the zeta function of the 
+hypersurface~$X_{t_1}$ from the action of $\Frob_q$ on 
+$\Hrig^{n}(U_{t_1})$, using the following theorem:
+
+\begin{thm}
+The zeta function of the hypersurface~$X_{t_1}$ is of the form
+\begin{equation*}
+Z(X_{t_1},T) = \frac{p(T)^{(-1)^n}}{(1 - T) (1 - qT) \dotsm (1 - q^{n-1}T)},
+\end{equation*}
+where $p(T) = \det \bigl( 1 - T \Frob_q | \Hrig^n(U_{t_1}) \bigr)$ 
+is a polynomial defined over the integers.
+\end{thm}
+
+While the result is well known in the area, a convenient reference 
+is~\citep[Theorem~3.1]{Gerkmann2007}.
 
 % Outline %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -194,13 +209,12 @@ These are provided and justified in Chapter~\ref{ch:01-Main}.
 
 \begin{enumerate}
 \item[Step~$I$.]
-Let $\Phi_0$ denote the matrix for the action of $p^{-1} F_p$ on 
-$\HdR^{n}(\mathfrak{U}_0)$, which has entries in $\mathbf{Q}_p$.  
+Let $\Phi_0$ denote the matrix for the action of $\Frob_p$ on 
+$\Hrig^{n}(U_0)$, which has entries in $\mathbf{Q}_p$.  
 We compute an approximation to $p$-adic precision~$N_4$.
 \item[Step~$II$.]
 We compute the matrix~$M$, which denotes the connection matrix 
-on $\HdR^{n}(\mathfrak{U}/\mathfrak{S})$ and has entries in 
-$\mathbf{Q}[t,r(t)^{-1}]$.
+on $\HdR^{n}(\mathfrak{U}/\mathfrak{S})$ and has entries in~$\mathbf{Q}(t)$.
 \item[Step~$III$.]
 Let $C$ denote the matrix over $\mathbf{Q}[[t]]$ for the local 
 expansion of the solution to the $p$-adic differential equation 
@@ -209,26 +223,26 @@ modulo~$t^{K_2}$ to $p$-adic precision~$N_3$.  We also compute an
 approximation for the matrix~$C(t^p)^{-1}$ modulo~$t^{K_2}$ to $p$-adic 
 precision~$N_3'$.
 \item[Step~$IV$.]
-Let $\Phi(t)$ denote the matrix for the action of $p^{-1} F_p$ on 
-$\HdR^{n}(\mathfrak{U}_t)$, which satisfies the equation 
+Let $\Phi(t)$ denote the matrix for the action of $\Frob_p$ on 
+$\Hrig^{n}(U_t)$, which satisfies the equation 
 $\Phi(t) = C(t) \Phi_0 C(t^p)^{-1}$ and has entries in 
-$\mathbf{Q}_p[t,r(t)^{-1}]$.  We compute an approximation modulo~$t^{K_2}$ 
-to $p$-adic precision~$N_2$.
+$\mathbf{Q}_p\langle t,r(t)^{-1}\rangle^{\dagger}$.  We compute an 
+approximation modulo~$t^{K_2}$ to $p$-adic precision~$N_2$.
 \item[Step~$V$.]
-Let $\Phi_{t_1}$ denote the matrix for the action of $p^{-1} F_p$ 
-on $\HdR^{n}(\mathfrak{U}_{t_1})$, which has entries in $\mathbf{Q}_q$. 
+Let $\Phi_{t_1}$ denote the matrix for the action of $\Frob_p$ 
+on $\Hrig^{n}(U_{t_1})$, which has entries in $\mathbf{Q}_q$. 
 Firstly, we compute an approximation to $\Psi(t) = r(t)^{K_1} \Phi(t)$ 
 modulo~$t^{K_2}$ to $p$-adic precision~$N_2$.  We can then compute an 
 approximation for $\Phi_{t_1}$ to $p$-adic precision~$N_2$ as 
 $r(\hat{t}_1)^{-K_1} \Psi(\hat{t}_1)$.
 \item[Step~$VI$.]
-Let $\Phi_1^{(q)}$ denote the matrix for the action of $q^{-1} F_q$ on 
-$\HdR^{n}(\mathfrak{U}_{t_1})$, which satisfies 
+Let $\Phi_1^{(q)}$ denote the matrix for the action of $\Frob_q$ on 
+$\Hrig^{n}(U_{t_1})$, which satisfies 
 $\Phi_{t_1}^{(q)} = \Phi_{t_1} \sigma(\Phi_{t_1}) \dotsm \sigma^{a-1}(\Phi_{t_1})$ 
 and has entries in $\mathbf{Q}_q$.  We compute an approximation to this 
 matrix with $p$-adic precision~$N_1$.
 \item[Step~$VII$.]
-Let $p(T) = \det\bigl(1 - T q^{-1} F_q | \HdR^n(\mathfrak{U}_{t_1})\bigr)$, 
+Let $p(T) = \det\bigl(1 - T \Frob_q | \Hrig^n(U_{t_1})\bigr)$, 
 which is an integer polynomial.  We recover this exactly 
 by computing an approximation to the reverse characteristic polynomial 
 of $\Phi_{t_1}^{(q)}$ to $p$-adic precision~$N_0$.

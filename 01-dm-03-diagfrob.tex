@@ -47,7 +47,7 @@ Section~\ref{sec:01-04-hypersurfaces}.
 Finally, we recall the condition that $d \geq 2$ whenever 
 $n$ is odd and $d \geq 3$ whenever $n$ is even.  
 Our goal is to compute the matrix~$\Phi$ representing 
-the action of $p^{-1} F_p$ on $\Hrig^n(U) \cong \HdR^n(\mathfrak{U})$ 
+the action of $\Frob_p$ on $\Hrig^n(U) \cong \HdR^n(\mathfrak{U})$ 
 to $p$-adic precision~$N$.
 
 We now describe an explicit formula for the $b = \dim \HdR^n(\mathfrak{U})$ 
@@ -74,10 +74,10 @@ $p u_i - v_i = d (m - pr)$.
 Continuing with the notation set out above, let $\omega_1$ and $\omega_2$ 
 denote the forms in $\mathcal{B}_1 \cup \dotsb \cup \mathcal{B}_n$ 
 corresponding to $u$ and $v$, respectively.  
-Then $p^{-1} F_p (\omega_1) = 0$ unless, for all $i = 0, \dotsc, n$, 
+Then $\F_p (\omega_1) = 0$ unless, for all $i = 0, \dotsc, n$, 
 $p (u_i + 1) \equiv v_i + 1 \pmod{d}$.  In this case, 
 \begin{equation*}
-p^{-1} F_p (\omega_1) = 
+\F_p (\omega_1) = 
     (-1)^{u' + v'} \frac{(v' - 1)!}{(u' - 1)!} p^n \alpha_{u+1,v+1}^{-1} \omega_2
 \end{equation*}
 where $u + 1 = (u_0 + 1, \dotsc, u_n + 1)$ and similarly for $v + 1$.
@@ -126,7 +126,7 @@ we find that
 $n = q'(p-1) + r'$, noting that $r = r'$ and also setting 
 $k = (m-n)/(p-1) = q - q'$, }
 \lambda_m & = \sum_{\substack{\ceil{m/p} \leq n \leq m\\ n \equiv m \pmod{(p-1)}}} \pi^r p^{q'} (-1)^{q' + k} \frac{1}{(n-k)! k!} \\
-          & = (-1)^q \pi^r \sum_{k=0}^{\floor{m/p}} p^{q - k} \frac{1}{(m - pk)!k!}
+          & = (-1)^q \pi^r \sum_{k=0}^{\floor{m/p}} p^{q - k} \frac{1}{(m - pk)!k!}.
 \end{align*}
 The expression for $\pi^{-(m \bmod{(p-1)})} \lambda_m$ now follows.
 \end{proof}
@@ -469,8 +469,7 @@ This follows from~\citep[\S 6.2]{Lau04} and Lemma~\ref{lem:log}.
 \end{proof}
 
 Finally, we describe how to compute the matrix~$\Phi$ representing 
-the action of $p^{-1} F_p$ on $\HdR^{n}(\mathfrak{U})$ using our 
-previous results.
+the action of $\F_p$ on $\Hrig^{n}(U)$ using our previous results.
 
 \begin{prop}
 The valuation of $(u'-1)! \alpha_{u+1,v+1}$ is bounded from above by 
@@ -558,7 +557,7 @@ Remark~\ref{rem:01-03-mup}, which requires time
 $\mathcal{O}\bigl(p \tilde{N}^2 M(p \tilde{N} \log(p \tilde{N}))\bigr)$.
 
 The following {Steps~(iii) through (vii)} are executed 
-$\dim \HdR^{n}(\mathfrak{U})$ times, where this dimension 
+$\dim \Hrig^{n}(U)$ times, where this dimension 
 is $\mathcal{O}(d^n)$.
 The time complexity of {Step~(iii)} is 
 $\mathcal{O}\bigl(n M(\log \max\{p,d\})\bigr)$.
@@ -594,8 +593,7 @@ exponentials of power series:
 
 \begin{thm} \label{thm:dm-diagfrob-complexity2}
 There exists an algorithm for computing the matrix for the 
-action of $p^{-1} F_p$ on $\HdR^{n}(\mathfrak{U})$ in time 
-complexity 
+action of $\F_p$ on $\Hrig^{n}(U)$ in time complexity 
 \begin{equation*}
 (M \log M \log \log M) (p \log p) M(\tilde{N} \log p) 
 + d^n n \bigl( M(\log d) 
@@ -656,7 +654,7 @@ Firstly, let us consider the surface given by
 \begin{equation*}
 x_0^4 + x_1^4 + x_2^4 + x_3^4 = 0
 \end{equation*}
-over $\mathbf{F}_3$ and aim to compute the action of $p^{-1} F_p$ 
+over $\mathbf{F}_3$ and aim to compute the matrix~$\Phi$ 
 to precision $N = 374$.
 
 We find that we need to compute the expression $\alpha_{u+1,v+1}$ to 

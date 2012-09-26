@@ -31,7 +31,7 @@ on verifying the correctness of a computation that has been carried out
 with intermediate $p$-adic precisions too low to be provably correct. 
 The methods investigated and implemented are crucially based on the 
 fact that the polynomial 
-\mbox{$\det\bigl(1 - T q^{-1} F_q | \HdR^{n}(\mathfrak{U}_{t_1})\bigr)$} 
+\mbox{$\det\bigl(1 - T \Frob_q | \HdR^{n}(\mathfrak{U}_{t_1})\bigr)$} 
 is the reverse of a Weil polynomial, and in particular that its 
 roots all have absolute value~$q^{(1-n)/2}$ and that the bottom 
 coefficients can be obtained correctly even with low $p$-adic precision, 
@@ -67,8 +67,8 @@ providing Gerkmann's timings in parentheses.  The computation of the
 Gauss--Manin connection is near instantaneous with our implementation.  
 The computation of the Frobenius matrix on the diagonal fibre takes 
 $0.04$~seconds ($5.86$~minutes).  The local solution $C(t)$, its 
-inverse $C(t)^{-1}$ and the local expansion for $p^{-1}F_p$ on 
-$\HdR^n(\mathfrak{U}/\mathfrak{S})$ are computed in $0.38$, $0.11$ 
+inverse $C(t)^{-1}$ and the local expansion for $\Frob_p$ on 
+$\Hrig^n(U/S)$ are computed in $0.38$, $0.11$ 
 and $1.28$~seconds, respectively, adding up to $1.77$~seconds ($83$ seconds). 
 The analytic continuation and subsequent evaluation at a Teichm\"uller lift 
 of~$t_1$ take $0.05$ and $0.2$~seconds, and the computation of the $q$th-power 
@@ -209,8 +209,9 @@ $\binom{3+5-1}{5} = 21$ non-zero coefficients.  We choose
 \begin{equation*}
 \begin{split}
 x^5 + y^5 + z^5 + t \bigl( 
-& 3 x^4 y - x^4 z + 2 x y^4 + y^4 z + 4 x z^4 + 5 y z^4 + x^3 y^2 + x^3 z^2 + x^2 y^3 \\
-& + y^3 z^2 + x^2 z^3 + y^2 z^3 + x^3 y z + x y^3 z + x y z^3 + x^2 y^2 z + x^2 y z^2 + x y^2 z^2 \bigr)
+& 3 x^4 y - x^4 z + 2 x y^4 + y^4 z + 4 x z^4 + 5 y z^4 + x^3 y^2 + x^3 z^2 \\
+& + x^2 y^3 + y^3 z^2 + x^2 z^3 + y^2 z^3 + x^3 y z + x y^3 z + x y z^3 \\
+& + x^2 y^2 z + x^2 y z^2 + x y^2 z^2 \bigr)
 \end{split}
 \end{equation*}
 over $\mathbf{F}_{11}$ and $t_1 = 1$.
@@ -248,10 +249,10 @@ $\binom{3+6-1}{6} = 28$ non-zero coefficients.  We choose
 \begin{equation*}
 \begin{split}
 x^6 + y^6 + z^6 + t \bigl( 
-& - x^5 y + 7 x^5 z + 2 x y^5 + y^5 z + 2 x z^5 + y z^5 + 2 x^4 y^2 + 2 x^4 z^2 + 3 x^2 y^4 \\ 
-& + y^4 z^2 + 3 x^2 z^4 + y^2 x + 2^4 + 3 x^4 y z + 3 x y^4 z + x y z^4 - x^3 y^3 - 2 x^3 z^3 \\
-& + 4 y^3 z^3 + 2 x^3 y^2 z + x^3 y z^2 - x^2 y^3 z + x y^3 z^2 + 2 x^2 y z^3 + x y^2 z^3 
-+ x^2 y^2 z^2 \bigr)
+& - x^5 y + 7 x^5 z + 2 x y^5 + y^5 z + 2 x z^5 + y z^5 + 2 x^4 y^2 + 2 x^4 z^2 \\
+& + 3 x^2 y^4 + y^4 z^2 + 3 x^2 z^4 + y^2 x + 2^4 + 3 x^4 y z + 3 x y^4 z + x y z^4 \\
+& - x^3 y^3 - 2 x^3 z^3 + 4 y^3 z^3 + 2 x^3 y^2 z + x^3 y z^2 - x^2 y^3 z + x y^3 z^2 \\
+& + 2 x^2 y z^3 + x y^2 z^3 + x^2 y^2 z^2 \bigr)
 \end{split}
 \end{equation*}
 over $\mathbf{F}_{5}$ and $t_1 = 2$.
@@ -281,6 +282,7 @@ We verify that the reverse of $p(T)$ is a Weil polynomial and numerically
 find that the absolute value of its complex roots is~$5^{-1/2}$.
 
 \section{A generic quartic surface}
+\label{sec:06-GenericQuarticSurface}
 
 We consider a generic quartic surface, defined by a homogeneous equation 
 with $35$~non-zero coefficients,
@@ -305,8 +307,8 @@ $K_1 = 60$ and $K_2 = 13740$.
 
 The Gauss--Manin connection matrix is computed in $323.55$~seconds and found 
 to have denominator $r(t)$ of degree~$228$, which explains the large value 
-of the $t$-adic parameter~$K_2$.  The matrix for $p^{-1} F_p$ on 
-$\HdR^{n}(\mathfrak{U}_0)$ is computed in $0.01$~seconds.  The local 
+of the $t$-adic parameter~$K_2$.  The matrix for $\F_p$ on 
+$\Hrig^{n}(U_0)$ is computed in $0.01$~seconds.  The local 
 solutions $C$ and $C^{-1}$ form the most time-consuming part in this example, 
 requiring $1909.3$ and $342.22$~seconds.  The matrix product to determine the 
 local expansion of $p^{-1} F_p$ on $\HdR^{n}(\mathfrak{U}/\mathfrak{S})$ 
@@ -322,7 +324,7 @@ w^4 + x^4 + y^4 + z^4 + t \bigl(
     -x y^3 + w x y^2 + w x y z  + w^2 x y - w^2 x z + w y^3 - w y^2 z \bigr) 
 \end{equation*}
 defined over $\mathbf{F}_3$.  They consider the smooth surface~$X_1$ 
-and report a runtime of $40,144$~seconds, or $11.15$~hours.  Unfortunately, 
+and report a runtime of $40,144$ seconds, or $11.15$~hours.  Unfortunately, 
 with our current implementation we cannot tackle this exact example 
 as, with our fixed choice of basis, the Gauss--Manin connection matrix 
 has an apparent singularity at $t = 1$ (and also at $t = 2$).  Instead, 

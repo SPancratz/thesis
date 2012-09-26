@@ -77,7 +77,7 @@ computing the zeta function can be formulated as follows:
 \begin{prob} \label{prob:dm-pointcounting}
 Given an algebraic variety~$X$ defined by a finite list of 
 multivariate polynomials in~$\mathbf{F}_{q}[x_0, \dotsc, x_n]$, 
-efficiently compute a rational function in~$\mathbf{Q}(T)$ 
+efficiently compute the rational function in~$\mathbf{Q}(T)$ 
 representing $Z(X, T)$.
 \end{prob}
 
@@ -187,7 +187,10 @@ theoretical contributions.  Our practical improvements are due to
 theoretical advances by Kedlaya and Tuitman~\citep{KedlayaTuitman2012} 
 and improved implementation details.  Finally, we present a number of 
 examples in Chapter~\ref{ch:01-Exmp}, hoping to convince the reader of 
-the practical relevance of this work.
+the practical relevance of this work.  In particular, in 
+Section~\ref{sec:06-GenericQuarticSurface} we demonstrate that we can 
+compute the zeta function of an arbitrary smooth projective quartic 
+surface over a finite field of small characteristic in a matter of hours.
 
 In Part~{II}, we present a constant factor improvement to the 
 radix conversion of polynomials, which is a key step and the 

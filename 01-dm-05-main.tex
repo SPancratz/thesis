@@ -2,8 +2,8 @@
 
 In this chapter we describe the remaining steps of the deformation method:  
 how to use the differential system governed by the Gauss--Manin connection 
-matrix and the action of Frobenius on the initial fibre $\mathfrak{X}_0$ 
-to determine the action of Frobenius on the fibre~$\mathfrak{X}_{t_1}$ 
+matrix and the action of Frobenius on the initial fibre $\Hrig^{n}(U_0)$ 
+to determine the action of Frobenius on the fibre~$\Hrig^{n}(U_{t_1})$ 
 and hence the zeta function of the hypersurface~$X_{t_1}$.
 We point out that there are essentially no original contributions from the 
 author;  we present the work of Lauder~\citep{Lau04} and also follow the 
@@ -17,10 +17,10 @@ implementation details.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{$p$-Adic differential system and local expansion of Frobenius}
 
-We let $\Phi$ denote the matrix for the $\sigma$-semilinear action 
-of~$p^{-1} F_p$, where $\sigma$ is the standard lift of the $p$th-power 
-Frobenius to~$\mathbf{Q}_q$ and~$\mathbf{Q}_q(t)$ sending $t \mapsto t^p$, 
-and $M$ the matrix for the Leibniz-linear connection on 
+Recall that we let $\Phi$ denote the matrix for the $\sigma$-semilinear action 
+of~$\Frob_p$ on $\Hrig^{n}(U/S)$, where $\sigma$ is the standard lift of the 
+$p$th-power Frobenius to~$\mathbf{Q}_q$ and~$\mathbf{Q}_q(t)$ sending 
+$t \mapsto t^p$, and $M$ the matrix for the Leibniz-linear connection on 
 $\HdR^n(\mathfrak{U}/\mathfrak{S})$.
 As described for example by Gerkmann~\citep[\S 5]{Gerkmann2007}, these 
 matrices satisfy the following differential system,
@@ -30,7 +30,7 @@ matrices satisfy the following differential system,
 Our first goal, discussed in this section, is the computation of 
 a power series expansion of~$\Phi$ around the origin, satisfying 
 the above differential equation and the initial condition that~$\Phi_0$ 
-be the matrix for the action of $p^{-1} F_p$ on $\HdR^n(\mathfrak{U}_0)$.
+be the matrix for the action of $\Frob_p$ on $\Hrig^n(U_0)$.
 We begin by observing that, upon setting 
 \begin{equation*}
 \Phi = C \Phi_0 \sigma(C)^{-1},
@@ -79,12 +79,11 @@ but this can be improved significantly by including recent bounds on the
 valuation of $C_0, C_1, \dotsc$ by Kedlaya~\citep{Kedlaya2010}.
 
 \begin{lem} \label{lem:01-FrobBound}
-Recall that the matrix~$\Phi$ for the action of $p^{-1} F_p$ 
-on $\HdR^{n}(\mathfrak{U}/\mathfrak{S})$ has entries in 
+Recall that the matrix~$\Phi$ for the action of $\Frob_p$ 
+on $\Hrig^{n}(U/S)$ has entries in 
 $\mathbf{Q}_p\langle t, r(t)^{-1}\rangle^{\dagger}$, 
-and let $\Phi_t$ denote the matrix for the action of $p^{-1} F_p$ 
-on $\HdR^{n}(\mathfrak{U}_t)$ with entries in $\mathbf{Q}_p$.
-Let us set 
+and let $\Phi_t$ denote the matrix for the action of $\Frob_p$ 
+on $\Hrig^{n}(U_t)$ with entries in $\mathbf{Q}_p$.  Let us set 
 \begin{align*}
 r & = \ord_p((n-1)!), \\
 s & = (n + 1) \floor{\log_p(n-1)}.
@@ -291,7 +290,7 @@ the bound $\ord_p(\Phi_0) \geq - \delta$ from Lemma~\ref{lem:01-FrobBound}.
 \label{sec:01-dm-06-continuation}
 
 In the previous section we described how to compute the matrix~$\Phi$ 
-for the action of $p^{-1} F_p$ on $\HdR^{n}(\mathfrak{U}/\mathfrak{S})$ 
+for the action of $\Frob_p$ on $\Hrig^{n}(U/S)$ 
 as a local power series expansion around $t = 0$.  In order to evaluate it 
 at a second point $t = t_1$, we wish to $p$-adically approximate it 
 using rational functions with denominators a power of $r(t)$, which 
@@ -321,12 +320,12 @@ subscheme $\mathfrak{S}$ of $\mathbf{P}^{1}(\mathbf{Q}_q)$
 and let $z$ be an unramified geometric point of $\mathfrak{Z}$ 
 such that $\mathfrak{Z}$ does not contain any other points 
 with the same reduction modulo~$p$.  For a fixed a basis for 
-$\HdR^n(\mathfrak{U}/\mathfrak{S})$, suppose that the matrix 
+$\Hrig^n(U/S)$, suppose that the matrix 
 for the connection~$\nabla$ has at most a simple pole at~$z$ 
 and that the exponents $\lambda_1, \dotsc, \lambda_{b}$, 
 which are defined as the eigenvalues of $(t - z) M \vert_{t=z}$ 
 and known to be rational numbers, have non-negative $p$-adic 
-valuation.  Then the matrix~$\Phi$ for the action of $p^{-1} F_p$ 
+valuation.  Then the matrix~$\Phi$ for the action of $\Frob_p$ 
 has a pole at $z$ of order at most 
 \begin{equation} \label{eq:KedlayaTuitman}
 \max_{i} \lambda_i - p \min_{i} \lambda_i + p g(N)
@@ -354,11 +353,11 @@ term~$p g(N_2)$. Therefore, in a heuristic implementation, one
 could choose e.g.\ $K_1 = 1.1 \times p N_2$ and $K_2 = (\deg(r) + 1) K_1$.
 \end{rem}
 
-Having obtained an expression for the action of~$p^{-1} F_p$ 
-on~$\HdR^{n}(\mathfrak{U}_{t_1})$ in terms of rational functions, 
+Having obtained an expression for the action of~$\Frob_p$ 
+on~$\Hrig^{n}(U_{t_1})$ in terms of rational functions, 
 we conclude this section by describing the evaluation at the fibre 
 $t = t_1$.  Modulo~$p^{N_2}$, the matrix $\Phi_{t_1}$ representing 
-$p^{-1} F_p$ on $\HdR^{n}(\mathfrak{U}_{t_1})$ is equal to 
+$\Frob_p$ on $\Hrig^{n}(U_{t_1})$ is equal to 
 \begin{equation}
 \Phi_{t_1} = 
     r(\hat{t}_1)^{-K_1} 
@@ -372,26 +371,12 @@ over~$\mathbf{Q}_p[t]$ to $p$-adic precision~$N_2$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Recovering zeta functions}
 
-The final step of our computation of the zeta function of the 
-hypersurface~$X_{t_1}$ rests on the following theorem, which 
-is a well known result in the area but for which 
-\citep[Theorem~3.1]{Gerkmann2007} is a convenient reference.
-
-\begin{thm}
 Recall that the zeta function of the hypersurface~$X_{t_1}$ is of the form,
 \begin{equation*}
 Z(X_{t_1},T) = \frac{p(T)^{(-1)^n}}{(1 - T) (1 - qT) \dotsm (1 - q^{n-1}T)}
 \end{equation*}
-where $p(T) = \det \bigl( 1 - T q^{-1} F_q | H^n(\mathfrak{U}_{t_1}) \bigr)$ 
+where $p(T) = \det \bigl( 1 - T \Frob_q | \HdR^n(\mathfrak{U}_{t_1}) \bigr)$ 
 is a polynomial defined over the integers.
-\end{thm}
-
-\begin{proof}
-This is essentially {Theorem~3.1} from~\citep{Gerkmann2007}, 
-replacing the rigid cohomology space with the algebraic de~Rham 
-cohomology space using a comparison theorem due to Baldassarri 
-and Chiarellotto~\citep{BalChi94}.
-\end{proof}
 
 Thus, the remaining two steps in the deformation method are as follows.  
 Firstly, we obtain the matrix of the $q$th-power Frobenius from the matrix of 
@@ -399,11 +384,11 @@ the $p$th-power Frobenius.  Secondly, we compute its reverse characteristic
 polynomial to suitable \mbox{$p$-adic} precision in order to recover the zeta 
 function.
 
-\subsection{Computing the action of $q^{-1} F_q$ on $\HdR^{n}(\mathfrak{U}_{t_1})$}
+\subsection{Computing the action of $\Frob_q$ on $\Hrig^{n}(U_{t_1})$}
 
 Let $\Phi_{t_1}$ and $\Phi_{t_1}^{(q)}$ denote the matrices representing the 
-actions of $p^{-1} F_p$ and $q^{-1} F_q$ on~$\HdR^{n}(\mathfrak{U}_{t_1})$, 
-respectively.  As the action of $p^{-1} F_p$ is $\sigma$-semilinear, we have 
+actions of $\Frob_p$ and $\Frob_q$ on~$\Hrig^{n}(U_{t_1})$, 
+respectively.  As the action of $\Frob_p$ is $\sigma$-semilinear, we have 
 that 
 \begin{equation*}
 \Phi_{t_1}^{(q)} = 
@@ -429,7 +414,7 @@ In general, from the definition of the determinant function and
 Proposition~\ref{prop:productval}, it appears that the precision 
 loss could be as great as $(b-1) \ord_p(A)$.  However, in the case 
 of matrices representing the action of Frobenius 
-on $\HdR^n(\mathfrak{U}_{t_1})$, much better bounds are available.
+on $\Hrig^n(U_{t_1})$, much better bounds are available.
 
 \begin{lem} \label{lem:charpoly}
 Define $\delta = \delta(n,p)$ as in Lemma~\ref{lem:01-FrobBound} and 
@@ -454,7 +439,7 @@ description of the deformation algorithm.
 
 In the final step of the deformation method, we compute the 
 reverse characteristic polynomial $p(T)$ of the matrix $\Phi_{t_1}^{(q)}$, 
-which represents $q^{-1} F_q$ on $H^n(\mathfrak{U}_{t_1})$, to some finite 
+which represents $\Frob_q$ on $\Hrig^n(U_{t_1})$, to some finite 
 $p$-adic precision.  Which precision~$N_0$ is necessary in order to 
 correctly recover the polynomial~$p(T)$ over the integers?
 
@@ -468,7 +453,7 @@ Moreover, this can be improved to
 \begin{equation*}
 p^N > 2 \binom{b}{\floor{b/2}} q^{\floor{b/2} (n-1) / 2}
 \end{equation*}
-provided that the sign $\epsilon = \sgn(\det(q^{-1} F_q))$ of the 
+provided that the sign $\epsilon = \sgn(\det(F_q))$ of the 
 functional equation for the zeta function is known.
 \end{thm}
 
@@ -478,7 +463,7 @@ which follows readily from its proof.
 \end{proof}
 
 \begin{rem}
-We observe that the sign $\epsilon = \sgn(\det(q^{-1} F_q)) = 1$ 
+We observe that the sign $\epsilon = \sgn(\det(\Frob_q)) = 1$ 
 whenever $n$ is even.  This can be seen from the statement of the 
 Weil conjectures in Theorem~\ref{thm:01-Zetafunctions}.
 \end{rem}
@@ -515,7 +500,7 @@ N_1 & = N_0 + a,
 \end{align*}
 where $N_0$ here refers to the required precision for $q^{h_{0,2}} p(T/q)$ 
 and $N_1$ as before refers to the precision required for the matrix 
-representing $q^{-1} F_q$ on $\HdR^{n}(\mathfrak{U}_{t_1})$.
+representing $\Frob_q$ on $\Hrig^{n}(U_{t_1})$.
 For further details, we refer the reader to 
 Lauder~\citep[\S 9.3.2, Proposition~9.6]{Lauder2006}.
 \end{rem}
