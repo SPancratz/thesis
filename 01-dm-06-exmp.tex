@@ -344,33 +344,33 @@ evaluation require $3.77$ and $0.24$~seconds, respectively, and the final
 construction of the $q$th-power Frobenius is near instantaneous. 
 This yields a total runtime of about $1,458$~seconds.
 
-\section{A cubic surface}
-
-We consider the following example of a cubic surface over 
-$\mathbf{F}_5$ due to Abbott, Kedlaya, and 
-Roe~\citep[Example~4.3.2]{AbbottKedlayaRoe2006},
-\begin{equation*}
-w^3 + 3 x^3 + y^3 + 2 z^3 
-+ t \bigl( 3 x y^2 - w x y + 3 w x z - w^2 x - w y^2 \bigr).
-\end{equation*}
-They report that the computation of the matrix representing 
-the action of $p^{-1} F_p$ for the fibre at $t_1 = 1$ modulo 
-$5^3$ required $5,482$~seconds.
-
-For smooth projective cubic surfaces, $h_{0,2} = 0$ and hence 
-we aim to compute $p(T/5)$, using Remark~\ref{rem:N0Surfaces}. 
-This also shows that it is sufficient to take $N_0 = 3$ as 
-in~\citep{AbbottKedlayaRoe2006}.  We are led to 
-take $N_1 = N_2 = 4$, $N_3 = 10$, $N_3' = 12$, $N_4 = 18$, and 
-$K_1 = 22$, $K_2 = 616$.
-
-Using our implementation, the connection matrix is computed 
-in $0.16$~seconds, the computation of the action of Frobenius 
-on the diagonal fibre is near instantaneous, we obtain $C(t)$, 
-$C(t)^{-1}$ and the local expansion of $p^{-1} F_p$ around the 
-origin together in $0.2$~seconds, and the remaining steps of 
-the deformation method are near instantaneous again.  This yields 
-an overall runtime of about $0.36$~seconds, which improves on 
-the runtime reported in~\citep{AbbottKedlayaRoe2006} by a factor 
-of $15,227$.
+%\section{A cubic surface}
+%
+%We consider the following example of a cubic surface over 
+%$\mathbf{F}_5$ due to Abbott, Kedlaya, and 
+%Roe~\citep[Example~4.3.2]{AbbottKedlayaRoe2006},
+%\begin{equation*}
+%w^3 + 3 x^3 + y^3 + 2 z^3 
+%+ t \bigl( 3 x y^2 - w x y + 3 w x z - w^2 x - w y^2 \bigr).
+%\end{equation*}
+%They report that the computation of the matrix representing 
+%the action of $p^{-1} F_p$ for the fibre at $t_1 = 1$ modulo 
+%$5^3$ required $5,482$~seconds.
+%
+%For smooth projective cubic surfaces, $h_{0,2} = 0$ and hence 
+%we aim to compute $p(T/5)$, using Remark~\ref{rem:N0Surfaces}. 
+%This also shows that it is sufficient to take $N_0 = 3$ as 
+%in~\citep{AbbottKedlayaRoe2006}.  We are led to 
+%take $N_1 = N_2 = 4$, $N_3 = 10$, $N_3' = 12$, $N_4 = 18$, and 
+%$K_1 = 22$, $K_2 = 616$.
+%
+%Using our implementation, the connection matrix is computed 
+%in $0.16$~seconds, the computation of the action of Frobenius 
+%on the diagonal fibre is near instantaneous, we obtain $C(t)$, 
+%$C(t)^{-1}$ and the local expansion of $p^{-1} F_p$ around the 
+%origin together in $0.2$~seconds, and the remaining steps of 
+%the deformation method are near instantaneous again.  This yields 
+%an overall runtime of about $0.36$~seconds, which improves on 
+%the runtime reported in~\citep{AbbottKedlayaRoe2006} by a factor 
+%of $15,227$.
 
