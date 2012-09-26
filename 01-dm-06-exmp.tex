@@ -307,11 +307,11 @@ $K_1 = 60$ and $K_2 = 13740$.
 
 The Gauss--Manin connection matrix is computed in $323.55$~seconds and found 
 to have denominator $r(t)$ of degree~$228$, which explains the large value 
-of the $t$-adic parameter~$K_2$.  The matrix for $\F_p$ on 
+of the $t$-adic parameter~$K_2$.  The matrix for $\Frob_p$ on 
 $\Hrig^{n}(U_0)$ is computed in $0.01$~seconds.  The local 
 solutions $C$ and $C^{-1}$ form the most time-consuming part in this example, 
 requiring $1909.3$ and $342.22$~seconds.  The matrix product to determine the 
-local expansion of $p^{-1} F_p$ on $\HdR^{n}(\mathfrak{U}/\mathfrak{S})$ 
+local expansion of $\Frob_p$ on $\Hrig^{n}(U/S)$ 
 takes $262.6$~seconds. Finally, the analytic continuation and evaluation steps 
 require $4.53$ and $0.18$~seconds, respectively.
 
@@ -336,7 +336,7 @@ $N_3' = 35$, $N_51$, and $t$-adic parameters $K_1 = 56$ and $K_2 = 9632$.
 
 The computation of the Gauss--Manin connection matrix requires $36.6$~seconds, 
 which also shows that the denominator $r(t)$ is a degree~$168$ polynomial.
-The action of $p^{-1} F_p$ for the diagonal fibre is determined in 
+The action of $\Frob_p$ for the diagonal fibre is determined in 
 $0.01$~seconds.  The local solutions $C(t)$ and $C(t)^{-1}$ are found in 
 $953.59$ and $311$~seconds, which then allow us to compute the local expansion 
 of Frobenius in $153.44$~seconds.  The analytic expansion and 
@@ -354,7 +354,7 @@ This yields a total runtime of about $1,458$~seconds.
 %+ t \bigl( 3 x y^2 - w x y + 3 w x z - w^2 x - w y^2 \bigr).
 %\end{equation*}
 %They report that the computation of the matrix representing 
-%the action of $p^{-1} F_p$ for the fibre at $t_1 = 1$ modulo 
+%the action of $\Frob_p$ for the fibre at $t_1 = 1$ modulo 
 %$5^3$ required $5,482$~seconds.
 %
 %For smooth projective cubic surfaces, $h_{0,2} = 0$ and hence 
@@ -367,7 +367,7 @@ This yields a total runtime of about $1,458$~seconds.
 %Using our implementation, the connection matrix is computed 
 %in $0.16$~seconds, the computation of the action of Frobenius 
 %on the diagonal fibre is near instantaneous, we obtain $C(t)$, 
-%$C(t)^{-1}$ and the local expansion of $p^{-1} F_p$ around the 
+%$C(t)^{-1}$ and the local expansion of $\Frob_p$ around the 
 %origin together in $0.2$~seconds, and the remaining steps of 
 %the deformation method are near instantaneous again.  This yields 
 %an overall runtime of about $0.36$~seconds, which improves on 
