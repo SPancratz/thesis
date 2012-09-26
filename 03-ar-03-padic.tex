@@ -397,7 +397,7 @@ In a first approach, we might use Horner's method to carry out the
 composition, which requires about $d$~multiplications in $\mathbf{Z}_q$, 
 yielding a complexity of $\mathcal{O}(d \mu)$.  
 
-However, we can use the rectangular splitting approach due to 
+However, we can use the rectangular splitting approach of 
 Paterson--Stockmeyer~\citep{PatersonStockmeyer1973} instead, based 
 on the expression 
 \begin{equation}
@@ -450,7 +450,7 @@ $x \in \mathbf{Z}_q^{\times}$.
 There are two efficient ways to compute the trace:
 
 First, we can compute this from the definition of $\Trace(x)$ as the trace 
-of the multiplication-by-$x$ map by reducing $x X^i$ modulo $f(X)$ and forming 
+of the multiplication by~$x$  map by reducing $x X^i$ modulo $f(X)$ and forming 
 the sum of the $X^i$-coordinates, for $i = 0, \dotsc, d - 1$.
 
 Recalling that the reduction of a degree~$2d-2$ polynomial modulo 
@@ -551,7 +551,7 @@ in~$N$.
 
 \subsection{Rectangular splitting}
 
-The rectangular splitting algorithm due to Patterson and 
+The rectangular splitting algorithm due to Paterson and 
 Stockmeyer~\citep{PatersonStockmeyer1973} applied to the 
 case of the $p$-adic exponential evaluates the truncated 
 series~\eqref{eq:exp-trunc} using the expression 
