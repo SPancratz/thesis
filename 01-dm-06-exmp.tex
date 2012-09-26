@@ -4,8 +4,6 @@ In this chapter we present a small selection of computational examples,
 demonstrating the employability of the deformation method for point counting 
 in practice.
 
-
-
 We point out that our computations are not a priori provably 
 correct as we are using the heuristic $t$-adic bounds from 
 Remark~\ref{rem:KedlayaTuitman}.  In some cases, we explicitly 
@@ -31,7 +29,7 @@ on verifying the correctness of a computation that has been carried out
 with intermediate $p$-adic precisions too low to be provably correct. 
 The methods investigated and implemented are crucially based on the 
 fact that the polynomial 
-\mbox{$\det\bigl(1 - T \Frob_q | \HdR^{n}(\mathfrak{U}_{t_1})\bigr)$} 
+\mbox{$\det\bigl(1 - T q^{-1} \Frob_q | \HdR^{n}(\mathfrak{U}_{t_1})\bigr)$} 
 is the reverse of a Weil polynomial, and in particular that its 
 roots all have absolute value~$q^{(1-n)/2}$ and that the bottom 
 coefficients can be obtained correctly even with low $p$-adic precision, 
@@ -67,7 +65,7 @@ providing Gerkmann's timings in parentheses.  The computation of the
 Gauss--Manin connection is near instantaneous with our implementation.  
 The computation of the Frobenius matrix on the diagonal fibre takes 
 $0.04$~seconds ($5.86$~minutes).  The local solution $C(t)$, its 
-inverse $C(t)^{-1}$ and the local expansion for $\Frob_p$ on 
+inverse $C(t)^{-1}$ and the local expansion for $p^{-1} \Frob_p$ on 
 $\Hrig^n(U/S)$ are computed in $0.38$, $0.11$ 
 and $1.28$~seconds, respectively, adding up to $1.77$~seconds ($83$ seconds). 
 The analytic continuation and subsequent evaluation at a Teichm\"uller lift 
@@ -307,11 +305,11 @@ $K_1 = 60$ and $K_2 = 13740$.
 
 The Gauss--Manin connection matrix is computed in $323.55$~seconds and found 
 to have denominator $r(t)$ of degree~$228$, which explains the large value 
-of the $t$-adic parameter~$K_2$.  The matrix for $\Frob_p$ on 
+of the $t$-adic parameter~$K_2$.  The matrix for $p^{-1} \Frob_p$ on 
 $\Hrig^{n}(U_0)$ is computed in $0.01$~seconds.  The local 
 solutions $C$ and $C^{-1}$ form the most time-consuming part in this example, 
 requiring $1909.3$ and $342.22$~seconds.  The matrix product to determine the 
-local expansion of $\Frob_p$ on $\Hrig^{n}(U/S)$ 
+local expansion of $p^{-1} \Frob_p$ on $\Hrig^{n}(U/S)$ 
 takes $262.6$~seconds. Finally, the analytic continuation and evaluation steps 
 require $4.53$ and $0.18$~seconds, respectively.
 
@@ -336,7 +334,7 @@ $N_3' = 35$, $N_51$, and $t$-adic parameters $K_1 = 56$ and $K_2 = 9632$.
 
 The computation of the Gauss--Manin connection matrix requires $36.6$~seconds, 
 which also shows that the denominator $r(t)$ is a degree~$168$ polynomial.
-The action of $\Frob_p$ for the diagonal fibre is determined in 
+The action of $p^{-1} \Frob_p$ for the diagonal fibre is determined in 
 $0.01$~seconds.  The local solutions $C(t)$ and $C(t)^{-1}$ are found in 
 $953.59$ and $311$~seconds, which then allow us to compute the local expansion 
 of Frobenius in $153.44$~seconds.  The analytic expansion and 
@@ -354,7 +352,7 @@ This yields a total runtime of about $1,458$~seconds.
 %+ t \bigl( 3 x y^2 - w x y + 3 w x z - w^2 x - w y^2 \bigr).
 %\end{equation*}
 %They report that the computation of the matrix representing 
-%the action of $\Frob_p$ for the fibre at $t_1 = 1$ modulo 
+%the action of $p^{-1} \Frob_p$ for the fibre at $t_1 = 1$ modulo 
 %$5^3$ required $5,482$~seconds.
 %
 %For smooth projective cubic surfaces, $h_{0,2} = 0$ and hence 
@@ -367,7 +365,7 @@ This yields a total runtime of about $1,458$~seconds.
 %Using our implementation, the connection matrix is computed 
 %in $0.16$~seconds, the computation of the action of Frobenius 
 %on the diagonal fibre is near instantaneous, we obtain $C(t)$, 
-%$C(t)^{-1}$ and the local expansion of $\Frob_p$ around the 
+%$C(t)^{-1}$ and the local expansion of $p^{-1} \Frob_p$ around the 
 %origin together in $0.2$~seconds, and the remaining steps of 
 %the deformation method are near instantaneous again.  This yields 
 %an overall runtime of about $0.36$~seconds, which improves on 

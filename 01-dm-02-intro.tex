@@ -140,13 +140,14 @@ from $\mathbf{F}_q$ to $\mathbf{Q}_q[t]$, which is equal to
 $\sigma \in \Gal(\mathbf{Q}_q/\mathbf{Q}_p)$ on $\mathbf{Q}_q$ and 
 is extended to $\mathbf{Q}_q[t]$ by sending $t$ to $t^p$, where $\sigma$ 
 is the unique lift of the $p$-th power Frobenius map to $\mathbf{Q}_q$.  
-The canonical Frobenius map~$\Frob_p$ on $\Hrig^{n}(U/S)$,
+The canonical Frobenius map~$\Frob_p$ on $\Hrig^{n}(U/S)$
 \begin{equation*}
 \Frob_p \colon F_p^{*} \Hrig^{n}(U/S) \to \Hrig^{n}(U/S)
 \end{equation*}
-can be represented by a matrix~$\Phi$ such that 
+is $\sigma$-semilinear as a map on $\Hrig^{n}(U/S)$.  We represent 
+the action of $p^{-1} \Frob_p$ by a matrix~$\Phi$ such that 
 \begin{equation*}
-\Frob_p (v_j) = \sum_{i=1}^{b} \Phi_{ij} v_i,
+p^{-1} \Frob_p (v_j) = \sum_{i=1}^{b} \Phi_{ij} v_i,
 \end{equation*}
 where the entries of~$\Phi$ are in fact overconvergent power series, 
 that is, they lie in the ring $\mathbf{Q}_q\langle t, r(t)^{-1}\rangle^{\dagger}$ 
@@ -183,7 +184,7 @@ matrices~$M$ and~$\Phi$ satisfy the $p$-adic differential equation given by
 Further details regarding this can be found in \citep[\S 5]{Gerkmann2007}.
 
 Finally, we will be able to compute the zeta function of the 
-hypersurface~$X_{t_1}$ from the action of $\Frob_q$ on 
+hypersurface~$X_{t_1}$ from the action of $q^{-1} \Frob_q$ on 
 $\Hrig^{n}(U_{t_1})$, using the following theorem:
 
 \begin{thm}
@@ -191,7 +192,7 @@ The zeta function of the hypersurface~$X_{t_1}$ is of the form
 \begin{equation*}
 Z(X_{t_1},T) = \frac{p(T)^{(-1)^n}}{(1 - T) (1 - qT) \dotsm (1 - q^{n-1}T)},
 \end{equation*}
-where $p(T) = \det \bigl( 1 - T \Frob_q | \Hrig^n(U_{t_1}) \bigr)$ 
+where $p(T) = \det \bigl( 1 - T q^{-1} \Frob_q | \Hrig^n(U_{t_1}) \bigr)$ 
 is a polynomial defined over the integers.
 \end{thm}
 
@@ -209,7 +210,7 @@ These are provided and justified in Chapter~\ref{ch:01-Main}.
 
 \begin{enumerate}
 \item[Step~$I$.]
-Let $\Phi_0$ denote the matrix for the action of $\Frob_p$ on 
+Let $\Phi_0$ denote the matrix for the action of $p^{-1} \Frob_p$ on 
 $\Hrig^{n}(U_0)$, which has entries in $\mathbf{Q}_p$.  
 We compute an approximation to $p$-adic precision~$N_4$.
 \item[Step~$II$.]
@@ -223,26 +224,26 @@ modulo~$t^{K_2}$ to $p$-adic precision~$N_3$.  We also compute an
 approximation for the matrix~$C(t^p)^{-1}$ modulo~$t^{K_2}$ to $p$-adic 
 precision~$N_3'$.
 \item[Step~$IV$.]
-Let $\Phi(t)$ denote the matrix for the action of $\Frob_p$ on 
+Let $\Phi(t)$ denote the matrix for the action of $p^{-1} \Frob_p$ on 
 $\Hrig^{n}(U_t)$, which satisfies the equation 
 $\Phi(t) = C(t) \Phi_0 C(t^p)^{-1}$ and has entries in 
 $\mathbf{Q}_p\langle t,r(t)^{-1}\rangle^{\dagger}$.  We compute an 
 approximation modulo~$t^{K_2}$ to $p$-adic precision~$N_2$.
 \item[Step~$V$.]
-Let $\Phi_{t_1}$ denote the matrix for the action of $\Frob_p$ 
+Let $\Phi_{t_1}$ denote the matrix for the action of $p^{-1} \Frob_p$ 
 on $\Hrig^{n}(U_{t_1})$, which has entries in $\mathbf{Q}_q$. 
 Firstly, we compute an approximation to $\Psi(t) = r(t)^{K_1} \Phi(t)$ 
 modulo~$t^{K_2}$ to $p$-adic precision~$N_2$.  We can then compute an 
 approximation for $\Phi_{t_1}$ to $p$-adic precision~$N_2$ as 
 $r(\hat{t}_1)^{-K_1} \Psi(\hat{t}_1)$.
 \item[Step~$VI$.]
-Let $\Phi_1^{(q)}$ denote the matrix for the action of $\Frob_q$ on 
+Let $\Phi_1^{(q)}$ denote the matrix for the action of $q^{-1} \Frob_q$ on 
 $\Hrig^{n}(U_{t_1})$, which satisfies 
 $\Phi_{t_1}^{(q)} = \Phi_{t_1} \sigma(\Phi_{t_1}) \dotsm \sigma^{a-1}(\Phi_{t_1})$ 
 and has entries in $\mathbf{Q}_q$.  We compute an approximation to this 
 matrix with $p$-adic precision~$N_1$.
 \item[Step~$VII$.]
-Let $p(T) = \det\bigl(1 - T \Frob_q | \Hrig^n(U_{t_1})\bigr)$, 
+Let $p(T) = \det\bigl(1 - T q^{-1} \Frob_q | \Hrig^n(U_{t_1})\bigr)$, 
 which is an integer polynomial.  We recover this exactly 
 by computing an approximation to the reverse characteristic polynomial 
 of $\Phi_{t_1}^{(q)}$ to $p$-adic precision~$N_0$.

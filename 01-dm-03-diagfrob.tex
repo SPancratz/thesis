@@ -47,7 +47,7 @@ Section~\ref{sec:01-04-hypersurfaces}.
 Finally, we recall the condition that $d \geq 2$ whenever 
 $n$ is odd and $d \geq 3$ whenever $n$ is even.  
 Our goal is to compute the matrix~$\Phi$ representing 
-the action of $\Frob_p$ on $\Hrig^n(U) \cong \HdR^n(\mathfrak{U})$ 
+the action of $p^{-1} \Frob_p$ on $\Hrig^n(U) \cong \HdR^n(\mathfrak{U})$ 
 to $p$-adic precision~$N$.
 
 We now describe an explicit formula for the $b = \dim \HdR^n(\mathfrak{U})$ 
@@ -74,10 +74,10 @@ $p u_i - v_i = d (m - pr)$.
 Continuing with the notation set out above, let $\omega_1$ and $\omega_2$ 
 denote the forms in $\mathcal{B}_1 \cup \dotsb \cup \mathcal{B}_n$ 
 corresponding to $u$ and $v$, respectively.  
-Then $\Frob_p (\omega_1) = 0$ unless, for all $i = 0, \dotsc, n$, 
+Then $p^{-1} \Frob_p (\omega_1) = 0$ unless, for all $i = 0, \dotsc, n$, 
 $p (u_i + 1) \equiv v_i + 1 \pmod{d}$.  In this case, 
 \begin{equation*}
-\Frob_p (\omega_1) = 
+p^{-1} \Frob_p (\omega_1) = 
     (-1)^{u' + v'} \frac{(v' - 1)!}{(u' - 1)!} p^n \alpha_{u+1,v+1}^{-1} \omega_2
 \end{equation*}
 where $u + 1 = (u_0 + 1, \dotsc, u_n + 1)$ and similarly for $v + 1$.
@@ -469,7 +469,8 @@ This follows from~\citep[\S 6.2]{Lau04} and Lemma~\ref{lem:log}.
 \end{proof}
 
 Finally, we describe how to compute the matrix~$\Phi$ representing 
-the action of $\Frob_p$ on $\Hrig^{n}(U)$ using our previous results.
+the action of $p^{-1} \Frob_p$ on $\Hrig^{n}(U)$ using our previous 
+results.
 
 \begin{prop}
 The valuation of $(u'-1)! \alpha_{u+1,v+1}$ is bounded from above by 
@@ -593,7 +594,7 @@ exponentials of power series:
 
 \begin{thm} \label{thm:dm-diagfrob-complexity2}
 There exists an algorithm for computing the matrix for the 
-action of $\Frob_p$ on $\Hrig^{n}(U)$ in time complexity 
+action of $p^{-1} \Frob_p$ on $\Hrig^{n}(U)$ in time complexity 
 \begin{equation*}
 (M \log M \log \log M) (p \log p) M(\tilde{N} \log p) 
 + d^n n \bigl( M(\log d) 
