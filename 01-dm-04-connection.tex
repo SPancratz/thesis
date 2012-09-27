@@ -742,16 +742,17 @@ We formalise this for later reference in Algorithm~\ref{alg:ConnectionMatrix}.
 
 In this section, we present a few numerical examples.  In each 
 case, we include a comparison of the runtime and memory usage of 
-a previously existing {\sc Magma} routines\footnotemark by Lauder 
-and our new implementation in~C.  Lauder's routine was executed 
+previously existing {\sc Magma} routines\footnotemark by Lauder 
+and our new implementation in~C.  Lauder's routines were executed 
 using {\sc Magma} version {2.15-12} on a departmental machine 
 comprising eight Dual Core AMD Opteron processors running at 2.2GHz 
 as well as 32GB of memory.  The author's new implementation was 
-run on a personal laptop with two Intel Core~2 Duo processors at 
-2.26GHz and 2GB of memory.  We also note that, for the smallest 
-examples, the comparison of the memory requirements is not fair 
-in the sense that, even without executing user specific code, the 
-{\sc Magma} set-up required about 9.53MB of memory and therefore 
+run on the machine {\tt{wolverine.maths.ox.ac.uk}} featuring twenty-four 
+\mbox{Intel Xeon} processors running at~2.93GHz.  However, all 
+routines involved limit their use to a single processor.  We also note 
+that, for the smallest examples, the comparison of the memory requirements 
+is not fair in the sense that, even without executing user specific code, 
+the {\sc Magma} set-up required about 9.53MB of memory and therefore 
 only the excess of this should be attributed to Lauder's routines.
 
 \footnotetext{Specifically, we used the routines {\tt GriffithsRed-v1.4.m} 
@@ -859,7 +860,7 @@ and $XYZ \Omega / P^2$, respectively.  This gives
 \end{align*}
 
 Finally, the runtime and memory requirements of the {\sc Magma} routines 
-and the new C implementation are given by 0.0035s and 0.00032s as well as 
+and the new C implementation are given by 0.0035s and 0.00017s as well as 
 7.32MB and 136KB, respectively.
 
 \subsection{Quartic surfaces}
@@ -899,7 +900,7 @@ $\beta = (\beta_k)_{k=1}^3 = (256,4145,66570)$.
 
 As expected from the small number of terms and high level of symmetry, both 
 Lauder's {\sc Magma} routine and the new implementation compute this quickly 
-in 0.045s and 0.0138s, requiring 7.71MB and 1.35MB of memory, respectively.
+in 0.045s and 0.008s, requiring 7.71MB and 1.35MB of memory, respectively.
 
 We also note that Gerkmann~\citep[\S 7.5]{Gerkmann2007} mentions a runtime of 
 about 7s in this case.
@@ -915,9 +916,9 @@ $164 = 70 \times 1 + 8 \times 4 + 1 \times 62$ and
 $455 = 253 \times 1 + 33 \times 4 + 1 \times 70$, from which we find 
 $\alpha = (16,6,36)$ and $\beta = (256,18,273)$.
 
-The time requirements for the two routines are 27.88s and 2.013s, and the 
+The time requirements for the two routines are 27.88s and 0.82s, and the 
 space requirements are 18.84MB and 5.29MB, respectively.  In particular, 
-the new routine is about 14~times faster.
+the new routine is about 34~times faster.
 
 \subsubsection{A quartic surface with four cross-terms}
 
@@ -930,9 +931,9 @@ $164 = 53 \times 1 + 4 \times 4 + 1 \times 95$ and
 $455 = 231 \times 1 + 29 \times 4 + 1 \times 108$.  This gives 
 $\alpha = (16,3,17)$ and $\beta = (256,5,75)$.
 
-The time and space requirements for the two routines are 4190.610s, 24.97s and 
+The time and space requirements for the two routines are 4190.610s, 8.01s and 
 238.38MB, 16.62MB.  At this point, the new implementation is already more 
-than 165~times faster.
+than 532~times faster.
 
 \subsubsection{A quartic surface with six cross-terms}
 
@@ -948,8 +949,8 @@ We hence find that $\alpha = (14,3,15)$ and $\beta = (186,4,62)$.
 
 For this example, Lauder's {\sc Magma} routine takes 4.52 days and requires 
 3.57GB of memory.  The new implementation completes the computation in 
-277.02s and uses 66.7MB.  That is, the new implementation is more than 
-1,400~times faster.
+49.47s and uses 66.7MB.  That is, the new implementation is more than 
+7894~times faster.
 
 \subsubsection{A quartic surface with seven cross-terms}
 
@@ -966,7 +967,7 @@ values $\alpha = (14,2,7)$ and $\beta = (186,2,23)$.
 The previous {\sc Magma} routine solved this example in 34.04 days using 
 12.5GB of memory.  In contrast to this, the runtime of the new C 
 implementation has only doubled when compared to the previous example and is 
-527.28s, with a memory requirement of 126.5MB.
+117.32s, with a memory requirement of 126.5MB.
 
 \subsection{A quintic surface}
 
@@ -975,9 +976,9 @@ discussed in this work:
 \begin{equation*}
 (1-t) (W^5 + X^5 + Y^5 + Z^5) + t \bigl((W X Z + Y^3) (W^2 + X Y + Z^2)\bigr).
 \end{equation*}
-For this example, the new implementation requires about 190 minutes and 
+For this example, the new implementation requires about 31.27~minutes and 
 979.5MB.  The author did not obtain the corresponding data from Lauder's 
-{\sc Magma} routine since it was terminated after running for over 34 days and 
+{\sc Magma} routine since it was terminated after running for over 34~days and 
 using nearly 5GB of memory.
 
 % Further remarks %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
