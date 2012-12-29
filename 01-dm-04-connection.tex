@@ -420,17 +420,18 @@ With this set-up, the following theorem provides a solution to
 Problem~\ref{prob:Decomposition2} in the cases that we are interested in:
 
 \begin{thm} \label{thm:Isomorphism}
-Suppose that the family of projective hypersurfaces given by the 
-polynomial~$P$ in $L[x_0, \dotsc, x_n]$ contains a diagonal fibre.  
-Let $k \in \N$ and suppose that $R_k$ and $C_k$ are non-empty.  For 
-$0 \leq j \leq n$, let $V_k^{(j)}$ be the $L$-vector space of 
-polynomials with basis $C_k^{(j)}$, and let $V_k$ denote their cartesian 
-product $V_k = V_k^{(0)} \times \dotsb \times V_k^{(n)}$.  Let $W_k$ be 
-the $L$-vector space of polynomials with basis~$R_k$.  Then the $L$-linear 
-map 
+Suppose that the family of smooth projective hypersurfaces given by the 
+polynomial~$P$ in $L[x_0, \dotsc, x_n]$ contains 
+a diagonal fibre.  For $k \in \N$ and $0 \leq j \leq n$, let $U_k^{(j)}$ be 
+the $L$-vector space of polynomials with basis $C_k^{(j)}$, and let $U_k$ 
+denote the cartesian product $U_k = U_k^{(0)} \times \dotsb \times U_k^{(n)}$. 
+Moreover, let $V_k$ and $W_k$ be the $L$-vector spaces of polynomials with 
+bases $F_k$ and $R_k$, respectively, and let $\pi \colon V_k \rightarrow W_k$ 
+denote the linear map that sends the elements of $B_k$ to zero and the 
+elements of $R_k$ to themselves.  Then the $L$-linear map 
 \begin{equation}
-\phi_k \colon V_k \to W_k, 
-(Q_0, \dotsc, Q_n) \mapsto Q_0 \partial_0 P + \dotsb + Q_n \partial_n P
+\phi_k \colon U_k \to W_k, 
+(Q_0, \dotsc, Q_n) \mapsto \pi \bigl( Q_0 \partial_0 P + \dotsb + Q_n \partial_n P \bigr)
 \end{equation}
 is an isomorphism of $L$-vector spaces.
 \end{thm}
@@ -447,7 +448,7 @@ $i_0 < d-1, \dotsc, i_{j-1} < d-1$ and $i_j \geq d-1$, the image is
 $(i_0, \dotsc, i_{j-1}, i_j-d-1, i_{j+1}, \dotsc, i_n) \in C_k^{(j)}$.  
 It is easy to verify that this map is indeed a bijection.
 
-In order to establish that the map $\phi_k \colon V_k \to W_k$ is an 
+In order to establish that the map $\phi_k \colon U_k \to W_k$ is an 
 isomorphism of $L$-vector spaces, we now exhibit its matrix with respect to 
 the given basis:
 
@@ -458,7 +459,7 @@ Given $f \in R_k$ and $(j,g) \in C_k$, we set the corresponding entry in
 $\Delta_k$ to be the monomial coefficient of $f/g$ in $\partial_j P$ if 
 $g$ divides $f$ and $0$ otherwise.  It is immediate that $\Delta_k$ is the 
 matrix representing $\phi_k$ with respect to the bases $C_k$ and $R_k$ of 
-$V_k$ and $W_k$, respectively.
+$U_k$ and $W_k$, respectively.
 
 The assumption that the family~$\mathfrak{X}$ of projective hypersurfaces 
 given by~$P$ contains a diagonal hypersurface means that for some~$t_0$ 
