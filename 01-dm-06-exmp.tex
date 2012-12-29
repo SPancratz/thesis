@@ -4,12 +4,16 @@ In this chapter we present a small selection of computational examples,
 demonstrating the usefulness of the deformation method for point counting 
 in practice.
 
-We point out that our computations are not a priori provably 
-correct as we are using the heuristic $t$-adic bounds from 
+We point out that the zeta functions that we compute in our examples 
+are correct.  However, the computations are not \emph{a priori} 
+provably correct as we are using the heuristic $t$-adic bounds from 
 Remark~\ref{rem:KedlayaTuitman}.  In some cases, we explicitly 
-verify the output by computing the exponents of the connection 
-matrix occurring in Theorem~\ref{thm:KedlayaTuitman}.  However, 
-this computation is not time-consuming when compared to the 
+verify the computation by considering the exponents of the 
+connection matrix occurring in Theorem~\ref{thm:KedlayaTuitman}.  
+In other cases, we can rerun the computation with sufficiently 
+increased precisions.  Note that the former verification, applicable 
+when the hypotheses of Theorem~\ref{thm:KedlayaTuitman} are 
+satisfied, is not time-consuming when compared to the 
 remaining parts of the deformation method.  The omission is 
 a consequence of our implementation\footnotemark\ in the C~language 
 on top of FLINT~\citep{FLINT}, lacking the required functionality 
